@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sas.rh.reimbursehelper.HomepageFragment">
+
+
+    <LinearLayout
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#1882CE"
+        android:orientation="horizontal">
+
+        <com.sas.rh.reimbursehelper.View.CircleImageView
+            android:id="@+id/personaldetail_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical|left"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/head"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="1dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/popupmenu_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="15dp"
+            android:background="@mipmap/take_shot" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <LinearLayout
+                    android:id="@+id/dashboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:background="#1882CE"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="-10dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="-10dp"
+                            android:text="我的报销(0)"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16dp" />
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@mipmap/tapered_lines" />
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="-10dp"
+                            android:layout_marginTop="8dp"
+                            android:text="我的审批(0)"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16dp" />
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@mipmap/tapered_lines" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="-10dp"
+                            android:layout_marginTop="8dp"
+                            android:text="我的费用(0)"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16dp" />
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@mipmap/tapered_lines" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@mipmap/tapered_line" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="-15dp"
+                        android:layout_weight="1.2"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:text="未报销的费用(元)"
+                            android:textColor="#FFF"
+                            android:textSize="15dp" />
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_marginBottom="5dp"
+                            android:text="¥0.00"
+                            android:textColor="#FFF"
+                            android:textSize="22dp" />
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:text="报销中的费用(元)"
+                            android:textColor="#FFF"
+                            android:textSize="15dp" />
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:text="¥0.00"
+                            android:textColor="#FFF"
+                            android:textSize="22dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+         </android.support.design.widget.AppBarLayout>
+
+        <!--<android.support.v4.widget.NestedScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFF">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_margin="15dp"
+                                android:orientation="horizontal">
+
+                                <RelativeLayout
+                                    android:id="@+id/addbxnrbt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/btn_startrh_left2" >
+
+                                    <TextView
+                                        android:id="@+id/textView8"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#FFF"
+                                        android:layout_centerInParent="true"
+                                        android:textSize="18dp"
+                                        android:text="添 加 报 销 内 容" />
+
+                                </RelativeLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/button"
+                                    android:layout_width="60dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/btn_startrh_right"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:id="@+id/imageView6"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        app:srcCompat="@mipmap/third_party" />
+
+                                    <TextView
+                                        android:id="@+id/textView9"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#FFF"
+                                        android:textSize="10dp"
+                                        android:text="查看流程" />
+
+                                </LinearLayout>
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#DDD"></FrameLayout>
+
+                        <RelativeLayout
+                            android:background="@color/whites"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp">
+                            <TextView
+                                android:textColor="#AAA"
+                                android:layout_centerInParent="true"
+                                android:text="未报销的费用"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/btn_editor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="15dp"
+                                android:text="编辑"
+                                android:textColor="#AAA"
+                                android:textSize="15sp"/>
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_mycollection_bottom_dialog"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#e6e6e6"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:background="#e5e5e5"/>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:background="#ffffff">
+
+                                <TextView
+                                    android:id="@+id/tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="已选择"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="14sp"/>
+
+                                <TextView
+                                    android:id="@+id/tv_select_num"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="9dp"
+                                    android:layout_toRightOf="@+id/tv"
+                                    android:text="0"
+                                    android:textColor="#1A1A1A"
+                                    android:textSize="14sp"/>
+
+                                <Button
+                                    android:id="@+id/btn_delete"
+                                    android:layout_width="80dp"
+                                    android:layout_height="33dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="15dp"
+                                    android:background="@drawable/button_noclickable_shape"
+                                    android:gravity="center"
+                                    android:text="删除"
+                                    android:textColor="#b7b8bd"
+                                    android:textSize="14sp"/>
+
+                                <TextView
+                                    android:id="@+id/select_all"
+                                    android:layout_width="80dp"
+                                    android:layout_height="33dp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="15dp"
+                                    android:layout_toLeftOf="@+id/btn_delete"
+                                    android:background="@drawable/bg_selete_all"
+                                    android:gravity="center"
+                                    android:text="全选"
+                                    android:textColor="#000001"
+                                    android:textSize="14sp"/>
+
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:cacheColorHint="@null"
+                            android:scrollbars="vertical"/>
+                    </FrameLayout>
+
+            </LinearLayout>
+        <!--</android.support.v4.widget.NestedScrollView>-->
+
+     </android.support.design.widget.CoordinatorLayout>
+
+
+</LinearLayout>

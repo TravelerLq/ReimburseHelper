@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ReimburseHelper</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="sun_refresh_style">Sun refresh style</string>
+    <string name="jet_refresh_style">Jet refresh style</string>
+    <string name="polite_message">Wait a moment please. Breathe deeply and watch beautiful animation.</string>
+    <string name="trip_to_india">Trip to India</string>
+    <string name="trip_to_italy">Trip to Italy</string>
+    <string name="trip_to_indonesia">Trip to Indonesia</string>
+
+    <string name="text">Squid blog crucifix Marfa, consectetur vero placeat mixtape. Non seitan sriracha eu, do Banksy fashion axe cred qui vegan delectus consequat Helvetica mollit. XOXO gluten-free disrupt, gastropub officia cliche chillwave hella pop-up. Fixie swag raw denim, YOLO craft beer assumenda occupy veniam photo booth pug consectetur next level Portland tote bag +1. Mlkshk PBR aliquip placeat Wes Anderson.</string>
+    <string name="title">My Description</string>
+    <string name="context_menu">Context menu</string>
+</resources>
