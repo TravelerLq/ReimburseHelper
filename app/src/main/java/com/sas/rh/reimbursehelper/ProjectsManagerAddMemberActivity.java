@@ -25,24 +25,16 @@ public class ProjectsManagerAddMemberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects_manager_add_member);
         List<PersonnameAndHeadimageEntity> infos = new ArrayList<PersonnameAndHeadimageEntity>();
-        infos.add(0,new PersonnameAndHeadimageEntity("张三",""+R.mipmap.head));
-        infos.add(1,new PersonnameAndHeadimageEntity("李四",""+R.mipmap.head));
-        infos.add(2,new PersonnameAndHeadimageEntity("赵五",""+R.mipmap.head));
-        infos.add(3,new PersonnameAndHeadimageEntity("王六",""+R.mipmap.head));
-        infos.add(4,new PersonnameAndHeadimageEntity("张三",""+R.mipmap.head));
-        infos.add(5,new PersonnameAndHeadimageEntity("钱三",""+R.mipmap.head));
-        infos.add(6,new PersonnameAndHeadimageEntity("张三",""+R.mipmap.head));
-        infos.add(7,new PersonnameAndHeadimageEntity("李四",""+R.mipmap.head));
-        infos.add(8,new PersonnameAndHeadimageEntity("赵五",""+R.mipmap.head));
-        infos.add(9,new PersonnameAndHeadimageEntity("王六",""+R.mipmap.head));
-        infos.add(10,new PersonnameAndHeadimageEntity("张三",""+R.mipmap.head));
-        infos.add(11,new PersonnameAndHeadimageEntity("钱三",""+R.mipmap.head));
-        infos.add(12,new PersonnameAndHeadimageEntity("张三",""+R.mipmap.head));
-        infos.add(13,new PersonnameAndHeadimageEntity("李四",""+R.mipmap.head));
-        infos.add(14,new PersonnameAndHeadimageEntity("赵五",""+R.mipmap.head));
-        infos.add(15,new PersonnameAndHeadimageEntity("王六",""+R.mipmap.head));
-        infos.add(16,new PersonnameAndHeadimageEntity("张三",""+R.mipmap.head));
-        infos.add(17,new PersonnameAndHeadimageEntity("钱三",""+R.mipmap.head));
+        infos.add(0,new PersonnameAndHeadimageEntity("张三",""+R.mipmap.head,"111111"));
+        infos.add(1,new PersonnameAndHeadimageEntity("李四",""+R.mipmap.head,"222222"));
+        infos.add(2,new PersonnameAndHeadimageEntity("赵五",""+R.mipmap.head,"333333"));
+        infos.add(3,new PersonnameAndHeadimageEntity("王六",""+R.mipmap.head,"444444"));
+        infos.add(4,new PersonnameAndHeadimageEntity("张李",""+R.mipmap.head,"555555"));
+        infos.add(7,new PersonnameAndHeadimageEntity("李四",""+R.mipmap.head,"666666"));
+        infos.add(8,new PersonnameAndHeadimageEntity("赵五",""+R.mipmap.head,"777777"));
+        infos.add(9,new PersonnameAndHeadimageEntity("王六",""+R.mipmap.head,"888888"));
+        infos.add(10,new PersonnameAndHeadimageEntity("张五",""+R.mipmap.head,"999999"));
+        infos.add(11,new PersonnameAndHeadimageEntity("钱五",""+R.mipmap.head,"000000"));
         //int [] image={,,,,,R.drawable.dog2};
         adpter = new ProjectMembersSelectGridviewAdpter(infos, this);
         gridView = (GridView) findViewById(R.id.grid);
@@ -71,7 +63,7 @@ public class ProjectsManagerAddMemberActivity extends AppCompatActivity {
                     finish();
 
                 }catch (Exception e){
-                    System.out.println("aaaaaaaa:");
+                    System.out.println("项目管理增加成员异常:");
                     e.printStackTrace();
                 }
 
