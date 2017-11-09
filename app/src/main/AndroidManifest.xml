@@ -28,8 +28,9 @@
         <activity android:name=".DepartmentsManageAddItemActivity" />
         <activity android:name=".DepartmentsManageAddMasterActivity" />
         <activity android:name=".ProjectsManagerAddItemActivity" />
-        <activity android:name=".ProjectsManagerAddMasterActivity"/>
-        <activity android:name=".ProjectsManagerAddMemberActivity"></activity>
+        <activity android:name=".ProjectsManagerAddMasterActivity" />
+        <activity android:name=".ProjectsManagerAddMemberActivity" />
+        <activity android:name=".MembersManageAddStaffActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.sas.rh.reimbursehelper;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
@@ -27,6 +29,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class MembersManageActivity extends AppCompatActivity implements SectionIndexer {
+
+    private ImageView backbt,add_memberitem;
 
     private ListView sortListView;
     private SideBar sideBar;
@@ -48,6 +52,26 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_members_manage);
+
+        backbt= (ImageView)findViewById(R.id.backbt) ;
+        add_memberitem = (ImageView)findViewById(R.id.add_memberitem) ;
+
+
+        backbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        add_memberitem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(MembersManageActivity.this,MembersManageAddStaffActivity.class);
+                startActivityForResult(it,1);
+            }
+        });
+
         initViews();
     }
 
