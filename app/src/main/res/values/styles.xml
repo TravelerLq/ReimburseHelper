@@ -41,4 +41,8 @@
         <item name="android:windowExitAnimation">@anim/rotate_story_add_button_out</item>
     </style>
 
+    <style name="CustomCheckBoxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_style</item>
+    </style>
+
 </resources>

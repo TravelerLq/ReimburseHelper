@@ -111,10 +111,12 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // ����Ҫ����adapter.getItem(position)����ȡ��ǰposition����Ӧ�Ķ���
-                Toast.makeText(
-                        getApplication(),
-                        ((GroupMemberBean) adapter.getItem(position)).getName(),
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(
+//                        getApplication(),
+//                        ((GroupMemberBean) adapter.getItem(position)).getName(),
+//                        Toast.LENGTH_SHORT).show();
+                Intent it = new Intent(MembersManageActivity.this,MembersManageDetailInfoActivity.class);
+                startActivity(it);
             }
         });
 

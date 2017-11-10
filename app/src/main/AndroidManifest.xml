@@ -30,7 +30,8 @@
         <activity android:name=".ProjectsManagerAddItemActivity" />
         <activity android:name=".ProjectsManagerAddMasterActivity" />
         <activity android:name=".ProjectsManagerAddMemberActivity" />
-        <activity android:name=".MembersManageAddStaffActivity"></activity>
+        <activity android:name=".MembersManageAddStaffActivity" />
+        <activity android:name=".MembersManageDetailInfoActivity"></activity>
     </application>
 
 </manifest>
