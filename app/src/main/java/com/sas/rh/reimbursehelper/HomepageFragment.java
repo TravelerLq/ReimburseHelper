@@ -63,6 +63,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
     private boolean isSelectAll = false;
     private boolean editorStatus = false;
     private int index = 0;
+    private TextView mybxbt,myspbt,myfybt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,6 +80,9 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         menubt = (ImageButton) view.findViewById(R.id.popupmenu_btn);
         addbxnrbt = (RelativeLayout)view.findViewById(R.id.addbxnrbt);
         personaldetail_btn = (ImageView)view.findViewById(R.id.personaldetail_btn);
+        mybxbt = (TextView)view.findViewById(R.id.mybxbt);
+        myspbt = (TextView)view.findViewById(R.id.myspbt);
+        myfybt = (TextView)view.findViewById(R.id.myfybt);
         popupMenu = new PopupMenu(getActivity(), view.findViewById(R.id.popupmenu_btn));
         menu = popupMenu.getMenu();
 
@@ -131,6 +135,27 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
             public void onClick(View v) {
                 Intent it = new Intent(getActivity(),PersonalDetailActivity.class);
                 startActivity(it);
+            }
+        });
+
+        mybxbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        myspbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        myfybt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 

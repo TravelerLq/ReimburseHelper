@@ -83,7 +83,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView"
+                            android:id="@+id/mybxbt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
@@ -100,7 +100,7 @@
                             app:srcCompat="@mipmap/tapered_lines" />
 
                         <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/myspbt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
@@ -118,7 +118,7 @@
                             app:srcCompat="@mipmap/tapered_lines" />
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/myfybt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
