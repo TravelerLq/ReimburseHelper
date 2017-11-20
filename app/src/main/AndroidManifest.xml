@@ -34,7 +34,9 @@
         <activity android:name=".MembersManageDetailInfoActivity" />
         <activity android:name=".MyReimburseActivity" />
         <activity android:name=".MyApprovalActivity" />
-        <activity android:name=".MyFeeActivity"></activity>
+        <activity android:name=".MyFeeActivity" />
+        <activity android:name=".ReimburseBillCreateActivity" />
+        <activity android:name=".MyApprovalDetailActivity"></activity>
     </application>
 
 </manifest>

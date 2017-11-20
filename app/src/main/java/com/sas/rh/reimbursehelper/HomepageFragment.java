@@ -230,6 +230,8 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     updataEditMode();
+                                    Intent it = new Intent(getActivity(),ReimburseBillCreateActivity.class);
+                                    startActivity(it);
                                 }
                             }).show();
 
