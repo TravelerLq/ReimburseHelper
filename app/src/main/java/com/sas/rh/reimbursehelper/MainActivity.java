@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 
@@ -37,6 +38,28 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new DemoPagerAdapter(getSupportFragmentManager(), list));
         gradualRadioGroup.setViewPager(viewPager);
     }
+
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        finish();
+//    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+//
+//    public void refreshpage(){
+//        viewPager.setCurrentItem(0);
+//        gradualRadioGroup.onPageSelected(0);
+//    }
 
     class DemoPagerAdapter extends FragmentPagerAdapter {
         List<Fragment> mData;

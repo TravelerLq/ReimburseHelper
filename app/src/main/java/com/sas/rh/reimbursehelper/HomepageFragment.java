@@ -141,21 +141,24 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         mybxbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent it = new Intent(getActivity(),MyReimburseActivity.class);
+                startActivity(it);
             }
         });
 
         myspbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent it = new Intent(getActivity(),MyApprovalActivity.class);
+                startActivity(it);
             }
         });
 
         myfybt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent it = new Intent(getActivity(),MyFeeActivity.class);
+                startActivity(it);
             }
         });
 

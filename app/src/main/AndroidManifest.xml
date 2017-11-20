@@ -31,7 +31,10 @@
         <activity android:name=".ProjectsManagerAddMasterActivity" />
         <activity android:name=".ProjectsManagerAddMemberActivity" />
         <activity android:name=".MembersManageAddStaffActivity" />
-        <activity android:name=".MembersManageDetailInfoActivity"></activity>
+        <activity android:name=".MembersManageDetailInfoActivity" />
+        <activity android:name=".MyReimburseActivity" />
+        <activity android:name=".MyApprovalActivity" />
+        <activity android:name=".MyFeeActivity"></activity>
     </application>
 
 </manifest>
