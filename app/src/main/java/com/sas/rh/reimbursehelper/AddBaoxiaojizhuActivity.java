@@ -93,10 +93,10 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
     private void initxflxsp(){
         xiaofeileixinglist = new ArrayList<String>();
         xiaofeileixinglist.add("--请选择--");
-        xiaofeileixinglist.add("北京");
-        xiaofeileixinglist.add("上海");
-        xiaofeileixinglist.add("广州");
-        xiaofeileixinglist.add("深圳");
+        xiaofeileixinglist.add("差旅补助");
+        xiaofeileixinglist.add("房租水电");
+        xiaofeileixinglist.add("通讯费用");
+        xiaofeileixinglist.add("采购补贴");
         //1.为下拉列表定义一个数组适配器，这个数组适配器就用到里前面定义的list。装的都是list所添加的内容
         xflxadapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, xiaofeileixinglist);//样式为原安卓里面有的android.R.layout.simple_spinner_item，让这个数组适配器装list内容。
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
