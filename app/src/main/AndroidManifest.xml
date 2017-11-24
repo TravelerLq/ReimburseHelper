@@ -36,7 +36,9 @@
         <activity android:name=".MyApprovalActivity" />
         <activity android:name=".MyFeeActivity" />
         <activity android:name=".ReimburseBillCreateActivity" />
-        <activity android:name=".MyApprovalDetailActivity"></activity>
+        <activity android:name=".MyApprovalDetailActivity" />
+        <activity android:name=".ApproveProcedureManageActivity" />
+        <activity android:name=".ApproveProcedureManageConfigActivity"></activity>
     </application>
 
 </manifest>
