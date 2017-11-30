@@ -62,7 +62,7 @@ public class EnterpriseFragment extends Fragment {
         apb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent it = new Intent(getActivity(),ApproveProcedureActivity.class);
+                Intent it = new Intent(getActivity(),ApproveProcedureManageActivity.class);
                 startActivity(it);
             }
         });

@@ -21,7 +21,6 @@
         <activity android:name=".MembersManageActivity" />
         <activity android:name=".DepartmentsManageActivity" />
         <activity android:name=".ProjectsManagerActivity" />
-        <activity android:name=".ApproveProcedureActivity" />
         <activity android:name=".EnterpriseDetailActivity" />
         <activity android:name=".PersonalDetailActivity" />
         <activity android:name=".SubjectsManagerAddItemActivity" />
