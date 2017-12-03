@@ -97,7 +97,6 @@ public class ApproveProcedureManageConfigActivity extends AppCompatActivity {
             holder.addapprover.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //finish();
                     add(position);
                 }
             });
@@ -105,12 +104,22 @@ public class ApproveProcedureManageConfigActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    //System.out.println("*********TEST ECHO********:"+mList.get(position).getDepatment_ID());
+
                 }
             });
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
+
+                    if(mList.get(position).getJob_Name_tv().equals("财务")||
+                       mList.get(position).getJob_Name_tv().equals("出纳")){
+                        new AlertDialog.Builder(ApproveProcedureManageConfigActivity.this)
+                                .setMessage("不能删除 "+mList.get(position).getJob_Name_tv())
+                                .setPositiveButton("确定", null).show();
+                        return false;
+
+                    }
+
                     new AlertDialog.Builder(ApproveProcedureManageConfigActivity.this)
                             .setMessage("确认删除当前第"+(position+1)+"审批对象？")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
