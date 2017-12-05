@@ -39,12 +39,13 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
     private ArrayList<String> selectedPhotos = new ArrayList<>();
     private RecyclerView recyclerView ;
     private LinearLayout pickphotos;
+    private List<String> photos = null;//已选择照片的张数
 
     private List<String> xiaofeileixinglist ;//创建一个String类型的数组列表。
     private List<String> fapiaoleixinglist ;//创建一个String类型的数组列表。
 
     private ImageView backbt;
-    private TextView datepicker,textlenshower;
+    private TextView datepicker,textlenshower,photo_amount;
     private EditText remarket;
     private Spinner xflxsp;
     private Spinner fplxsp;
@@ -62,6 +63,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_add_baoxiaojizhu);
         backbt = (ImageView)findViewById(R.id.backbt) ;
+        photo_amount = (TextView)findViewById(R.id.photo_amount);
         datepicker = (TextView) findViewById(R.id.datepicker);
         remarket = (EditText) findViewById(R.id.remarket);
         textlenshower = (TextView) findViewById(R.id.textlenshower);
@@ -146,14 +148,14 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
                     }
                 }));
     }
-
+    //收到照片后处理
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK &&
                 (requestCode == PhotoPicker.REQUEST_CODE || requestCode == PhotoPreview.REQUEST_CODE)) {
 
-            List<String> photos = null;
+
             if (data != null) {
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
                 //System.out.println("********"+photos.get(0)+"********");
@@ -163,6 +165,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
             if (photos != null) {
 
                 selectedPhotos.addAll(photos);
+                photo_amount.setText("已选择"+photos.size()+"张发票照片");
             }
             photoAdapter.notifyDataSetChanged();
         }
