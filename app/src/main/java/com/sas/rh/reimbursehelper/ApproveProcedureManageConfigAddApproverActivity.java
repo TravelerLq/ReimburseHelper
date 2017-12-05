@@ -44,12 +44,12 @@ public class ApproveProcedureManageConfigAddApproverActivity extends AppCompatAc
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent mIntent = new Intent();
-                mIntent.putExtra("slectedpath", ""+data_list.get(position).get("image"));
-                mIntent.putExtra("slectedname", ""+data_list.get(position).get("text"));
-                mIntent.putExtra("slectedstaffid", ""+data_list.get(position).get("staffid"));
+                mIntent.putExtra("position", getIntent().getIntExtra("position",-1));
+                mIntent.putExtra("approver_name", ""+ peopleinfos.get(position).getPname());
+                mIntent.putExtra("approver_id", ""+peopleinfos.get(position).getStaffID());
                 // 设置结果，并进行传送
                 ApproveProcedureManageConfigAddApproverActivity.this.setResult(1, mIntent);
-                System.out.println("aaaaaaaaaa:"+data_list.get(position).get("image")+":"+data_list.get(position).get("text"));
+                //System.out.println("aaaaaaaaaa:"+data_list.get(position).get("image")+":"+data_list.get(position).get("text"));
                 finish();
             }
         });
@@ -57,12 +57,12 @@ public class ApproveProcedureManageConfigAddApproverActivity extends AppCompatAc
 
     public List<PersonnameAndHeadimageEntity> getDataFromServer(){
         List<PersonnameAndHeadimageEntity> peopleinfo = new ArrayList<PersonnameAndHeadimageEntity>();
-        peopleinfo.add(new PersonnameAndHeadimageEntity("小张",""+R.mipmap.head,"111111"));
-        peopleinfo.add(new PersonnameAndHeadimageEntity("小王",""+R.mipmap.head,"222222"));
-        peopleinfo.add(new PersonnameAndHeadimageEntity("小朱",""+R.mipmap.head,"333333"));
-        peopleinfo.add(new PersonnameAndHeadimageEntity("小李",""+R.mipmap.head,"444444"));
-        peopleinfo.add(new PersonnameAndHeadimageEntity("小田",""+R.mipmap.head,"333333"));
-        peopleinfo.add(new PersonnameAndHeadimageEntity("小信",""+R.mipmap.head,"444444"));
+        peopleinfo.add(new PersonnameAndHeadimageEntity("小张",""+R.mipmap.head,"1120170711"));
+        peopleinfo.add(new PersonnameAndHeadimageEntity("小王",""+R.mipmap.head,"1120170712"));
+        peopleinfo.add(new PersonnameAndHeadimageEntity("小朱",""+R.mipmap.head,"1120170713"));
+        peopleinfo.add(new PersonnameAndHeadimageEntity("小李",""+R.mipmap.head,"1120170714"));
+        peopleinfo.add(new PersonnameAndHeadimageEntity("小田",""+R.mipmap.head,"1120170715"));
+        peopleinfo.add(new PersonnameAndHeadimageEntity("小信",""+R.mipmap.head,"1120170716"));
         return peopleinfo;
     }
 
@@ -71,7 +71,7 @@ public class ApproveProcedureManageConfigAddApproverActivity extends AppCompatAc
         for(int i=0;i<peopleinfos.size();i++){
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("image", Integer.parseInt(peopleinfos.get(i).getImagepath()));
-            map.put("text", peopleinfos.get(i).getPname());
+            map.put("text", "姓名:"+peopleinfos.get(i).getPname()+"\n工号:"+peopleinfos.get(i).getStaffID());
             map.put("staffid", peopleinfos.get(i).getStaffID());
             data_list.add(map);
         }

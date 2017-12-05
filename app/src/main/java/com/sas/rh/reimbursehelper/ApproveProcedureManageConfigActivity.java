@@ -56,14 +56,20 @@ public class ApproveProcedureManageConfigActivity extends AppCompatActivity {
         });
     }
     private void initData() {
-        mList.add(new ApproveConfigItemEntity("丁总","财务"));
-        mList.add(new ApproveConfigItemEntity("丁总","出纳"));
+        mList.add(new ApproveConfigItemEntity("请选择审批人",null,"财务"));
+        mList.add(new ApproveConfigItemEntity("请选择审批人",null,"出纳"));
+    }
+
+    public void toselectapper(int position){
+        Intent it = new Intent(ApproveProcedureManageConfigActivity.this,ApproveProcedureManageConfigAddApproverActivity.class);
+        it.putExtra("position", position);
+        startActivityForResult(it,1);
     }
 
     //在列表里添加一个
     public void add(int position){
-        count++;
-        mList.add(position,new ApproveConfigItemEntity("丁总","审批人"));
+        //count++;
+        mList.add(position,new ApproveConfigItemEntity("请选择审批人",null,"审批人"));
         mAdapter.notifyItemInserted(position);
         mAdapter.notifyItemRangeChanged(position,mList.size()-position);
     }
@@ -73,6 +79,23 @@ public class ApproveProcedureManageConfigActivity extends AppCompatActivity {
         mList.remove(position);
         mAdapter.notifyItemRemoved(position);
         mAdapter.notifyItemRangeChanged(position,mList.size()-position);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && data != null){
+            int position = data.getExtras().getInt("position");
+            if(position == -1){
+                return;
+            }
+            mList.get(position).setApprover_Name_tv(data.getExtras().getString("approver_name"));
+            mList.get(position).setApprover_ID_tv(data.getExtras().getString("approver_id"));
+            mAdapter.notifyDataSetChanged();
+            //mAdapter.notifyItemRemoved(position);
+            //mAdapter.notifyItemRangeChanged(position,mList.size()-position);
+            //System.out.println(position+":"+data.getExtras().getString("approver_name")+":"+data.getExtras().getString("approver_id"));
+        }
     }
 
     class HomeAdapter extends RecyclerView.Adapter<ApproveProcedureManageConfigActivity.HomeAdapter.MyViewHolder>
@@ -103,8 +126,7 @@ public class ApproveProcedureManageConfigActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-
+                    toselectapper(position);
                 }
             });
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

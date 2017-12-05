@@ -2,8 +2,12 @@ package com.sas.rh.reimbursehelper;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -13,14 +17,28 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.crashlytics.android.Crashlytics;
+import com.sas.rh.reimbursehelper.Adapter.PhotoAdapter;
+import com.sas.rh.reimbursehelper.Listener.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.fabric.sdk.android.Fabric;
+import me.iwf.photopicker.PhotoPicker;
+import me.iwf.photopicker.PhotoPreview;
+
 public class AddBaoxiaojizhuActivity extends AppCompatActivity {
+
+    private PhotoAdapter photoAdapter;//选取照片适配器
+    private ArrayList<String> selectedPhotos = new ArrayList<>();
+    private RecyclerView recyclerView ;
+    private LinearLayout pickphotos;
 
     private List<String> xiaofeileixinglist ;//创建一个String类型的数组列表。
     private List<String> fapiaoleixinglist ;//创建一个String类型的数组列表。
@@ -41,6 +59,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_add_baoxiaojizhu);
         backbt = (ImageView)findViewById(R.id.backbt) ;
         datepicker = (TextView) findViewById(R.id.datepicker);
@@ -48,6 +67,23 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         textlenshower = (TextView) findViewById(R.id.textlenshower);
         xflxsp = (Spinner) findViewById(R.id.xflxsp) ;
         fplxsp = (Spinner) findViewById(R.id.fplxsp) ;
+        recyclerView = (RecyclerView)findViewById(R.id.photo_recycler_view);
+        pickphotos = (LinearLayout) findViewById(R.id.pickphotos);
+
+        //照片选择器初始化
+        photoAdapter = new PhotoAdapter(this, selectedPhotos);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(4, OrientationHelper.VERTICAL));
+        recyclerView.setAdapter(photoAdapter);
+
+        pickphotos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhotoPicker.builder()
+                        .setPhotoCount(9)
+                        .setGridColumnCount(4)
+                        .start(AddBaoxiaojizhuActivity.this);
+            }
+        });
 
         initxflxsp();
         fplxsp();
@@ -88,6 +124,48 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
 
             }
         });
+
+        //照片展示区
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        if (photoAdapter.getItemViewType(position) == PhotoAdapter.TYPE_ADD) {
+                            PhotoPicker.builder()
+                                    .setPhotoCount(PhotoAdapter.MAX)
+                                    .setShowCamera(true)
+                                    .setPreviewEnabled(false)
+                                    .setSelected(selectedPhotos)
+                                    .start(AddBaoxiaojizhuActivity.this);
+                        } else {
+                            PhotoPreview.builder()
+                                    .setPhotos(selectedPhotos)
+                                    .setCurrentItem(position)
+                                    .start(AddBaoxiaojizhuActivity.this);
+                        }
+                    }
+                }));
+    }
+
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK &&
+                (requestCode == PhotoPicker.REQUEST_CODE || requestCode == PhotoPreview.REQUEST_CODE)) {
+
+            List<String> photos = null;
+            if (data != null) {
+                photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                //System.out.println("********"+photos.get(0)+"********");
+            }
+            selectedPhotos.clear();
+
+            if (photos != null) {
+
+                selectedPhotos.addAll(photos);
+            }
+            photoAdapter.notifyDataSetChanged();
+        }
     }
 
     private void initxflxsp(){

@@ -2,6 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sas.rh.reimbursehelper">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -39,6 +51,20 @@
         <activity android:name=".ApproveProcedureManageActivity" />
         <activity android:name=".ApproveProcedureManageConfigActivity" />
         <activity android:name=".ApproveProcedureManageConfigAddApproverActivity"></activity>
+
+        <activity
+            android:theme="@style/customTheme"
+            android:name="me.iwf.photopicker.PhotoPickerActivity"
+            />
+
+        <activity
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:name="me.iwf.photopicker.PhotoPagerActivity"
+            />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="423ff17515038a50c41085cc2dbd0087d2e51cbb" />
     </application>
 
 </manifest>
