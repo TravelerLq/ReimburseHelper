@@ -51,6 +51,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
     private Spinner fplxsp;
     private ArrayAdapter<String> xflxadapter;//创建一个数组适配器
     private ArrayAdapter<String> fplxadapter;//创建一个数组适配器
+    private LinearLayout addandback ;
 
 
     int mYear, mMonth, mDay;
@@ -71,6 +72,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         fplxsp = (Spinner) findViewById(R.id.fplxsp) ;
         recyclerView = (RecyclerView)findViewById(R.id.photo_recycler_view);
         pickphotos = (LinearLayout) findViewById(R.id.pickphotos);
+        addandback = (LinearLayout)findViewById(R.id.addandback);
 
         //照片选择器初始化
         photoAdapter = new PhotoAdapter(this, selectedPhotos);
@@ -102,6 +104,13 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showDialog(DATE_DIALOG);
+            }
+        });
+
+        addandback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                savebill();
             }
         });
 
@@ -256,4 +265,9 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
             display();
         }
     };
+
+    //填写完信息后，把数据保存到sqlite数据库
+    public void savebill(){
+
+    }
 }

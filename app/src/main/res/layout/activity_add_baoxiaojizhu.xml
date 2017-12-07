@@ -319,10 +319,13 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/addandback"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:focusable="true"
+                    android:clickable="true"
                     android:background="@drawable/btn_save_baoxiajizhu"
                     android:gravity="center"
                     android:orientation="horizontal">

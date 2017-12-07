@@ -55,8 +55,31 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/approveconfig_recycler_view"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@android:color/white"/>
+
+    <LinearLayout
+        android:id="@+id/savebt"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@drawable/btn_save_baoxiajizhu"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView65"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:layout_centerInParent="true"
+            android:textSize="18dp"
+            android:text="保存" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

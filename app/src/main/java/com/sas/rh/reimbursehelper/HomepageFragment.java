@@ -126,7 +126,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
-                startActivity(it);
+                startActivityForResult(it,1);
             }
         });
 
@@ -162,6 +162,15 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
             }
         });
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && data != null){
+            //int position = data.getExtras().getInt("position");
+
+        }
     }
 
     private void initData() {
@@ -323,6 +332,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
             }
         });
     }
+
     private void updataEditMode() {
         mEditMode = mEditMode == MYLIVE_MODE_CHECK ? MYLIVE_MODE_EDIT : MYLIVE_MODE_CHECK;
         if (mEditMode == MYLIVE_MODE_EDIT) {
