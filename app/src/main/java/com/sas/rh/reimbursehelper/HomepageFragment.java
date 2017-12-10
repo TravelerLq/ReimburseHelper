@@ -24,9 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sas.rh.reimbursehelper.Dao.BaoxiaoItem;
 import com.sas.rh.reimbursehelper.Entity.BaoxiaoContentEntity;
 import com.sas.rh.reimbursehelper.RecyclerviewWithCheckbox.DividerItemDecoration;
 import com.sas.rh.reimbursehelper.RecyclerviewWithCheckbox.MineRadioAdapter;
+import com.sas.rh.reimbursehelper.Util.DataHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,9 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
     private ImageButton menubt;
     private ImageView personaldetail_btn;
     private RelativeLayout addbxnrbt;
+    private List<BaoxiaoItem> resultlist;
+    private TextView weibaoxiaofytv;
+    private double sum = 0.00;
     private static final int MYLIVE_MODE_CHECK = 0;
     private static final int MYLIVE_MODE_EDIT = 1;
 
@@ -72,6 +77,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         ButterKnife.inject(this,view);
         initView(view);
         initData();
+        refreshbxlist();
         initListener();
         return view;
     }
@@ -80,6 +86,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         menubt = (ImageButton) view.findViewById(R.id.popupmenu_btn);
         addbxnrbt = (RelativeLayout)view.findViewById(R.id.addbxnrbt);
         personaldetail_btn = (ImageView)view.findViewById(R.id.personaldetail_btn);
+        weibaoxiaofytv = (TextView) view.findViewById(R.id.weibaoxiaofytv);
         mybxbt = (TextView)view.findViewById(R.id.mybxbt);
         myspbt = (TextView)view.findViewById(R.id.myspbt);
         myfybt = (TextView)view.findViewById(R.id.myfybt);
@@ -167,14 +174,13 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 && data != null){
+        if(requestCode == 1 ){
             //int position = data.getExtras().getInt("position");
-
+            refreshbxlist();
         }
     }
 
     private void initData() {
-        mList = new ArrayList<>();
         mRadioAdapter = new MineRadioAdapter(getActivity());
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerview.setLayoutManager(mLinearLayoutManager);
@@ -182,15 +188,31 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         itemDecorationHeader.setDividerDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.divider_main_bg_height_1));
         mRecyclerview.addItemDecoration(itemDecorationHeader);
         mRecyclerview.setAdapter(mRadioAdapter);
-        for (int i = 0; i < 30; i++) {
+
+    }
+
+    public void refreshbxlist(){
+        sum=0;
+        mList = new ArrayList<>();
+        resultlist = DataHelper.getAllBaoxiaoItem(new DataHelper(getActivity(),"BaoxiaoItem_DB",null,1));
+        if(resultlist.size() == 0){
+            //BaoxiaoContentEntity myLiveList = new BaoxiaoContentEntity();
+            //mList.add(myLiveList);
+            mRadioAdapter.notifyAdapter(mList, false);
+        }
+        for (int i = 0; i < resultlist.size(); i++) {
             BaoxiaoContentEntity myLiveList = new BaoxiaoContentEntity();
-            myLiveList.setBxtype("第" + i + "个");
-            myLiveList.setBxdate("来源" + i);
-            myLiveList.setBxnum(""+i);
+            myLiveList.setBxtype(resultlist.get(i).getXflxsp());
+            myLiveList.setBxdate("¥"+resultlist.get(i).getSum());
+            sum += Float.parseFloat(resultlist.get(i).getSum().trim());
+            myLiveList.setBxnum(resultlist.get(i).getDatepicker());
             mList.add(myLiveList);
+            weibaoxiaofytv.setText("¥"+sum);
             mRadioAdapter.notifyAdapter(mList, false);
         }
     }
+
+
 
     /**
      * 根据选择的数量是否为0来判断按钮的是否可点击.

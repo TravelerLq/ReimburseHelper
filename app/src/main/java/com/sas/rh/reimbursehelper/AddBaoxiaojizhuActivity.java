@@ -20,13 +20,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.sas.rh.reimbursehelper.Adapter.PhotoAdapter;
+import com.sas.rh.reimbursehelper.Dao.BaoxiaoItem;
 import com.sas.rh.reimbursehelper.Listener.RecyclerItemClickListener;
+import com.sas.rh.reimbursehelper.Util.DataHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
@@ -46,7 +50,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
 
     private ImageView backbt;
     private TextView datepicker,textlenshower,photo_amount;
-    private EditText remarket;
+    private EditText sum,remarket;
     private Spinner xflxsp;
     private Spinner fplxsp;
     private ArrayAdapter<String> xflxadapter;//创建一个数组适配器
@@ -65,11 +69,12 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_baoxiaojizhu);
         backbt = (ImageView)findViewById(R.id.backbt) ;
         photo_amount = (TextView)findViewById(R.id.photo_amount);
-        datepicker = (TextView) findViewById(R.id.datepicker);
-        remarket = (EditText) findViewById(R.id.remarket);
+        datepicker = (TextView) findViewById(R.id.datepicker);//日期
+        sum = (EditText)findViewById(R.id.sum) ;//金额
+        remarket = (EditText) findViewById(R.id.remarket);//备注
         textlenshower = (TextView) findViewById(R.id.textlenshower);
-        xflxsp = (Spinner) findViewById(R.id.xflxsp) ;
-        fplxsp = (Spinner) findViewById(R.id.fplxsp) ;
+        xflxsp = (Spinner) findViewById(R.id.xflxsp) ;//消费类型
+        fplxsp = (Spinner) findViewById(R.id.fplxsp) ;//发票类型
         recyclerView = (RecyclerView)findViewById(R.id.photo_recycler_view);
         pickphotos = (LinearLayout) findViewById(R.id.pickphotos);
         addandback = (LinearLayout)findViewById(R.id.addandback);
@@ -269,5 +274,73 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
     //填写完信息后，把数据保存到sqlite数据库
     public void savebill(){
 
+
+        if(selectedPhotos.size() == 0){
+            Toast.makeText(getApplicationContext(), "请选择票据原照",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(sum.getText().toString().trim().equals("")){
+            Toast.makeText(getApplicationContext(), "请填写报销金额",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(xflxsp.getSelectedItem().toString().trim().equals("--请选择--")){
+            Toast.makeText(getApplicationContext(), "请选择消费类型",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(fplxsp.getSelectedItem().toString().trim().equals("--请选择--")){
+            Toast.makeText(getApplicationContext(), "请选择发票类型",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(datepicker.getText().toString().trim().equals("点此选择日期")){
+            Toast.makeText(getApplicationContext(), "请选择消费日期",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(remarket.getText().toString().trim().equals("")){
+            Toast.makeText(getApplicationContext(), "请填写备注",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        BaoxiaoItem bi =new BaoxiaoItem(getSerriesNumber().trim(),
+                sum.getText().toString().trim(),
+                xflxsp.getSelectedItem().toString().trim(),
+                fplxsp.getSelectedItem().toString().trim(),
+                datepicker.getText().toString().trim(),
+                remarket.getText().toString().trim(),
+                selectedPhotos.size() >= 1 ? selectedPhotos.get(0) : "",
+                selectedPhotos.size() >= 2 ? selectedPhotos.get(1) : "",
+                selectedPhotos.size() >= 3 ? selectedPhotos.get(2) : "",
+                selectedPhotos.size() >= 4 ? selectedPhotos.get(3) : "",
+                selectedPhotos.size() >= 5 ? selectedPhotos.get(4) : "",
+                selectedPhotos.size() >= 6 ? selectedPhotos.get(5) : "",
+                selectedPhotos.size() >= 7 ? selectedPhotos.get(6) : "",
+                selectedPhotos.size() >= 8 ? selectedPhotos.get(7) : "",
+                selectedPhotos.size() >= 9 ? selectedPhotos.get(8) : "");
+
+            Boolean addsuc = DataHelper.addBaoxiaoItem(new DataHelper(AddBaoxiaojizhuActivity.this,"BaoxiaoItem_DB",null,1),bi);
+            if(addsuc == true){
+                Toast.makeText(getApplicationContext(), "添加成功",Toast.LENGTH_SHORT).show();
+                finish();
+            }else{
+                Toast.makeText(getApplicationContext(), "添加失败",Toast.LENGTH_SHORT).show();
+            }
+
+
+
+
+
+
     }
+
+    public String getSerriesNumber(){
+        //method 1
+        Calendar nowtime = new GregorianCalendar();
+        //String strDateTime =
+        String strDateTime = String.format("%04d", nowtime.get(Calendar.YEAR))+String.format("%02d", nowtime.get(Calendar.MONTH)+1) + String.format("%02d", nowtime.get(Calendar.DATE)) +
+                String.format("%02d", nowtime.get(Calendar.HOUR)) + String.format("%02d", nowtime.get(Calendar.MINUTE)) + String.format("%02d", nowtime.get(Calendar.SECOND)) +
+                String.format("%03d", nowtime.get(Calendar.MILLISECOND));
+        //System.out.println("Time:>>>>>>>>>>>>>>>>>>>>>"+strDateTime);
+        return "00000020170701"+strDateTime;
+    }
+
+
 }

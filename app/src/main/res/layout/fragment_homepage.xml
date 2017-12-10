@@ -161,7 +161,7 @@
                             android:textSize="15dp" />
 
                         <TextView
-                            android:id="@+id/textView6"
+                            android:id="@+id/weibaoxiaofytv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
