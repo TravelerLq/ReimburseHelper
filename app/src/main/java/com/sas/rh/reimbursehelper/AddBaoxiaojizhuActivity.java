@@ -29,6 +29,7 @@ import com.sas.rh.reimbursehelper.Dao.BaoxiaoItem;
 import com.sas.rh.reimbursehelper.Listener.RecyclerItemClickListener;
 import com.sas.rh.reimbursehelper.Util.DataHelper;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -88,6 +89,24 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         saveandadd = (LinearLayout)findViewById(R.id.saveandadd);
         saveandaddtv = (TextView)findViewById(R.id.saveandaddtv);
         addandbacktv = (TextView)findViewById(R.id.addandbacktv);
+
+        sum.addTextChangedListener(new TextWatcher()
+        {
+            public void afterTextChanged(Editable edt)
+            {
+                String temp = edt.toString();
+                int posDot = temp.indexOf(".");
+                if (posDot <= 0) return;
+                if (temp.length() - posDot - 1 > 2)
+                {
+                    edt.delete(posDot + 3, posDot + 4);
+                }
+            }
+
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+        });
 
         initxflxsp();
         fplxsp();
@@ -366,9 +385,10 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "请填写备注",Toast.LENGTH_SHORT).show();
             return;
         }
-
+        DecimalFormat df = new DecimalFormat( "#####0.00 ");
+        String newsum = df.format(Double.parseDouble(sum.getText().toString().trim()));
         BaoxiaoItem bi =new BaoxiaoItem(getSerriesNumber().trim(),
-                sum.getText().toString().trim(),
+                newsum,
                 xflxsp.getSelectedItem().toString().trim(),
                 fplxsp.getSelectedItem().toString().trim(),
                 datepicker.getText().toString().trim(),

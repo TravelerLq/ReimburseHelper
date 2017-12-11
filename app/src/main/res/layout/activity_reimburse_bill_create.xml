@@ -176,13 +176,14 @@
                 </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/project_recycler_view"
+                    android:id="@+id/billlist_recycler_view"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
                     android:background="@android:color/white"/>
 
                 <TextView
-                    android:id="@+id/textdView32"
+                    android:id="@+id/sumall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"

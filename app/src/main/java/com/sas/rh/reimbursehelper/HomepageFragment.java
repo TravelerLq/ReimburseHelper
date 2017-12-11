@@ -30,6 +30,7 @@ import com.sas.rh.reimbursehelper.RecyclerviewWithCheckbox.DividerItemDecoration
 import com.sas.rh.reimbursehelper.RecyclerviewWithCheckbox.MineRadioAdapter;
 import com.sas.rh.reimbursehelper.Util.DataHelper;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -216,10 +217,11 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
             myLiveList.setBxid(resultlist.get(i).getBillid());
             myLiveList.setBxtype(resultlist.get(i).getXflxsp());
             myLiveList.setBxdate("¥"+resultlist.get(i).getSum());
-            sum += Float.parseFloat(resultlist.get(i).getSum().trim());
+            DecimalFormat df = new DecimalFormat( "#####0.00 ");
+            sum += Double.parseDouble(resultlist.get(i).getSum().trim());
             myLiveList.setBxnum(resultlist.get(i).getDatepicker());
             mList.add(myLiveList);
-            weibaoxiaofytv.setText("¥"+sum);
+            weibaoxiaofytv.setText("¥"+df.format(sum));
             mRadioAdapter.notifyAdapter(mList, false);
         }
     }
@@ -272,8 +274,16 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    updataEditMode();
+                                    //updataEditMode();
+                                    ArrayList<String> list = new ArrayList<String>();
+                                    for (int index = mRadioAdapter.getMyLiveList().size(), j =0 ; index > j; index--) {
+                                        BaoxiaoContentEntity myLive = mRadioAdapter.getMyLiveList().get(index-1);
+                                        if (myLive.isSelect()) {
+                                            list.add(myLive.getBxid());
+                                        }
+                                    }
                                     Intent it = new Intent(getActivity(),ReimburseBillCreateActivity.class);
+                                    it.putStringArrayListExtra("billids", list);
                                     startActivity(it);
                                 }
                             }).show();
