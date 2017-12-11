@@ -43,35 +43,12 @@ public class DataHelper extends SQLiteOpenHelper {
         try {
             //获取数据库对象
             SQLiteDatabase db = sqlhelper.getReadableDatabase();
-            // Cursor cursor = db.query("BaoxiaoItem_Table", null, null, null, null, null, "id asc");
-//        int idIndex = cursor.getColumnIndex("id");
-//        int pwIndex=cursor.getColumnIndex("pw");
-//        for (cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()) {
-//            //先看看数据库里有没有输入的账号
-//            if(cursor.getString(idIndex).equals(id)){
-//                //如果有则对比密码，用户名和密码都一样就不执行操作，否则更新密码
-//                if(cursor.getString(pwIndex).equals(pw)){
-//                    cursor.close();//关闭结果集
-//                    db.close();//关闭数据库对象
-//                    return;
-//                }else{
-//                    db.execSQL(
-//                            "update users_db set pw=? where id=?",
-//                            new Object[] {pw,id});
-//                    cursor.close();//关闭结果集
-//                    db.close();//关闭数据库对象
-//                    return ;
-//                }
-//
-//            }
-//        }
             db.execSQL("insert into BaoxiaoItem_Table(billid ,sum ,xflxsp ,fplxsp ,datepicker ,remarket ," +
                             "p1 ,p2 ,p3 ,p4 ,p5 ,p6 ,p7 ,p8 ,p9) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     new Object[]{bitem.getBillid(), bitem.getSum(), bitem.getXflxsp(), bitem.getFplxsp(), bitem.getDatepicker(), bitem.getRemarket(),
                             bitem.getP1(), bitem.getP2(), bitem.getP3(), bitem.getP4(), bitem.getP5(), bitem.getP6(), bitem.getP7(), bitem.getP8(), bitem.getP9()});
             //ursor.close();//关闭结果集
             db.close();//关闭数据库对象
-            System.out.println("============The End==============");
         }catch (Exception e){
             e.printStackTrace();
             return false;
@@ -122,15 +99,88 @@ public class DataHelper extends SQLiteOpenHelper {
         db.close();//关闭数据库对象
         return list;
     }
-//
-//
-//	public static void alternotetext(appDatabaseHelper sqlhelper,usernoteEntity newune){
-//
-//		String sql="update notes_db set note_text = '"+newune.getNotetext()+"' where note_title ='" +newune.getTitle()+"' AND name ='"+newune.getName()+"'";
-//		SQLiteDatabase db=sqlhelper.getWritableDatabase();
-//		db.execSQL(sql);
-//
-//	}
+
+    public static BaoxiaoItem getABaoxiaoItem(DataHelper sqlhelper,String billid){
+        SQLiteDatabase db=sqlhelper.getReadableDatabase();
+        Cursor cursor = db.query("BaoxiaoItem_Table", null, null, null, null, null, "billid asc");
+        int billidIndex = cursor.getColumnIndex("billid");
+        int sumIndex=cursor.getColumnIndex("sum");
+        int xflxspIndex=cursor.getColumnIndex("xflxsp");
+        int fplxspIndex=cursor.getColumnIndex("fplxsp");
+        int datepickerIndex=cursor.getColumnIndex("datepicker");
+        int remarketIndex=cursor.getColumnIndex("remarket");
+        int p1Index=cursor.getColumnIndex("p1");
+        int p2Index=cursor.getColumnIndex("p2");
+        int p3Index=cursor.getColumnIndex("p3");
+        int p4Index=cursor.getColumnIndex("p4");
+        int p5Index=cursor.getColumnIndex("p5");
+        int p6Index=cursor.getColumnIndex("p6");
+        int p7Index=cursor.getColumnIndex("p7");
+        int p8Index=cursor.getColumnIndex("p8");
+        int p9Index=cursor.getColumnIndex("p9");
+        for (cursor.moveToFirst();!(cursor.isAfterLast());cursor.moveToNext()) {
+            BaoxiaoItem bi =new BaoxiaoItem();
+            if(cursor.getString(billidIndex).trim().equals(billid.trim())){
+                bi.setBillid(cursor.getString(billidIndex));
+                bi.setSum(cursor.getString(sumIndex));
+                bi.setXflxsp(cursor.getString(xflxspIndex));
+                bi.setFplxsp(cursor.getString(fplxspIndex));
+                bi.setDatepicker(cursor.getString(datepickerIndex));
+                bi.setRemarket(cursor.getString(remarketIndex));
+                bi.setP1(cursor.getString(p1Index));
+                bi.setP2(cursor.getString(p2Index));
+                bi.setP3(cursor.getString(p3Index));
+                bi.setP4(cursor.getString(p4Index));
+                bi.setP5(cursor.getString(p5Index));
+                bi.setP6(cursor.getString(p6Index));
+                bi.setP7(cursor.getString(p7Index));
+                bi.setP8(cursor.getString(p8Index));
+                bi.setP9(cursor.getString(p9Index));
+                cursor.close();//关闭结果集
+                db.close();//关闭数据库对象
+                return bi;
+            }
+
+
+        }
+        cursor.close();//关闭结果集
+        db.close();//关闭数据库对象
+        return null;
+    }
+
+	public static boolean alterABill(DataHelper sqlhelper,BaoxiaoItem bi){
+
+//        String sql = "CREATE TABLE if not exists BaoxiaoItem_Table(billid varchar ,sum varchar ,xflxsp varchar ,fplxsp varchar ,datepicker varchar ,remarket varchar ," +
+//                "p1 varchar ,p2 varchar ,p3 varchar ,p4 varchar ,p5 varchar ,p6 varchar ,p7 varchar ,p8 varchar ,p9 varchar)";
+        try {
+		String sql="update BaoxiaoItem_Table set sum = '"+ bi.getSum()+"',xflxsp ='"+bi.getXflxsp()+"',fplxsp ='"+bi.getFplxsp()+"',datepicker ='"+bi.getDatepicker()
+                +"',remarket ='"+bi.getRemarket()+"',p1 ='"+bi.getP1()+"',p2 ='"+bi.getP2()+"',p3 ='"+bi.getP3()+"',p4 ='"+bi.getP4()+"',p5 ='"+bi.getP5()+"',p6 ='"
+                +bi.getP6()+"',p7 ='"+bi.getP7()+"',p8 ='"+bi.getP8()+"',p9 ='"+bi.getP9()+"' where billid ='" +bi.getBillid()+"'";
+		SQLiteDatabase db=sqlhelper.getWritableDatabase();
+		db.execSQL(sql);
+        db.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+
+	}
+
+    public static boolean deleteone(DataHelper sqlhelper,String idlist){
+        try {
+            SQLiteDatabase db=sqlhelper.getWritableDatabase();
+    //	    for(int i =0;i<idlist.size();i++){
+            String sql="delete from BaoxiaoItem_Table where billid ='"+idlist+"'";
+            db.execSQL(sql);
+    //        }
+            db.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+	}
 //
 //	public static void alternotetitle(appDatabaseHelper sqlhelper,usernoteEntity newune,String oldtitle){
 //

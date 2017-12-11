@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,13 +50,15 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
     private List<String> fapiaoleixinglist ;//创建一个String类型的数组列表。
 
     private ImageView backbt;
-    private TextView datepicker,textlenshower,photo_amount;
+    private TextView datepicker,textlenshower,photo_amount,saveandaddtv,addandbacktv;
     private EditText sum,remarket;
     private Spinner xflxsp;
     private Spinner fplxsp;
     private ArrayAdapter<String> xflxadapter;//创建一个数组适配器
     private ArrayAdapter<String> fplxadapter;//创建一个数组适配器
-    private LinearLayout addandback ;
+    private LinearLayout saveandadd,addandback ;
+    private int requestcode = 0;
+    private String bxid;
 
 
     int mYear, mMonth, mDay;
@@ -67,6 +70,10 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_add_baoxiaojizhu);
+        requestcode = getIntent().getIntExtra("rcode",0);
+        if(requestcode == 2){
+            bxid = getIntent().getStringExtra("biiid");
+        }
         backbt = (ImageView)findViewById(R.id.backbt) ;
         photo_amount = (TextView)findViewById(R.id.photo_amount);
         datepicker = (TextView) findViewById(R.id.datepicker);//日期
@@ -78,6 +85,72 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.photo_recycler_view);
         pickphotos = (LinearLayout) findViewById(R.id.pickphotos);
         addandback = (LinearLayout)findViewById(R.id.addandback);
+        saveandadd = (LinearLayout)findViewById(R.id.saveandadd);
+        saveandaddtv = (TextView)findViewById(R.id.saveandaddtv);
+        addandbacktv = (TextView)findViewById(R.id.addandbacktv);
+
+        initxflxsp();
+        fplxsp();
+
+
+        if(requestcode == 1){
+            saveandadd.setVisibility(View.GONE);
+            //addandback
+            addandback.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    savebill();
+                }
+            });
+        }else if(requestcode == 2){
+            addandback.setVisibility(View.GONE);
+            saveandaddtv.setText("修改并保存");
+            BaoxiaoItem bi = getabill(bxid);
+            if(bi != null ){
+                sum.setText(bi.getSum());
+                setSpinnerItemSelectedByValue(xflxsp,bi.getXflxsp().trim());
+                setSpinnerItemSelectedByValue(fplxsp,bi.getFplxsp().trim());
+                datepicker.setText(bi.getDatepicker());
+                remarket.setText(bi.getRemarket());
+                if(!bi.getP1().trim().equals("")){
+                    selectedPhotos.add(bi.getP1().trim());
+                }
+                if(!bi.getP2().trim().equals("")){
+                    selectedPhotos.add(bi.getP2().trim());
+                }
+                if(!bi.getP3().trim().equals("")){
+                    selectedPhotos.add(bi.getP3().trim());
+                }
+                if(!bi.getP4().trim().equals("")){
+                    selectedPhotos.add(bi.getP4().trim());
+                }
+                if(!bi.getP5().trim().equals("")){
+                    selectedPhotos.add(bi.getP5().trim());
+                }
+                if(!bi.getP6().trim().equals("")){
+                    selectedPhotos.add(bi.getP6().trim());
+                }
+                if(!bi.getP7().trim().equals("")){
+                    selectedPhotos.add(bi.getP7().trim());
+                }
+                if(!bi.getP8().trim().equals("")){
+                    selectedPhotos.add(bi.getP8().trim());
+                }
+                if(!bi.getP9().trim().equals("")){
+                    selectedPhotos.add(bi.getP9().trim());
+                }
+
+                photo_amount.setText("已选择"+selectedPhotos.size()+"张发票照片");
+
+                saveandadd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alterabill();
+                    }
+                });
+            }
+        }
+
 
         //照片选择器初始化
         photoAdapter = new PhotoAdapter(this, selectedPhotos);
@@ -94,8 +167,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
             }
         });
 
-        initxflxsp();
-        fplxsp();
+
 
         backbt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,12 +184,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
             }
         });
 
-        addandback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                savebill();
-            }
-        });
+
 
         final Calendar ca = Calendar.getInstance();
         mYear = ca.get(Calendar.YEAR);
@@ -324,11 +391,67 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "添加失败",Toast.LENGTH_SHORT).show();
             }
 
+    }
+
+    public BaoxiaoItem getabill(String billid){
+        BaoxiaoItem bi =  DataHelper.getABaoxiaoItem(new DataHelper(AddBaoxiaojizhuActivity.this,"BaoxiaoItem_DB",null,1),billid);
+        if(bi == null){
+            Toast.makeText(getApplicationContext(), "无此数据，请返回主界面刷新后重试！",Toast.LENGTH_SHORT).show();
+        }
+        return bi;
+    }
+
+    public void alterabill(){
 
 
+        if(selectedPhotos.size() == 0){
+            Toast.makeText(getApplicationContext(), "请选择票据原照",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(sum.getText().toString().trim().equals("")){
+            Toast.makeText(getApplicationContext(), "请填写报销金额",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(xflxsp.getSelectedItem().toString().trim().equals("--请选择--")){
+            Toast.makeText(getApplicationContext(), "请选择消费类型",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(fplxsp.getSelectedItem().toString().trim().equals("--请选择--")){
+            Toast.makeText(getApplicationContext(), "请选择发票类型",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(datepicker.getText().toString().trim().equals("点此选择日期")){
+            Toast.makeText(getApplicationContext(), "请选择消费日期",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(remarket.getText().toString().trim().equals("")){
+            Toast.makeText(getApplicationContext(), "请填写备注",Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        BaoxiaoItem bi =new BaoxiaoItem(bxid,
+                sum.getText().toString().trim(),
+                xflxsp.getSelectedItem().toString().trim(),
+                fplxsp.getSelectedItem().toString().trim(),
+                datepicker.getText().toString().trim(),
+                remarket.getText().toString().trim(),
+                selectedPhotos.size() >= 1 ? selectedPhotos.get(0) : "",
+                selectedPhotos.size() >= 2 ? selectedPhotos.get(1) : "",
+                selectedPhotos.size() >= 3 ? selectedPhotos.get(2) : "",
+                selectedPhotos.size() >= 4 ? selectedPhotos.get(3) : "",
+                selectedPhotos.size() >= 5 ? selectedPhotos.get(4) : "",
+                selectedPhotos.size() >= 6 ? selectedPhotos.get(5) : "",
+                selectedPhotos.size() >= 7 ? selectedPhotos.get(6) : "",
+                selectedPhotos.size() >= 8 ? selectedPhotos.get(7) : "",
+                selectedPhotos.size() >= 9 ? selectedPhotos.get(8) : "");
 
-
+        Boolean altersuc = DataHelper.alterABill(new DataHelper(AddBaoxiaojizhuActivity.this,"BaoxiaoItem_DB",null,1),bi);
+        if(altersuc == true){
+            Toast.makeText(getApplicationContext(), "修改成功",Toast.LENGTH_SHORT).show();
+            finish();
+        }else{
+            Toast.makeText(getApplicationContext(), "修改失败",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public String getSerriesNumber(){
@@ -340,6 +463,17 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
                 String.format("%03d", nowtime.get(Calendar.MILLISECOND));
         //System.out.println("Time:>>>>>>>>>>>>>>>>>>>>>"+strDateTime);
         return "00000020170701"+strDateTime;
+    }
+
+    public void setSpinnerItemSelectedByValue(Spinner spinner,String value){
+        SpinnerAdapter apsAdapter= spinner.getAdapter(); //得到SpinnerAdapter对象
+        int k= apsAdapter.getCount();
+        for(int i=0;i<k;i++){
+            if(value.equals(apsAdapter.getItem(i).toString())){
+                spinner.setSelection(i,true);// 默认选中项
+                break;
+            }
+        }
     }
 
 

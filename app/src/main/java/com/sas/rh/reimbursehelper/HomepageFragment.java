@@ -133,6 +133,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
+                it.putExtra("rcode",1);
                 startActivityForResult(it,1);
             }
         });
@@ -174,7 +175,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 ){
+        if(requestCode == 1 ||requestCode == 2  ){
             //int position = data.getExtras().getInt("position");
             refreshbxlist();
         }
@@ -188,6 +189,16 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         itemDecorationHeader.setDividerDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.divider_main_bg_height_1));
         mRecyclerview.addItemDecoration(itemDecorationHeader);
         mRecyclerview.setAdapter(mRadioAdapter);
+//        mRadioAdapter.setOnItemClickListener(this);
+        mRadioAdapter.setOnItemClickListener(new MineRadioAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int pos, List<BaoxiaoContentEntity> myLiveList) {
+                Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
+                it.putExtra("rcode",2);
+                it.putExtra("biiid",myLiveList.get(pos).getBxid());
+                startActivityForResult(it,2);
+            }
+        });
 
     }
 
@@ -202,6 +213,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         }
         for (int i = 0; i < resultlist.size(); i++) {
             BaoxiaoContentEntity myLiveList = new BaoxiaoContentEntity();
+            myLiveList.setBxid(resultlist.get(i).getBillid());
             myLiveList.setBxtype(resultlist.get(i).getXflxsp());
             myLiveList.setBxdate("¥"+resultlist.get(i).getSum());
             sum += Float.parseFloat(resultlist.get(i).getSum().trim());
@@ -232,7 +244,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void initListener() {
-        mRadioAdapter.setOnItemClickListener(this);
+        //mRadioAdapter.setOnItemClickListener(this);
         mBtnDelete.setOnClickListener(this);
         mSelectAll.setOnClickListener(this);
         mBtnEditor.setOnClickListener(this);
@@ -338,7 +350,10 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
                 for (int i = mRadioAdapter.getMyLiveList().size(), j =0 ; i > j; i--) {
                     BaoxiaoContentEntity myLive = mRadioAdapter.getMyLiveList().get(i-1);
                     if (myLive.isSelect()) {
-
+                        Boolean addsuc = DataHelper.deleteone(new DataHelper(getActivity(),"BaoxiaoItem_DB",null,1),myLive.getBxid());
+                        if(addsuc == false){
+                            Toast.makeText(getActivity(), "删除"+i+"失败",Toast.LENGTH_SHORT).show();
+                        }
                         mRadioAdapter.getMyLiveList().remove(myLive);
                         index--;
                     }
@@ -358,10 +373,20 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
     private void updataEditMode() {
         mEditMode = mEditMode == MYLIVE_MODE_CHECK ? MYLIVE_MODE_EDIT : MYLIVE_MODE_CHECK;
         if (mEditMode == MYLIVE_MODE_EDIT) {
+            mRadioAdapter.setOnItemClickListener(this);
             mBtnEditor.setText("完成");
             mLlMycollectionBottomDialog.setVisibility(View.VISIBLE);
             editorStatus = true;
         } else {
+            mRadioAdapter.setOnItemClickListener(new MineRadioAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClickListener(int pos, List<BaoxiaoContentEntity> myLiveList) {
+                    Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
+                    it.putExtra("rcode",2);
+                    it.putExtra("biiid",myLiveList.get(pos).getBxid());
+                    startActivityForResult(it,2);
+                }
+            });
             mBtnEditor.setText("编辑");
             mLlMycollectionBottomDialog.setVisibility(View.GONE);
             mLlMycollectionBottomDialog.bringToFront();
