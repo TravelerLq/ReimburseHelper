@@ -179,6 +179,8 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         if(requestCode == 1 ||requestCode == 2  ){
             //int position = data.getExtras().getInt("position");
             refreshbxlist();
+            index=0;
+            mTvSelectNum.setText(String.valueOf(index));
         }
     }
 
@@ -216,10 +218,10 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
             BaoxiaoContentEntity myLiveList = new BaoxiaoContentEntity();
             myLiveList.setBxid(resultlist.get(i).getBillid());
             myLiveList.setBxtype(resultlist.get(i).getXflxsp());
-            myLiveList.setBxdate("¥"+resultlist.get(i).getSum());
+            myLiveList.setBxnum(resultlist.get(i).getSum());
             DecimalFormat df = new DecimalFormat( "#####0.00 ");
             sum += Double.parseDouble(resultlist.get(i).getSum().trim());
-            myLiveList.setBxnum(resultlist.get(i).getDatepicker());
+            myLiveList.setBxdate(resultlist.get(i).getDatepicker());
             mList.add(myLiveList);
             weibaoxiaofytv.setText("¥"+df.format(sum));
             mRadioAdapter.notifyAdapter(mList, false);
@@ -357,9 +359,13 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DecimalFormat df = new DecimalFormat( "#####0.00 ");
+                double jiansum = 0;
                 for (int i = mRadioAdapter.getMyLiveList().size(), j =0 ; i > j; i--) {
                     BaoxiaoContentEntity myLive = mRadioAdapter.getMyLiveList().get(i-1);
+                    //jiansum += Double.parseDouble(myLive.getBxnum().trim());
                     if (myLive.isSelect()) {
+                        jiansum += Double.parseDouble(myLive.getBxnum().trim());
                         Boolean addsuc = DataHelper.deleteone(new DataHelper(getActivity(),"BaoxiaoItem_DB",null,1),myLive.getBxid());
                         if(addsuc == false){
                             Toast.makeText(getActivity(), "删除"+i+"失败",Toast.LENGTH_SHORT).show();
@@ -368,6 +374,10 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
                         index--;
                     }
                 }
+                String[] s = weibaoxiaofytv.getText().toString().split("¥");
+                //System.out.println("gggggg"+Double.parseDouble(s[1])+"-"+jiansum);
+                double result= Double.parseDouble(s[1])-jiansum;
+                weibaoxiaofytv.setText("¥"+df.format(result));
                 index = 0;
                 mTvSelectNum.setText(String.valueOf(0));
                 setBtnBackground(index);
