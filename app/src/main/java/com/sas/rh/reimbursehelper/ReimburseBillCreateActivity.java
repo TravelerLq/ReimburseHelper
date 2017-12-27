@@ -1,6 +1,8 @@
 package com.sas.rh.reimbursehelper;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sas.rh.reimbursehelper.Dao.BaoxiaoItem;
@@ -99,6 +102,23 @@ public class ReimburseBillCreateActivity extends AppCompatActivity {
             holder.tv_bxtype.setText(bilist.get(position).getXflxsp());
             holder.tv_bxdate.setText(bilist.get(position).getDatepicker());
             holder.tv_bxnum.setText(bilist.get(position).getSum());
+            if(bilist.get(position).getXflxsp().equals("差旅补助")){
+                GradientDrawable myGrad = (GradientDrawable)holder.bxitem_icon.getBackground();
+                myGrad.setColor(Color.RED);
+                holder.bxitem_text.setText("旅");
+            }else if(bilist.get(position).getXflxsp().equals("房租水电")){
+                GradientDrawable myGrad = (GradientDrawable)holder.bxitem_icon.getBackground();
+                myGrad.setColor(Color.BLUE);
+                holder.bxitem_text.setText("房");
+            }else if(bilist.get(position).getXflxsp().equals("通讯费用")){
+                GradientDrawable myGrad = (GradientDrawable)holder.bxitem_icon.getBackground();
+                myGrad.setColor(Color.CYAN);
+                holder.bxitem_text.setText("通");
+            }else if(bilist.get(position).getXflxsp().equals("采购补贴")){
+                GradientDrawable myGrad = (GradientDrawable)holder.bxitem_icon.getBackground();
+                myGrad.setColor(Color.GREEN);
+                holder.bxitem_text.setText("采");
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -127,7 +147,8 @@ public class ReimburseBillCreateActivity extends AppCompatActivity {
         class MyViewHolder extends RecyclerView.ViewHolder
         {
 
-            TextView tv_bxtype,tv_bxdate,tv_bxnum;
+            TextView tv_bxtype,tv_bxdate,tv_bxnum,bxitem_text;
+            LinearLayout bxitem_icon;
 
             public MyViewHolder(View view)
             {
@@ -135,6 +156,8 @@ public class ReimburseBillCreateActivity extends AppCompatActivity {
                 tv_bxtype = (TextView) view.findViewById(R.id.tv_bxtype);
                 tv_bxdate = (TextView) view.findViewById(R.id.tv_bxdate);
                 tv_bxnum = (TextView) view.findViewById(R.id.tv_bxnum);
+                bxitem_text = (TextView) view.findViewById(R.id.bxitem_text);
+                bxitem_icon = (LinearLayout) view.findViewById(R.id.bxitem_icon);
             }
         }
     }

@@ -1,6 +1,8 @@
 package com.sas.rh.reimbursehelper.RecyclerviewWithCheckbox;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +76,24 @@ public class MineRadioAdapter extends RecyclerView.Adapter<MineRadioAdapter.View
         holder.mTvBxtype.setText(myBaoxiaoContentItem.getBxtype());
         holder.mTvBxdate.setText(myBaoxiaoContentItem.getBxdate());
         holder.mTvBxnum.setText(myBaoxiaoContentItem.getBxnum());
+        if(myBaoxiaoContentItem.getBxtype().equals("差旅补助")){
+            GradientDrawable myGrad = (GradientDrawable)holder.bxitem_icon.getBackground();
+            myGrad.setColor(Color.RED);
+            holder.bxitem_text.setText("旅");
+        }else if(myBaoxiaoContentItem.getBxtype().equals("房租水电")){
+            GradientDrawable myGrad = (GradientDrawable)holder.bxitem_icon.getBackground();
+            myGrad.setColor(Color.BLUE);
+            holder.bxitem_text.setText("房");
+        }else if(myBaoxiaoContentItem.getBxtype().equals("通讯费用")){
+            GradientDrawable myGrad = (GradientDrawable)holder.bxitem_icon.getBackground();
+            myGrad.setColor(Color.CYAN);
+            holder.bxitem_text.setText("通");
+        }else if(myBaoxiaoContentItem.getBxtype().equals("采购补贴")){
+            GradientDrawable myGrad = (GradientDrawable)holder.bxitem_icon.getBackground();
+            myGrad.setColor(Color.GREEN);
+            holder.bxitem_text.setText("采");
+        }
+
         if (mEditMode == MYLIVE_MODE_CHECK) {
             holder.mCheckBox.setVisibility(View.GONE);
         } else {
@@ -105,8 +125,8 @@ public class MineRadioAdapter extends RecyclerView.Adapter<MineRadioAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @InjectView(R.id.radio_img)
-        ImageView mRadioImg;
+//        @InjectView(R.id.radio_img)
+//        ImageView mRadioImg;
         @InjectView(R.id.tv_bxtype)
         TextView mTvBxtype;
         @InjectView(R.id.tv_bxdate)
@@ -117,6 +137,10 @@ public class MineRadioAdapter extends RecyclerView.Adapter<MineRadioAdapter.View
         LinearLayout mRootView;
         @InjectView(R.id.check_box)
         ImageView mCheckBox;
+        @InjectView(R.id.bxitem_icon)
+        LinearLayout bxitem_icon;
+        @InjectView(R.id.bxitem_text)
+        TextView bxitem_text;
 
 
 
