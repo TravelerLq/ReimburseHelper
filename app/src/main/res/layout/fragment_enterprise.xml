@@ -46,7 +46,7 @@
                 android:focusable="true"
                 android:layout_marginTop="12dp">
 
-                <com.sas.rh.reimbursehelper.View.CircleImageView
+                <com.sas.rh.reimbursehelper.widget.CircleImageView
                     android:id="@+id/circleImageView"
                     android:layout_width="60dp"
                     android:layout_height="60dp"

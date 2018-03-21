@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFF"
-    tools:context="com.sas.rh.reimbursehelper.ProjectsManagerAddMasterActivity">
+    tools:context="com.sas.rh.reimbursehelper.view.activity.ProjectsManagerAddMasterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

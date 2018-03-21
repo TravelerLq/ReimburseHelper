@@ -19,8 +19,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.3"
     defaultConfig {
         applicationId "com.sas.rh.reimbursehelper"
         minSdkVersion 21
@@ -29,6 +29,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -36,10 +37,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/spring.tooling'
+        exclude 'META-INF/spring.handlers'
+        exclude 'META-INF/spring.schemas'
+    }
 }
 
+
+
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -62,4 +70,37 @@ dependencies {
         transitive = true;
     }
     testCompile 'junit:junit:4.12'
+    //    implementation files('lib/aopalliance-1.0.jar')
+    implementation files('lib/commons-beanutils-1.9.2.jar')
+    implementation files('lib/commons-collections-3.2.1.jar')
+    //    implementation files('lib/commons-fileupload-1.3.2.jar')
+    //    implementation files('lib/commons-io-2.4.jar')
+    implementation files('lib/commons-lang-2.6.jar')
+    implementation files('lib/commons-logging-1.2.jar')
+    implementation files('lib/ezmorph-1.0.6.jar')
+    //    implementation files('lib/gson-2.3.1.jar')
+    implementation files('lib/json-lib-2.4-jdk15.jar')
+    //    implementation files('lib/jsp-api-2.2.jar')
+    //    implementation files('lib/jstl-1.2.jar')
+    //    implementation files('lib/log4j-1.2.16.jar')
+    implementation files('lib/mybatis-3.2.7.jar')
+    //    implementation files('lib/mybatis-spring-1.2.2.jar')
+    //    implementation files('lib/mysql-connector-java-5.1.34-bin.jar')
+    //    implementation files('lib/org.apache.commons.fileupload.jar')
+    //    implementation files('lib/servlet-api-3.0.jar')
+    compile project(path: ':unitid-cmsdk')
+    implementation files('lib/fastjson-1.2.44.jar')
+    implementation files('lib/commons-httpclient-3.1.jar')
+    implementation files('lib/commons-lang3-3.4.jar')
+
+    compile project(':android-expandpoptab-library')
+
+    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
+    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+    compile 'com.squareup.okhttp:okhttp:2.7.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.0'
+    compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
+    // ReactiveX
+    compile 'io.reactivex:rxjava:1.0.16'
+    compile 'io.reactivex:rxandroid:1.0.1'
 }

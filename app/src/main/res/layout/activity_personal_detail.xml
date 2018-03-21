@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#EFEFEF"
-    tools:context="com.sas.rh.reimbursehelper.PersonalDetailActivity">
+    tools:context="com.sas.rh.reimbursehelper.view.activity.PersonalDetailActivity">
 
 
     <ScrollView
@@ -60,7 +60,7 @@
                 android:background="#FFF"
                 android:orientation="horizontal">
 
-                <com.sas.rh.reimbursehelper.View.CircleImageView
+                <com.sas.rh.reimbursehelper.widget.CircleImageView
                     android:id="@+id/project_master_head"
                     android:layout_width="65dp"
                     android:layout_height="65dp"

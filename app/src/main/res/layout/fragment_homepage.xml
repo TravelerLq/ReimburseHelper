@@ -16,7 +16,7 @@
         android:background="#1882CE"
         android:orientation="horizontal">
 
-        <com.sas.rh.reimbursehelper.View.CircleImageView
+        <com.sas.rh.reimbursehelper.widget.CircleImageView
             android:id="@+id/personaldetail_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"

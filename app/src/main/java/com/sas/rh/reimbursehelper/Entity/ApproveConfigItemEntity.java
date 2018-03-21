@@ -9,6 +9,7 @@ public class ApproveConfigItemEntity {
     private String approver_Name_tv;
     private String approver_ID_tv;
     private String job_Name_tv;
+    private int approve_num;
 
     public ApproveConfigItemEntity() {
     }
@@ -41,5 +42,13 @@ public class ApproveConfigItemEntity {
 
     public void setApprover_ID_tv(String approver_ID_tv) {
         this.approver_ID_tv = approver_ID_tv;
+    }
+
+    public int getApprove_num() {
+        return approve_num;
+    }
+
+    public void setApprove_num(int approve_num) {
+        this.approve_num = approve_num;
     }
 }

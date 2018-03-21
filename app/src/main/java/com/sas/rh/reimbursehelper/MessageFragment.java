@@ -18,6 +18,14 @@ import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
+import com.sas.rh.reimbursehelper.Entity.DepartmentDetailInfo;
+import com.sas.rh.reimbursehelper.NetUtil.BumenUtils;
+import com.sas.rh.reimbursehelper.NetUtil.ShenheUtils;
+import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
+import com.sas.rh.reimbursehelper.Util.ToastUtil;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +38,48 @@ public class MessageFragment extends Fragment {
     private RecyclerAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     Handler handler = new Handler();
-
     int page = 0;
+    private ProgressDialogUtil pdu =new ProgressDialogUtil(getActivity(),"提示","提交更改中");
+    String department_id;
+    private JSONObject bxmessagelist;
+    private JSONObject messagealterrs;
+//    private Handler messagelistback = new Handler(){
+//        @Override
+//        public void handleMessage(android.os.Message msg) {
+//            if(pdu.getMypDialog() != null){
+//                pdu.dismisspd();
+//            }
+//            if(msg.what == 1){
+////                    System.out.println("ResultCode:" + jsonresult.get("ResultCode") + "\t" + "HostTime:"
+////            + jsonresult.get("HostTime") + "\t" + "Note:" + jsonresult.get("Note"));
+//                mList.clear();
+//                if (messagelist.get("resultList")!= null) {
+//                    //System.out.print("resultList:");
+//                    JSONArray jsonArray = messagelist.getJSONArray("resultList");
+//                    for (Object object : jsonArray) {
+//                        JSONObject jObject = JSONObject.fromObject(object);
+//                        DepartmentDetailInfo dma = new DepartmentDetailInfo();
+//                        dma.setDepartment_name(jObject.get("bmName").toString());
+//                        dma.setDepartment_id(jObject.get("bmId").toString());
+//                        dma.setDepartment_gsid(jObject.get("gongsiId").toString());
+//                        dma.setDepartment_state(jObject.get("isOpen").toString());
+//                        mList.add(dma);
+//                        //System.out.println(jObject);
+//                    }
+//                }
+//                mAdapter.notifyDataSetChanged();
+//                ToastUtil.showToast(getActivity(),messagelist.get("HostTime")+":"+messagelist.get("Note").toString(), Toast.LENGTH_LONG);
+//
+//            }else if(msg.what == 2){
+//                ToastUtil.showToast(getActivity(),messagelist.get("HostTime")+":"+messagelist.get("ResultCode").toString(), Toast.LENGTH_LONG);
+//            }else if(msg.what == 0){
+//                ToastUtil.showToast(getActivity(),"通信异常，请检查网络连接！", Toast.LENGTH_LONG);
+//            }else if(msg.what == -1){
+//                ToastUtil.showToast(getActivity(),"通信模块异常！", Toast.LENGTH_LONG);
+//            }
+//        }
+//
+//    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,4 +181,31 @@ public class MessageFragment extends Fragment {
         }
 
     }
+
+//    private void GetAllMessage(){
+//        pdu.showpd();
+//        new Thread(GetAllMessageInfoThread).start();
+//    }
+//
+//    Runnable GetAllMessageInfoThread = new Runnable() {
+//        @Override
+//        public void run() {
+//            // TODO Auto-generated method stub
+//
+//            try{
+//                JSONObject jo = new ShenheUtils().getcommittermessage(1,1);
+//                if(jo != null){
+//                    bxmessagelist = jo;
+//                    messagelistback.sendEmptyMessage(1);
+//                }else{
+//                    messagelistback.sendEmptyMessage(0);
+//                }
+//            }catch(Exception e){
+//                messagelistback.sendEmptyMessage(-1);
+//                e.printStackTrace();
+//            }
+//        }
+//
+//    };
+
 }

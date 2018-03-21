@@ -13,24 +13,12 @@
 
 
     <TextView
-        android:id="@+id/textView27"
+        android:id="@+id/itemTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_weight="1"
         android:text="部门名称" />
-
-    <com.zcw.togglebutton.ToggleButton
-        android:id="@+id/togglebutton"
-        android:layout_width="70dp"
-        toggle:tbOnColor="#03d626"
-        toggle:tbOffColor="#ffffff"
-        toggle:tbSpotColor="#ffffff"
-        toggle:tbBorderWidth="0.5dp"
-        toggle:tbOffBorderColor="#dfdcdc"
-        android:layout_height="35dp"
-        android:layout_marginRight="10dp">
-    </com.zcw.togglebutton.ToggleButton>
 
 
 </LinearLayout>

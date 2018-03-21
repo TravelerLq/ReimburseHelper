@@ -9,7 +9,7 @@
     android:padding="10dp">
 
 
-    <com.sas.rh.reimbursehelper.View.CircleImageView
+    <com.sas.rh.reimbursehelper.widget.CircleImageView
         android:src="@mipmap/head"
         android:id="@+id/image"
         android:layout_width="60dp"

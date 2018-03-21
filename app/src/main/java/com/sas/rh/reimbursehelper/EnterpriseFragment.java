@@ -1,14 +1,19 @@
 package com.sas.rh.reimbursehelper;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import com.sas.rh.reimbursehelper.view.activity.ApproveProcedureManageActivity;
+import com.sas.rh.reimbursehelper.view.activity.DepartmentsManageActivity;
+import com.sas.rh.reimbursehelper.view.activity.EnterpriseDetailActivity;
+import com.sas.rh.reimbursehelper.view.activity.MembersManageActivity;
+import com.sas.rh.reimbursehelper.view.activity.ProjectsManagerActivity;
+import com.sas.rh.reimbursehelper.view.activity.SubjectsManagerActivity;
 
 
 public class EnterpriseFragment extends Fragment {
@@ -41,6 +46,14 @@ public class EnterpriseFragment extends Fragment {
         smb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                if(new SharedPreferencesUtil(getActivity()).isCidEmpty() == true ){
+//                    ToastUtil.showToast(getActivity(),"没有和公司关联", Toast.LENGTH_LONG);
+//                    return;
+//                }
+//                if(new SharedPreferencesUtil(getActivity()).isUidEmpty() == true ){
+//                    ToastUtil.showToast(getActivity(),"没有和当前用户关联", Toast.LENGTH_LONG);
+//                    return;
+//                }
                 Intent it = new Intent(getActivity(),SubjectsManagerActivity.class);
                 startActivity(it);
             }
@@ -48,6 +61,14 @@ public class EnterpriseFragment extends Fragment {
         mmb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                if(new SharedPreferencesUtil(getActivity()).isCidEmpty() == true ){
+//                    ToastUtil.showToast(getActivity(),"没有和公司关联", Toast.LENGTH_LONG);
+//                    return;
+//                }
+//                if(new SharedPreferencesUtil(getActivity()).isUidEmpty() == true ){
+//                    ToastUtil.showToast(getActivity(),"没有和当前用户关联", Toast.LENGTH_LONG);
+//                    return;
+//                }
                 Intent it = new Intent(getActivity(),MembersManageActivity.class);
                 startActivity(it);
             }
@@ -55,6 +76,14 @@ public class EnterpriseFragment extends Fragment {
         dmb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                if(new SharedPreferencesUtil(getActivity()).isCidEmpty() == true ){
+//                    ToastUtil.showToast(getActivity(),"没有和公司关联", Toast.LENGTH_LONG);
+//                    return;
+//                }
+//                if(new SharedPreferencesUtil(getActivity()).isUidEmpty() == true ){
+//                    ToastUtil.showToast(getActivity(),"没有和当前用户关联", Toast.LENGTH_LONG);
+//                    return;
+//                }
                 Intent it = new Intent(getActivity(),DepartmentsManageActivity.class);
                 startActivity(it);
             }
@@ -62,6 +91,14 @@ public class EnterpriseFragment extends Fragment {
         apb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                if(new SharedPreferencesUtil(getActivity()).isCidEmpty() == true ){
+//                    ToastUtil.showToast(getActivity(),"没有和公司关联", Toast.LENGTH_LONG);
+//                    return;
+//                }
+//                if(new SharedPreferencesUtil(getActivity()).isUidEmpty() == true ){
+//                    ToastUtil.showToast(getActivity(),"没有和当前用户关联", Toast.LENGTH_LONG);
+//                    return;
+//                }
                 Intent it = new Intent(getActivity(),ApproveProcedureManageActivity.class);
                 startActivity(it);
             }
@@ -69,6 +106,14 @@ public class EnterpriseFragment extends Fragment {
         pmb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                if(new SharedPreferencesUtil(getActivity()).isCidEmpty() == true ){
+//                    ToastUtil.showToast(getActivity(),"没有和公司关联", Toast.LENGTH_LONG);
+//                    return;
+//                }
+//                if(new SharedPreferencesUtil(getActivity()).isUidEmpty() == true ){
+//                    ToastUtil.showToast(getActivity(),"没有和当前用户关联", Toast.LENGTH_LONG);
+//                    return;
+//                }
                 Intent it = new Intent(getActivity(),ProjectsManagerActivity.class);
                 startActivity(it);
             }

@@ -10,13 +10,14 @@ import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.sas.rh.reimbursehelper.Entity.MemberDetailInfoEntity;
 import com.sas.rh.reimbursehelper.R;
 
 public class SortGroupMemberAdapter extends BaseAdapter implements SectionIndexer {
-	private List<GroupMemberBean> list = null;
+	private List<MemberDetailInfoEntity> list = null;
 	private Context mContext;
 
-	public SortGroupMemberAdapter(Context mContext, List<GroupMemberBean> list) {
+	public SortGroupMemberAdapter(Context mContext, List<MemberDetailInfoEntity> list) {
 		this.mContext = mContext;
 		this.list = list;
 	}
@@ -26,7 +27,7 @@ public class SortGroupMemberAdapter extends BaseAdapter implements SectionIndexe
 	 * 
 	 * @param list
 	 */
-	public void updateListView(List<GroupMemberBean> list) {
+	public void updateListView(List<MemberDetailInfoEntity> list) {
 		this.list = list;
 		notifyDataSetChanged();
 	}
@@ -45,7 +46,7 @@ public class SortGroupMemberAdapter extends BaseAdapter implements SectionIndexe
 
 	public View getView(final int position, View view, ViewGroup arg2) {
 		ViewHolder viewHolder = null;
-		final GroupMemberBean mContent = list.get(position);
+		final MemberDetailInfoEntity mContent = list.get(position);
 		if (view == null) {
 			viewHolder = new ViewHolder();
 			view = LayoutInflater.from(mContext).inflate(R.layout.item_group_member, null);
@@ -67,7 +68,7 @@ public class SortGroupMemberAdapter extends BaseAdapter implements SectionIndexe
 			viewHolder.tvLetter.setVisibility(View.GONE);
 		}
 
-		viewHolder.tvTitle.setText(this.list.get(position).getName());
+		viewHolder.tvTitle.setText(this.list.get(position).getMember_name());
 
 		return view;
 

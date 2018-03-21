@@ -1,5 +1,7 @@
 package com.sas.rh.reimbursehelper.Sortlist;
 
+import com.sas.rh.reimbursehelper.Entity.MemberDetailInfoEntity;
+
 import java.util.Comparator;
 
 /**
@@ -7,9 +9,9 @@ import java.util.Comparator;
  * @author xiaanming
  *
  */
-public class PinyinComparator implements Comparator<GroupMemberBean> {
+public class PinyinComparator implements Comparator<MemberDetailInfoEntity> {
 
-	public int compare(GroupMemberBean o1, GroupMemberBean o2) {
+	public int compare(MemberDetailInfoEntity o1, MemberDetailInfoEntity o2) {
 		if (o1.getSortLetters().equals("@")
 				|| o2.getSortLetters().equals("#")) {
 			return -1;

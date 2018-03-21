@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFF"
-    tools:context="com.sas.rh.reimbursehelper.DepartmentsManageAddItemActivity">
+    tools:context="com.sas.rh.reimbursehelper.view.activity.DepartmentsManageAddItemActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -125,15 +125,19 @@
                 android:background="#CCC"
                 android:orientation="horizontal"></LinearLayout>
 
+            <!--报销事由-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView38"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:textColor="#AAA"
                     android:text="报销事由" />
 
@@ -144,6 +148,46 @@
                     android:textColor="#000"
                     android:text="" />
             </LinearLayout>
+
+            <!--分割线-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCC"
+                android:orientation="horizontal"></LinearLayout>
+
+            <!--分割线-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="#EEE"
+                android:orientation="horizontal"></LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEE"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#0E0"
+                    android:textColor="#FFF"
+                    android:textStyle="bold"
+                    android:text="日常报销（项消费）"/>
+
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/test_recycler_view2"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:background="#EEE"/>
 
 
         </LinearLayout>

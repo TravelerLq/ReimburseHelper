@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000"
+    >
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="URL" android:layout_marginRight="7dp"/>
+        <EditText android:layout_width="200dp" android:layout_height="20dp"
+            android:background="@drawable/background_dialog_input" android:textColor="@color/white"
+            android:id="@+id/url" android:singleLine="true"  android:text=""
+            android:textSize="@dimen/text_size_normal" android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="手机号码" android:layout_marginRight="7dp"/>
+        <EditText android:layout_width="200dp" android:layout_height="20dp"
+            android:background="@drawable/background_dialog_input" android:textColor="@color/white"
+            android:id="@+id/telephone" android:singleLine="true"
+            android:textSize="@dimen/text_size_normal" android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="验证码" android:layout_marginRight="7dp"/>
+        <EditText android:layout_width="200dp" android:layout_height="20dp"
+            android:background="@drawable/background_dialog_input" android:textColor="@color/white"
+            android:id="@+id/vcode" android:singleLine="true"
+            android:textSize="@dimen/text_size_normal" android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="姓名" android:layout_marginRight="7dp"/>
+        <EditText android:layout_width="200dp" android:layout_height="20dp"
+            android:background="@drawable/background_dialog_input" android:textColor="@color/white"
+            android:id="@+id/realname" android:singleLine="true"
+            android:textSize="@dimen/text_size_normal" android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="身份证号" android:layout_marginRight="7dp"/>
+        <EditText android:layout_width="200dp" android:layout_height="20dp"
+            android:background="@drawable/background_dialog_input" android:textColor="@color/white"
+            android:id="@+id/idno" android:singleLine="true"
+            android:textSize="@dimen/text_size_normal" android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="签发ID" android:layout_marginRight="7dp"/>
+        <EditText android:layout_width="200dp" android:layout_height="20dp"
+            android:background="@drawable/background_dialog_input" android:textColor="@color/white"
+            android:id="@+id/issueId" android:singleLine="true"
+            android:textSize="@dimen/text_size_normal" android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="算法" android:layout_marginRight="7dp"/>
+        <EditText android:layout_width="200dp" android:layout_height="20dp"
+            android:background="@drawable/background_dialog_input" android:textColor="@color/white"
+            android:id="@+id/algorithm" android:singleLine="true"
+            android:textSize="@dimen/text_size_normal" android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="主题" android:layout_marginRight="7dp"/>
+        <EditText android:layout_width="200dp" android:layout_height="20dp"
+            android:background="@drawable/background_dialog_input" android:textColor="@color/white"
+            android:id="@+id/subject" android:singleLine="true"
+            android:textSize="@dimen/text_size_normal" android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="扩展属性" android:layout_marginRight="7dp"/>
+        <EditText android:layout_width="200dp" android:layout_height="20dp"
+            android:background="@drawable/background_dialog_input" android:textColor="@color/white"
+            android:id="@+id/extention" android:singleLine="true"
+            android:textSize="@dimen/text_size_normal" android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="签名证书" android:layout_marginRight="7dp"/>
+        <EditText android:layout_width="200dp" android:layout_height="20dp"
+            android:background="@drawable/background_dialog_input" android:textColor="@color/white"
+            android:id="@+id/signatureCert" android:singleLine="true"
+            android:textSize="@dimen/text_size_normal" android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="加密证书" android:layout_marginRight="7dp"/>
+        <EditText android:layout_width="200dp" android:layout_height="20dp"
+            android:background="@drawable/background_dialog_input" android:textColor="@color/white"
+            android:id="@+id/encryptionCert" android:singleLine="true"
+            android:textSize="@dimen/text_size_normal" android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="证书有效期" android:layout_marginRight="7dp"/>
+        <EditText android:layout_width="200dp" android:layout_height="20dp"
+            android:background="@drawable/background_dialog_input" android:textColor="@color/white"
+            android:id="@+id/certValidate" android:singleLine="true"
+            android:textSize="@dimen/text_size_normal" android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+
+
+        <!--<Button android:layout_width="fill_parent" android:layout_height="30dp"-->
+        <!--android:textSize="@dimen/text_size_normal" android:textColor="@color/white"-->
+        <!--android:text="注册证书" android:id="@+id/register"-->
+        <!--android:background="@drawable/button_reg_reg"   android:layout_weight="1"-->
+        <!--android:layout_margin="10dp"/>-->
+
+        <Button android:layout_width="fill_parent" android:layout_height="30dp"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="接口注册" android:id="@+id/interfaceRegister"
+            android:background="@drawable/button_reg_reg"   android:layout_weight="1"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+
+        <Button android:layout_width="fill_parent" android:layout_height="30dp"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="签发证书" android:id="@+id/signCert"
+            android:background="@drawable/button_reg_reg"   android:layout_weight="1"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+
+
+        <Button android:layout_width="fill_parent" android:layout_height="30dp"
+            android:textSize="@dimen/text_size_normal" android:textColor="@color/white"
+            android:text="延期证书" android:id="@+id/delay"
+            android:background="@drawable/button_reg_reg"   android:layout_weight="1"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+
+</LinearLayout>
+

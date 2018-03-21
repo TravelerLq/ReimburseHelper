@@ -29,6 +29,13 @@ import com.sas.rh.reimbursehelper.Entity.BaoxiaoContentEntity;
 import com.sas.rh.reimbursehelper.RecyclerviewWithCheckbox.DividerItemDecoration;
 import com.sas.rh.reimbursehelper.RecyclerviewWithCheckbox.MineRadioAdapter;
 import com.sas.rh.reimbursehelper.Util.DataHelper;
+import com.sas.rh.reimbursehelper.view.activity.AddBaoxiaojizhuActivity;
+import com.sas.rh.reimbursehelper.view.activity.AddExpenseActivity;
+import com.sas.rh.reimbursehelper.view.activity.MyApprovalActivity;
+import com.sas.rh.reimbursehelper.view.activity.MyFeeActivity;
+import com.sas.rh.reimbursehelper.view.activity.MyReimburseActivity;
+import com.sas.rh.reimbursehelper.view.activity.PersonalDetailActivity;
+import com.sas.rh.reimbursehelper.view.activity.ReimburseBillCreateActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -70,6 +77,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
     private boolean editorStatus = false;
     private int index = 0;
     private TextView mybxbt,myspbt,myfybt;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,7 +141,8 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         addbxnrbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
+              //  Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
+                Intent it = new Intent(getActivity(),AddExpenseActivity.class);
                 it.putExtra("rcode",1);
                 startActivityForResult(it,1);
             }
@@ -196,7 +205,8 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         mRadioAdapter.setOnItemClickListener(new MineRadioAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int pos, List<BaoxiaoContentEntity> myLiveList) {
-                Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
+               // Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
+                Intent it = new Intent(getActivity(),AddExpenseActivity.class);
                 it.putExtra("rcode",2);
                 it.putExtra("biiid",myLiveList.get(pos).getBxid());
                 startActivityForResult(it,2);
@@ -401,7 +411,8 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
             mRadioAdapter.setOnItemClickListener(new MineRadioAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClickListener(int pos, List<BaoxiaoContentEntity> myLiveList) {
-                    Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
+                  //  Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
+                    Intent it = new Intent(getActivity(),AddExpenseActivity.class);
                     it.putExtra("rcode",2);
                     it.putExtra("biiid",myLiveList.get(pos).getBxid());
                     startActivityForResult(it,2);
