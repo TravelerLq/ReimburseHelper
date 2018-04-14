@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sas.rh.reimbursehelper.Entity.ApproveConfigItemEntity;
+import com.sas.rh.reimbursehelper.Bean.ApproveConfigItemEntity;
 import com.sas.rh.reimbursehelper.NetUtil.ShlcUtils;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;

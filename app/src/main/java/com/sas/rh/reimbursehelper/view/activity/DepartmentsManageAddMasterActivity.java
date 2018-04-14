@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
-import com.sas.rh.reimbursehelper.Entity.PersonnameAndHeadimageEntity;
+import com.sas.rh.reimbursehelper.Bean.PersonnameAndHeadimageEntity;
 import com.sas.rh.reimbursehelper.R;
 
 import java.util.ArrayList;

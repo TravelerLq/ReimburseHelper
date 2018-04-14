@@ -10,115 +10,125 @@ import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.sas.rh.reimbursehelper.Entity.MemberDetailInfoEntity;
+import com.sas.rh.reimbursehelper.Bean.UserBean;
 import com.sas.rh.reimbursehelper.R;
 
 public class SortGroupMemberAdapter extends BaseAdapter implements SectionIndexer {
-	private List<MemberDetailInfoEntity> list = null;
-	private Context mContext;
+    private List<UserBean> list = null;
+    private Context mContext;
 
-	public SortGroupMemberAdapter(Context mContext, List<MemberDetailInfoEntity> list) {
-		this.mContext = mContext;
-		this.list = list;
-	}
+    public SortGroupMemberAdapter(Context mContext, List<UserBean> list) {
+        this.mContext = mContext;
+        this.list = list;
+    }
 
-	/**
-	 * ��ListView���ݷ����仯ʱ,���ô˷���������ListView
-	 * 
-	 * @param list
-	 */
-	public void updateListView(List<MemberDetailInfoEntity> list) {
-		this.list = list;
-		notifyDataSetChanged();
-	}
+    /**
+     * ��ListView���ݷ����仯ʱ,���ô˷���������ListView
+     *
+     * @param list
+     */
+    public void updateListView(List<UserBean> list) {
+        this.list = list;
+        notifyDataSetChanged();
+    }
 
-	public int getCount() {
-		return this.list.size();
-	}
+    public int getCount() {
+        return this.list.size();
+    }
 
-	public Object getItem(int position) {
-		return list.get(position);
-	}
+    public Object getItem(int position) {
+        return list.get(position);
+    }
 
-	public long getItemId(int position) {
-		return position;
-	}
+    public long getItemId(int position) {
+        return position;
+    }
 
-	public View getView(final int position, View view, ViewGroup arg2) {
-		ViewHolder viewHolder = null;
-		final MemberDetailInfoEntity mContent = list.get(position);
-		if (view == null) {
-			viewHolder = new ViewHolder();
-			view = LayoutInflater.from(mContext).inflate(R.layout.item_group_member, null);
-			viewHolder.tvTitle = (TextView) view.findViewById(R.id.title);
-			viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
-			view.setTag(viewHolder);
-		} else {
-			viewHolder = (ViewHolder) view.getTag();
-		}
+    public View getView(final int position, View view, ViewGroup arg2) {
+        ViewHolder viewHolder = null;
+        final UserBean mContent = list.get(position);
+        if (view == null) {
+            viewHolder = new ViewHolder();
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_group_member, null);
+            viewHolder.tvTitle = (TextView) view.findViewById(R.id.title);
+            viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
+            view.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
+        }
 
-		// ����position��ȡ���������ĸ��Char asciiֵ
-		int section = getSectionForPosition(position);
+        // ����position��ȡ���������ĸ��Char asciiֵ
+        int section = getSectionForPosition(position);
 
-		// �����ǰλ�õ��ڸ÷�������ĸ��Char��λ�� ������Ϊ�ǵ�һ�γ���
-		if (position == getPositionForSection(section)) {
-			viewHolder.tvLetter.setVisibility(View.VISIBLE);
-			viewHolder.tvLetter.setText(mContent.getSortLetters());
-		} else {
-			viewHolder.tvLetter.setVisibility(View.GONE);
-		}
+        // �����ǰλ�õ��ڸ÷�������ĸ��Char��λ�� ������Ϊ�ǵ�һ�γ���
+        if (position == getPositionForSection(section)) {
+            viewHolder.tvLetter.setVisibility(View.VISIBLE);
 
-		viewHolder.tvTitle.setText(this.list.get(position).getMember_name());
+        } else {
+            viewHolder.tvLetter.setVisibility(View.GONE);
+        }
 
-		return view;
+        viewHolder.tvTitle.setText(this.list.get(position).getName());
 
-	}
+        return view;
 
-	final static class ViewHolder {
-		TextView tvLetter;
-		TextView tvTitle;
-	}
+    }
 
-	/**
-	 * ����ListView�ĵ�ǰλ�û�ȡ���������ĸ��Char asciiֵ
-	 */
-	public int getSectionForPosition(int position) {
-		return list.get(position).getSortLetters().charAt(0);
-	}
+    final static class ViewHolder {
+        TextView tvLetter;
+        TextView tvTitle;
+    }
 
-	/**
-	 * ���ݷ��������ĸ��Char asciiֵ��ȡ���һ�γ��ָ�����ĸ��λ��
-	 */
-	public int getPositionForSection(int section) {
-		for (int i = 0; i < getCount(); i++) {
-			String sortStr = list.get(i).getSortLetters();
-			char firstChar = sortStr.toUpperCase().charAt(0);
-			if (firstChar == section) {
-				return i;
-			}
-		}
+    /**
+     * ����ListView�ĵ�ǰλ�û�ȡ���������ĸ��Char asciiֵ
+     */
+//	public int getSectionForPosition(int position) {
+//		return list.get(position).getSortLetters().charAt(0);
+//	}
+//
+//	/**
+//	 * ���ݷ��������ĸ��Char asciiֵ��ȡ���һ�γ��ָ�����ĸ��λ��
+//	 */
+//	public int getPositionForSection(int section) {
+//		for (int i = 0; i < getCount(); i++) {
+//			String sortStr = list.get(i).getSortLetters();
+//			char firstChar = sortStr.toUpperCase().charAt(0);
+//			if (firstChar == section) {
+//				return i;
+//			}
+//		}
+//
+//		return -1;
+//	}
 
-		return -1;
-	}
+    /**
+     * ��ȡӢ�ĵ�����ĸ����Ӣ����ĸ��#���档
+     *
+     * @param str
+     * @return
+     */
+    private String getAlpha(String str) {
+        String sortStr = str.trim().substring(0, 1).toUpperCase();
+        // ������ʽ���ж�����ĸ�Ƿ���Ӣ����ĸ
+        if (sortStr.matches("[A-Z]")) {
+            return sortStr;
+        } else {
+            return "#";
+        }
+    }
 
-	/**
-	 * ��ȡӢ�ĵ�����ĸ����Ӣ����ĸ��#���档
-	 * 
-	 * @param str
-	 * @return
-	 */
-	private String getAlpha(String str) {
-		String sortStr = str.trim().substring(0, 1).toUpperCase();
-		// ������ʽ���ж�����ĸ�Ƿ���Ӣ����ĸ
-		if (sortStr.matches("[A-Z]")) {
-			return sortStr;
-		} else {
-			return "#";
-		}
-	}
+    @Override
+    public Object[] getSections() {
+        return null;
+    }
 
-	@Override
-	public Object[] getSections() {
-		return null;
-	}
+    @Override
+    public int getPositionForSection(int i) {
+        return 0;
+    }
+
+    @Override
+    public int getSectionForPosition(int i) {
+        return 0;
+    }
 }

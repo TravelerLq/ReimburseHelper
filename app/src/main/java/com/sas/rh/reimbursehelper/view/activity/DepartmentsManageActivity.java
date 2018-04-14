@@ -24,7 +24,7 @@ import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.sas.rh.reimbursehelper.NetworkUtil.DepartmentUtil;
-import com.sas.rh.reimbursehelper.Entity.ReimbursementDepartment;
+import com.sas.rh.reimbursehelper.Bean.ReimbursementDepartment;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.RecyclerviewWithCheckbox.DividerItemDecoration;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
@@ -45,27 +45,27 @@ public class DepartmentsManageActivity extends AppCompatActivity {
     private DepartmentsManageActivity.RecyclerAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     Handler handler = new Handler();
-    private ImageView add_departmentitem,backbt;
+    private ImageView add_departmentitem, backbt;
     int page = 0;
-    private ProgressDialogUtil pdu =new ProgressDialogUtil(DepartmentsManageActivity.this,"提示","提交更改中");
+    private ProgressDialogUtil pdu = new ProgressDialogUtil(DepartmentsManageActivity.this, "提示", "提交更改中");
     String department_id;
     private SharedPreferencesUtil spu;
     private JSONArray departmentlist;
     private JSONObject deapetmentlist;
     private JSONObject deapetmentalterrs;
-    private Handler deapetmentlistback = new Handler(){
+    private Handler deapetmentlistback = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
             ptrClassicFrameLayout.refreshComplete();
             ptrClassicFrameLayout.setLoadMoreEnable(false);
-            if(pdu.getMypDialog() != null){
+            if (pdu.getMypDialog() != null) {
                 pdu.dismisspd();
             }
-            if(msg.what == 1){
+            if (msg.what == 1) {
 //                    System.out.println("ResultCode:" + jsonresult.get("ResultCode") + "\t" + "HostTime:"
 //            + jsonresult.get("HostTime") + "\t" + "Note:" + jsonresult.get("Note"));
                 mData.clear();
-                if (departmentlist!= null ) {
+                if (departmentlist != null) {
                     mData = JSONArray.parseArray(departmentlist.toJSONString(), ReimbursementDepartment.class);
 
                     //System.out.print("resultList:");
@@ -82,14 +82,14 @@ public class DepartmentsManageActivity extends AppCompatActivity {
 //                    }
                 }
                 mAdapter.notifyDataSetChanged();
-                ToastUtil.showToast(DepartmentsManageActivity.this,"加载完毕", Toast.LENGTH_LONG);
+                ToastUtil.showToast(DepartmentsManageActivity.this, "加载完毕", Toast.LENGTH_LONG);
 
-            }else if(msg.what == 2){
+            } else if (msg.what == 2) {
                 //ToastUtil.showToast(DepartmentsManageActivity.this,deapetmentlist.get("HostTime")+":"+deapetmentlist.get("ResultCode").toString(), Toast.LENGTH_LONG);
-            }else if(msg.what == 0){
-                ToastUtil.showToast(DepartmentsManageActivity.this,"通信异常，请检查网络连接！", Toast.LENGTH_LONG);
-            }else if(msg.what == -1){
-                ToastUtil.showToast(DepartmentsManageActivity.this,"通信模块异常！", Toast.LENGTH_LONG);
+            } else if (msg.what == 0) {
+                ToastUtil.showToast(DepartmentsManageActivity.this, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
+            } else if (msg.what == -1) {
+                ToastUtil.showToast(DepartmentsManageActivity.this, "通信模块异常！", Toast.LENGTH_LONG);
             }
         }
 
@@ -102,12 +102,12 @@ public class DepartmentsManageActivity extends AppCompatActivity {
         ptrClassicFrameLayout = (PtrClassicFrameLayout) findViewById(R.id.department_recycler_view_frame);
         mRecyclerView = (RecyclerView) findViewById(R.id.department_recycler_view);
         add_departmentitem = (ImageView) findViewById(R.id.add_departmentitem);
-        backbt = (ImageView)findViewById(R.id.backbt);
+        backbt = (ImageView) findViewById(R.id.backbt);
         spu = new SharedPreferencesUtil(DepartmentsManageActivity.this);
         add_departmentitem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(DepartmentsManageActivity.this,DepartmentsManageAddItemActivity.class);
+                Intent it = new Intent(DepartmentsManageActivity.this, DepartmentsManageAddItemActivity.class);
                 startActivity(it);
             }
         });
@@ -175,11 +175,11 @@ public class DepartmentsManageActivity extends AppCompatActivity {
                 public boolean onLongClick(View view) {
                     new AlertDialog.Builder(DepartmentsManageActivity.this)
                             .setMessage("确定删除该项？")
-                            .setNegativeButton("取消",null)
+                            .setNegativeButton("取消", null)
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    department_id = ""+mData.get(position).getDepartmentId();
+                                    department_id = "" + mData.get(position).getDepartmentId();
                                     DeleteSubject();
                                 }
                             }).show();
@@ -190,7 +190,7 @@ public class DepartmentsManageActivity extends AppCompatActivity {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewHolder, int position) {
-            View view = inflater.inflate(R.layout.item_departmentsmanage_list, viewHolder,false);
+            View view = inflater.inflate(R.layout.item_departmentsmanage_list, viewHolder, false);
             return new DepartmentsManageActivity.ChildViewHolder(view);
         }
 
@@ -203,18 +203,18 @@ public class DepartmentsManageActivity extends AppCompatActivity {
         public ChildViewHolder(View view) {
             super(view);
             itemTv = (TextView) view.findViewById(R.id.itemTv);
-            toggleBtn = (ToggleButton)view.findViewById(R.id.togglebutton) ;
+            toggleBtn = (ToggleButton) view.findViewById(R.id.togglebutton);
         }
 
     }
 
-    private void GetallDepartmentInfo(){
+    private void GetallDepartmentInfo() {
 
         new Thread(GetDepartmentInfoThread).start();
     }
 
 
-    private void DeleteSubject(){
+    private void DeleteSubject() {
         pdu.showpd();
         new Thread(DeleteDepartmentThread).start();
     }
@@ -224,15 +224,15 @@ public class DepartmentsManageActivity extends AppCompatActivity {
         public void run() {
             // TODO Auto-generated method stub
 
-            try{
-                JSONArray jo = DepartmentUtil.selectDepartment(spu.getCidNum(),spu.getDidNum());
-                if(jo != null){
+            try {
+                JSONArray jo = DepartmentUtil.selectDepartment(spu.getDidNum());
+                if (jo != null) {
                     departmentlist = jo;
                     deapetmentlistback.sendEmptyMessage(1);
-                }else{
+                } else {
                     deapetmentlistback.sendEmptyMessage(0);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 deapetmentlistback.sendEmptyMessage(-1);
                 e.printStackTrace();
             }
@@ -246,15 +246,15 @@ public class DepartmentsManageActivity extends AppCompatActivity {
         public void run() {
             // TODO Auto-generated method stub
 
-            try{
-                JSONObject jo = new DepartmentUtil().deleteDepartment(spu.getDidNum(),spu.getUidNum());
-                if(jo != null){
+            try {
+                JSONObject jo = new DepartmentUtil().deleteDepartment(spu.getDidNum(), spu.getUidNum());
+                if (jo != null) {
                     deapetmentlist = jo;
                     deapetmentlistback.sendEmptyMessage(2);
-                }else{
+                } else {
                     deapetmentlistback.sendEmptyMessage(0);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 deapetmentlistback.sendEmptyMessage(-1);
                 e.printStackTrace();
             }

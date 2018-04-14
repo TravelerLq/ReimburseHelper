@@ -1,0 +1,9 @@
+cn.unitid.spark.cm.sdk.activity
+cn.unitid.spark.cm.sdk.adapter
+cn.unitid.spark.cm.sdk.business
+cn.unitid.spark.cm.sdk.common
+cn.unitid.spark.cm.sdk.data.entity
+cn.unitid.spark.cm.sdk.data.response
+cn.unitid.spark.cm.sdk.exception
+cn.unitid.spark.cm.sdk.listener
+cn.unitid.spark.cm.sdk.ui

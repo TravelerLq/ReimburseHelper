@@ -67,7 +67,6 @@
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/textVwi请3问28"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -187,7 +186,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textVwi请问28"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -196,7 +194,7 @@
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/textVwi请3问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -225,7 +223,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textVwi请问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -234,7 +232,7 @@
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/textVwi请3问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -303,7 +301,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textVwi请问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -312,7 +310,7 @@
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/textVwi请3问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -357,7 +355,7 @@
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/textVwi请3问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -394,7 +392,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textVwi请问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -403,7 +401,7 @@
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/textVwi请3问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -439,7 +437,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textVwi请问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -448,7 +446,7 @@
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/textVwi请3问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -485,7 +483,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textVwi请问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -494,7 +492,7 @@
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/textVwi请3问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -531,7 +529,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textVwi请问28"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -540,7 +538,7 @@
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/textVwi请3问28"
+                    android:id="@+id/tv_star"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -595,7 +593,7 @@
             android:textColor="#FFF"
             android:layout_centerInParent="true"
             android:textSize="18dp"
-            android:text="编辑信息" />
+            android:text="@string/register" />
 
     </LinearLayout>
 

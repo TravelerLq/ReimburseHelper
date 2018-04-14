@@ -1,189 +1,158 @@
 package com.sas.rh.reimbursehelper.view.activity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sas.rh.reimbursehelper.Entity.DepartmentDetailInfo;
-import com.sas.rh.reimbursehelper.NetUtil.BumenUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.sas.rh.reimbursehelper.Adapter.ApprovalFormRecycleAdapter;
+import com.sas.rh.reimbursehelper.Adapter.ApprovalProducerAdapter;
+import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
+import com.sas.rh.reimbursehelper.Bean.ApproveNum;
+import com.sas.rh.reimbursehelper.NetworkUtil.ApproveNumUtil;
 import com.sas.rh.reimbursehelper.R;
-import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
+import com.sas.rh.reimbursehelper.Util.Loger;
+import com.sas.rh.reimbursehelper.Util.TimePickerUtils;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.sas.rh.reimbursehelper.Util.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class ApproveProcedureManageActivity extends AppCompatActivity {
+public class ApproveProcedureManageActivity extends BaseActivity {
+    private static final int REQUEST_PERSON_CODE = 111;
 
-    private ImageView backbt;
-    private RecyclerView approve_recycler_view;
-    private HomeAdapter mAdapter;
-    private List<DepartmentDetailInfo> mList = new ArrayList<DepartmentDetailInfo>();
-    private int count = 0;
-    private ProgressDialogUtil pdu =new ProgressDialogUtil(ApproveProcedureManageActivity.this,"提示","提交更改中");
-    String department_id;
-    private JSONObject deapetmentlist;
-    private JSONObject deapetmentalterrs;
-    private Handler deapetmentlistback = new Handler(){
+    private List<ApproveNum> list;
+    private RecyclerView recyclerView;
+    private ImageView ivAdd;
+    private ImageView ivBack;
+    private TextView tvTitle;
+    private int userId;
+    private JSONArray jsonobj;
+    private int approvalId;
+    private SharedPreferencesUtil sharedPreferencesUtil;
+    private ApprovalProducerAdapter approvalProducerAdapter;
+    private JSONArray jsonArray;
+    private Handler myHandler = new Handler() {
         @Override
-        public void handleMessage(android.os.Message msg) {
-            if(pdu.getMypDialog() != null){
-                pdu.dismisspd();
-            }
-            if(msg.what == 1){
-//                    System.out.println("ResultCode:" + jsonresult.get("ResultCode") + "\t" + "HostTime:"
-//            + jsonresult.get("HostTime") + "\t" + "Note:" + jsonresult.get("Note"));
-                mList.clear();
-                if (deapetmentlist.get("resultList")!= null) {
-                    //System.out.print("resultList:");
-                    JSONArray jsonArray = deapetmentlist.getJSONArray("resultList");
-                    for (Object object : jsonArray) {
-                        JSONObject jObject = JSONObject.fromObject(object);
-                        DepartmentDetailInfo dma = new DepartmentDetailInfo();
-                        dma.setDepartment_name(jObject.get("bmName").toString());
-                        dma.setDepartment_id(jObject.get("bmId").toString());
-                        dma.setDepartment_gsid(jObject.get("gongsiId").toString());
-                        dma.setDepartment_state(jObject.get("isOpen").toString());
-                        mList.add(dma);
-                        //System.out.println(jObject);
-                    }
-                }
-                mAdapter.notifyDataSetChanged();
-                ToastUtil.showToast(ApproveProcedureManageActivity.this,deapetmentlist.get("HostTime")+":"+deapetmentlist.get("Note").toString(), Toast.LENGTH_LONG);
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 1) {
 
-            }else if(msg.what == 2){
-                ToastUtil.showToast(ApproveProcedureManageActivity.this,deapetmentlist.get("HostTime")+":"+deapetmentlist.get("ResultCode").toString(), Toast.LENGTH_LONG);
-            }else if(msg.what == 0){
-                ToastUtil.showToast(ApproveProcedureManageActivity.this,"通信异常，请检查网络连接！", Toast.LENGTH_LONG);
-            }else if(msg.what == -1){
-                ToastUtil.showToast(ApproveProcedureManageActivity.this,"通信模块异常！", Toast.LENGTH_LONG);
+                List<ApproveNum> approveNumList = JSONArray.parseArray(jsonArray.toJSONString(), ApproveNum.class);
+                list.clear();
+                list.addAll(approveNumList);
+                approvalProducerAdapter.notifyDataSetChanged();
+            } else if (msg.what == 0) {
+                ToastUtil.showToast(baseContext, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
+            } else if (msg.what == -1) {
+                ToastUtil.showToast(baseContext, "通信模块异常！", Toast.LENGTH_LONG);
             }
         }
-
     };
+    private LinearLayoutManager bxLayoutManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_approve_procedure_manage);
-        backbt = (ImageView)findViewById(R.id.backbt) ;
-        approve_recycler_view = (RecyclerView)findViewById(R.id.approve_recycler_view) ;
+    protected int getLayoutId() {
+        return R.layout.activity_manager_approval;
+    }
 
+    @Override
+    protected void initData() {
+        recyclerView = (RecyclerView) findViewById(R.id.list_producer);
+        list = new ArrayList<>();
+        ivAdd = (ImageView) findViewById(R.id.iv_add);
+        ivAdd.setVisibility(View.VISIBLE);
+        ivBack = (ImageView) findViewById(R.id.iv_back);
+        tvTitle = (TextView) findViewById(R.id.tv_bar_title);
+        tvTitle.setText("审批序号列表");
+        sharedPreferencesUtil = new SharedPreferencesUtil(ApproveProcedureManageActivity.this);
+        userId = sharedPreferencesUtil.getUidNum();
+        Loger.e("companyId--" + userId);
 
-        //initData();
+        bxLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        approvalProducerAdapter = new ApprovalProducerAdapter(list);
 
-        approve_recycler_view.setLayoutManager(new LinearLayoutManager(this));
+        // 设置布局管理器
+        recyclerView.setLayoutManager(bxLayoutManager);
+        // 设置adapter
+        recyclerView.setAdapter(approvalProducerAdapter);
+    }
 
-        mAdapter = new HomeAdapter();
-        approve_recycler_view.setAdapter(mAdapter);
-        GetAllDepartment();
+    @Override
+    protected void initListeners() {
+        ivAdd.setOnClickListener(this);
+        ivBack.setOnClickListener(this);
+    }
 
-        backbt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_add:
+                toActivity(baseContext, ApproveProcedureAddActivity.class);
+                break;
+            case R.id.iv_back:
                 finish();
-            }
-        });
-    }
-
-//    private void initData() {
-//
-//        mList.add(new ApproveDepartmentEntity("1111111111","技术部","1"));
-//        mList.add(new ApproveDepartmentEntity("2222222222","财务部","1"));
-//        mList.add(new ApproveDepartmentEntity("3333333333","物流部","1"));
-//    }
-
-
-    class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>
-    {
-
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-        {
-            MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
-                    ApproveProcedureManageActivity.this).inflate(R.layout.item_approve_selectdm_list, parent,
-                    false));
-            return holder;
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, final int position)
-        {
-            holder.tv.setText(mList.get(position).getDepartment_name());
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent it =new Intent(ApproveProcedureManageActivity.this,ApproveProcedureManageConfigActivity.class);
-                    it.putExtra("depatment_ID", mList.get(position).getDepartment_id());
-                    it.putExtra("department_Name", mList.get(position).getDepartment_name());
-                    startActivityForResult(it,1);
-                    //System.out.println("*********TEST ECHO********:"+mList.get(position).getDepatment_ID());
-                }
-            });
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-
-                    return false;
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount()
-        {
-            return mList.size();
-        }
-
-        class MyViewHolder extends RecyclerView.ViewHolder
-        {
-
-            TextView tv;
-
-            public MyViewHolder(View view)
-            {
-                super(view);
-                tv = (TextView) view.findViewById(R.id.dm_name);
-            }
+                break;
+            default:
+                break;
         }
     }
 
-    private void GetAllDepartment(){
-        pdu.showpd();
-        new Thread(GetAllDepartmentInfoThread).start();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDataList();
     }
 
-    Runnable GetAllDepartmentInfoThread = new Runnable() {
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    private void getDataList() {
+        new Thread(approvalProduceRunnable).start();
+    }
+
+
+    Runnable approvalProduceRunnable = new Runnable() {
         @Override
         public void run() {
-            // TODO Auto-generated method stub
 
-            try{
-                JSONObject jo = new BumenUtils().queryByGongsiId(1);
-                if(jo != null){
-                    deapetmentlist = jo;
-                    deapetmentlistback.sendEmptyMessage(1);
-                }else{
-                    deapetmentlistback.sendEmptyMessage(0);
+            try {
+                JSONArray jo = ApproveNumUtil.selectAllApproveNum(userId);
+                if (jo != null) {
+                    jsonArray = jo;
+                    //  expenseId = jo.getIntValue("expenseId");
+
+                    //  new Thread(SubmitfileThread).start();
+                    myHandler.sendEmptyMessage(1);
+                } else {
+                    myHandler.sendEmptyMessage(0);
                 }
-            }catch(Exception e){
-                deapetmentlistback.sendEmptyMessage(-1);
+
+            } catch (Exception e) {
+                myHandler.sendEmptyMessage(-1);
                 e.printStackTrace();
             }
         }
 
-    };
 
+    };
 }

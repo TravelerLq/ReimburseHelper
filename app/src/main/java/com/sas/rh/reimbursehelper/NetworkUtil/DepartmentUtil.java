@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import java.util.List;
 
 import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.RootAddress;
+import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.TestAddress;
 
 /**
  * @author tuzhengsong
@@ -21,8 +22,9 @@ public class DepartmentUtil {
 //        selectSingle();
 
     }
+
     //新增一个部门
-    public static JSONObject addDepartment(Integer companyId,String departmentName,Byte reimbursementRightId,Double departmentQuota,Integer userId) {
+    public static JSONObject addDepartment(String departmentName, Byte reimbursementRightId, Double departmentQuota, Integer userId) {
 //        //公司id
 //        Integer companyId = 3;
 //        //部门名字
@@ -34,23 +36,23 @@ public class DepartmentUtil {
 //        //操作者
 //        Integer userId = 1;
 
-        String url = RootAddress+"yuanshensystem/department/add";
+        String url = RootAddress + "yuanshensystem/department/add";
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("companyId", companyId);
+        // jsonObject.put("userId", companyId);
         jsonObject.put("departmentName", departmentName);
         jsonObject.put("reimbursementRightId", reimbursementRightId);
         jsonObject.put("departmentQuota", departmentQuota);
-        jsonObject.put("roleId", userId);
+        jsonObject.put("userId", userId);
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         return reJson;
         //System.out.println(reJson);
     }
 
     //更新一个部门
-    public static JSONObject updateDepartment(Integer departmentId,String departmentName) {
+    public static JSONObject updateDepartment(Integer departmentId, String departmentName) {
 //        Integer departmentId = 13;
 //        String departmentName = "车间管理";
-        String url = RootAddress+"yuanshensystem/department/update";
+        String url = RootAddress + "yuanshensystem/department/update";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("departmentId", departmentId);
         jsonObject.put("departmentName", departmentName);
@@ -60,26 +62,26 @@ public class DepartmentUtil {
     }
 
     //删除一个部门
-    public static JSONObject deleteDepartment(Integer departmentId,Integer userId) {
+    public static JSONObject deleteDepartment(Integer departmentId, Integer userId) {
 //        Integer departmentId = 10;
 //        Integer userId = 1;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("departmentId", departmentId);
         jsonObject.put("userId", userId);
-        String url = RootAddress+"yuanshensystem/department/delete";
+        String url = RootAddress + "yuanshensystem/department/delete";
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         return reJson;
         //System.out.println(reJson);
     }
 
     //查询单个部门
-    public static JSONObject selectSingle(Integer departmentId,Integer userId) {
+    public static JSONObject selectSingle(Integer departmentId, Integer userId) {
 //        Integer departmentId = 11;
 //        Integer userId = 1;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("departmentId", departmentId);
         jsonObject.put("userId", userId);
-        String url = RootAddress+"yuanshensystem/department/select";
+        String url = RootAddress + "yuanshensystem/department/select";
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
 //        String reimbursementDepartmentJson = reJson.getString("reimbursementDepartment");
 //       ReimbursementDepartment reimbursementDepartment = JSON.parseObject(reimbursementDepartmentJson, ReimbursementDepartment.class);
@@ -89,13 +91,12 @@ public class DepartmentUtil {
     }
 
     //查询公司的所有部门
-    public static JSONArray selectDepartment(Integer companyId,Integer userId) {
+    public static JSONArray selectDepartment(Integer userId) {
 //        Integer companyId = 3;
 //        Integer userId = 1;
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("companyId", companyId);
         jsonObject.put("userId", userId);
-        String url = RootAddress+"yuanshensystem/department/selectdeptbycompanyid";
+        String url = RootAddress + "yuanshensystem/department/selectdeptbycompanyid";
         JSONArray jsonArray = JsonUtil.uploadJsonGetJsonArray(url, jsonObject);
         return jsonArray;
 //        List<ReimbursementDepartment> reimbursementDepartmentList = JSONArray.parseArray(jsonArray.toJSONString(), ReimbursementDepartment.class);

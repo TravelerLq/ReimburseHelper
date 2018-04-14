@@ -15,4 +15,24 @@
     <string name="title">My Description</string>
     <string name="context_menu">Context menu</string>
     <string name="remark">请填写报销备注</string>
+    <string name="hint_fee">请填报销金额</string>
+    <string name="select_pic">票据原件照片\n（必选）</string>
+    <string name="submit">提交</string>
+    <string name="finish">完成</string>
+    <string name="approval">审批</string>
+    <string name="rejection_reason">驳回理由</string>
+    <string name="hint_input">请填写审批名称</string>
+    <string name="pass">通过</string>
+    <string name="unpass">不通过</string>
+    <string name="my_pdf_form">生成并查看我的报销单</string>
+    <string name="add_expense_item">新增报销项</string>
+    <string name="approval_name">审批名称</string>
+
+    <string-array name="approval_no">　
+        <item>1</item>　
+        <item>2</item>　　
+        <item>3</item>　　
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>

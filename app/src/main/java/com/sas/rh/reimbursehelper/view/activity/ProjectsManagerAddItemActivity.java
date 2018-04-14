@@ -16,8 +16,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sas.rh.reimbursehelper.Entity.PersonnameAndHeadimageEntity;
-import com.sas.rh.reimbursehelper.Entity.PersonnameAndHeadimageEntitySerializableMap;
+import com.sas.rh.reimbursehelper.Bean.PersonnameAndHeadimageEntity;
+import com.sas.rh.reimbursehelper.Bean.PersonnameAndHeadimageEntitySerializableMap;
 import com.sas.rh.reimbursehelper.NetUtil.BumenUtils;
 import com.sas.rh.reimbursehelper.NetUtil.XiangmuUtils;
 import com.sas.rh.reimbursehelper.R;

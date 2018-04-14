@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_45">
+
+    <TextView
+        android:id="@+id/tv_company_name"
+        android:text="@string/pass"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dimen_15"
+        android:layout_height="@dimen/dimen_43" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:layout_alignParentBottom="true"
+        android:background="@color/stock"/>
+
+</RelativeLayout>

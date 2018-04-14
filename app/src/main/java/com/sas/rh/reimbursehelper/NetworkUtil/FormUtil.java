@@ -1,19 +1,17 @@
 package com.sas.rh.reimbursehelper.NetworkUtil;
 
-import android.util.Log;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sas.rh.reimbursehelper.Entity.DeptCategoryItemVo;
-import com.sas.rh.reimbursehelper.Entity.ExpenseReimbursementForm;
+import com.sas.rh.reimbursehelper.Bean.ExpenseReimbursementForm;
 
 import java.util.List;
 
 import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.RootAddress;
+import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.TestAddress;
 
 public class FormUtil {
-//    public static void main(String[] args) {
+    //    public static void main(String[] args) {
 //        addForm();
 ////          updateForm();
 ////        selectForm();
@@ -23,25 +21,25 @@ public class FormUtil {
 //    }
     private static String bxdid;
 
-    //增加一张新的报销单 即获取的三级报销科目类别
-    public static JSONArray addForm(Integer reimbursementPersonId,String expenseCategoryId) {
+    //增加一张新的报销单
+    public static JSONArray addForm(Integer userId, Byte expenseCategoryId) {
         //报销人id
         //Integer reimbursementPersonId = 1;
         //报销的二级科目id
-  //      Byte expenseCategoryId = 1;
+        //      Byte expenseCategoryId = 1;
 //        Byte expenseCategoryId = 5;
-        //+http://101.200.85.207:8080/yuanshensystem/form/add
-        String url = "http://192.168.1.114:8080/yuanshensystem/form/add";
+
+        String url = RootAddress + "yuanshensystem/form/add";
+        // String url = "http://101.200.85.207:8080/yuanshensystem/form/add";
         //String url = RootAddress+"yuanshensystem/form/add";
         JSONObject jsonObject = new JSONObject();
         //即用户id
-        jsonObject.put("userId", reimbursementPersonId);
+        jsonObject.put("userId", userId);
         //报销的二级科目id
         jsonObject.put("expenseCategoryId", expenseCategoryId);
         JSONArray jsonArray = JsonUtil.uploadJsonGetJsonArray(url, jsonObject);
         JSONObject reJson = jsonArray.getJSONObject(0);
         bxdid = reJson.get("formId").toString();
-        Log.e("thirdCategory","formId="+bxdid);
         return jsonArray;
 //        List<DeptCategoryItemVo> deptCategoryItemVoList =
 //                JSONArray.parseArray(jsonArray.toJSONString(), DeptCategoryItemVo.class);
@@ -50,7 +48,7 @@ public class FormUtil {
 
     }
 
-    public static String getBxdid(){
+    public static String getBxdid() {
         return bxdid;
     }
 
@@ -108,15 +106,16 @@ public class FormUtil {
     }
 
     //获取报销单的pdf
-    public static void getFormPdf() {
-        //报销人id
-        Integer formId = 42;
-        String url = "http://localhost:8080/yuanshensystem/form/getpdf";
+    public static JSONObject getFormPdf(int formid) {
+        //报销人id (42)
+        Integer formId = formid;
+        String url = AddressConfig.RootAddress + "yuanshensystem/form/getpdf";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("formId", formId);
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         //这里得到的是报销单的附件id，根据这个附件id，调用下载文件的方法去下载pdf文件
         Integer annexId = reJson.getInteger("annexId");
         System.out.println(annexId);
+        return reJson;
     }
 }

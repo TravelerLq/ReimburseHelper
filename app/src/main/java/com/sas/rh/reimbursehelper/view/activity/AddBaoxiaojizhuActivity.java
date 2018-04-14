@@ -28,10 +28,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.crashlytics.android.Crashlytics;
 import com.sas.rh.reimbursehelper.Adapter.PhotoAdapter;
 import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
-import com.sas.rh.reimbursehelper.Entity.DeptCategoryItemVo;
-import com.sas.rh.reimbursehelper.Entity.DeptCategoryItemVoExtend;
+import com.sas.rh.reimbursehelper.Bean.DeptCategoryItemVo;
+import com.sas.rh.reimbursehelper.Bean.DeptCategoryItemVoExtend;
 import com.sas.rh.reimbursehelper.Listener.RecyclerItemClickListener;
-import com.sas.rh.reimbursehelper.Entity.SecondCategoryBean;
+import com.sas.rh.reimbursehelper.Bean.SecondCategoryBean;
 import com.sas.rh.reimbursehelper.NetworkUtil.ExpenseCategoryUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.FormUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.SingleReimbursementUtil;
@@ -68,7 +68,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
     private LinearLayout saveandadd,addandback ;
     private int requestcode = 0;
     private List<DeptCategoryItemVoExtend> ERFormList;
-    private String expenseCategoryId;
+    private Byte expenseCategoryId;
     private JSONArray jsonresult;
     private JSONObject jsonobj;
     private int upamount = 0;
@@ -351,7 +351,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
             // TODO Auto-generated method stub
 
             try{
-                JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(expenseItem,expenseCategory,formId,amount,remark);
+                JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(spu.getUidNum(),expenseItem,expenseCategory,formId,amount,remark);
                 if(jo != null){
                     jsonobj = jo;
                     expenseCategoryback.sendEmptyMessage(3);

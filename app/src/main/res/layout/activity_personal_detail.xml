@@ -78,7 +78,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView29"
+                        android:id="@+id/tv_real_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="#000"
@@ -86,7 +86,7 @@
                         android:text="姓名" />
 
                     <TextView
-                        android:id="@+id/textView17"
+                        android:id="@+id/tv_tel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="电话号码" />
@@ -98,7 +98,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                     android:gravity="center"
-                    android:text="个人资料" />
+                    android:text="个人资料"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -119,7 +120,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:id="@+id/iv_about"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="20dp"
@@ -129,7 +130,7 @@
                     app:srcCompat="@mipmap/user_help" />
 
                 <TextView
-                    android:id="@+id/textView30"
+                    android:id="@+id/tv_about"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -156,7 +157,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:id="@+id/iv_problem"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="20dp"
@@ -230,7 +231,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView5"
+
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="20dp"
@@ -240,13 +241,45 @@
                     app:srcCompat="@mipmap/about_us2" />
 
                 <TextView
-                    android:id="@+id/textVw30"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#000"
                     android:textSize="16sp"
                     android:text="关于我们" />
+
+            </LinearLayout>
+
+           <!--注销-->
+            <LinearLayout
+                android:id="@+id/ll_log_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="#FFF"
+                android:orientation="horizontal">
+
+                <ImageView
+
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    app:srcCompat="@mipmap/about_us2" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:text="注销" />
 
             </LinearLayout>
 

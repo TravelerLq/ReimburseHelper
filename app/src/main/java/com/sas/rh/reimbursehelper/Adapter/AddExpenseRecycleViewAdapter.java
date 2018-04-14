@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.sas.rh.reimbursehelper.Entity.ExpenseItemBean;
+import com.sas.rh.reimbursehelper.Bean.ExpenseItemBean;
 import com.sas.rh.reimbursehelper.R;
 
 import java.io.File;

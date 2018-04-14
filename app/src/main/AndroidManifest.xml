@@ -14,8 +14,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <!--android:theme="@style/AppTheme"-->
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -51,7 +52,7 @@
         <activity android:name=".view.activity.MyFeeActivity" />
         <activity android:name=".view.activity.ReimburseBillCreateActivity" />
         <activity android:name=".view.activity.MyApprovalDetailActivity" />
-        <activity android:name=".view.activity.ApproveProcedureManageActivity" />
+        <activity android:name=".view.activity.ApproveProcedureAddActivity" />
         <activity android:name=".view.activity.ApproveProcedureManageConfigActivity" />
         <activity android:name=".view.activity.ApproveProcedureManageConfigAddApproverActivity" />
         <activity
@@ -70,6 +71,20 @@
         <activity android:name=".view.activity.RegistPageActivity" />
         <activity android:name=".view.activity.RegFirstStepActivity" />
         <activity android:name=".view.activity.RegSecondStepActivity"></activity>
+        <activity android:name=".view.activity.PdfSignatureActvity"></activity>
+        <activity android:name=".view.activity.SignVerifyP1Activity"></activity>
+        <activity android:name=".view.activity.ViewExpenseActivity"></activity>
+        <activity android:name=".view.activity.ExpenseDetailActivity"></activity>
+        <activity android:name=".view.activity.ApprovalDetailActivity"></activity>
+        <activity android:name=".view.activity.ThirdExpenseTypeActivity"></activity>
+        <activity android:name=".view.activity.ViewApprovalDetailActivity"></activity>
+        <activity android:name=".view.activity.TestApprovalDetailActivity"></activity>
+        <activity android:name=".view.activity.CompanyManaSelectActivity"></activity>
+        <activity android:name=".view.activity.ApproveProcedureManageActivity"></activity>
+        <activity android:name=".view.activity.SelectCompanyActivity"></activity>
+         <activity android:name=".view.activity.ApplicantActivity"></activity>
+        <service android:name=".service.NoticeMsgService"></service>
+        <activity android:name=".view.activity.RegisterActivity"></activity>
     </application>
 
 </manifest>

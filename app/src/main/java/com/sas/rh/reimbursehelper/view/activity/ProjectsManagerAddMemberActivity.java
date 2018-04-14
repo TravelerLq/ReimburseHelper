@@ -11,8 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sas.rh.reimbursehelper.Adapter.ProjectMembersSelectGridviewAdpter;
-import com.sas.rh.reimbursehelper.Entity.PersonnameAndHeadimageEntity;
-import com.sas.rh.reimbursehelper.Entity.PersonnameAndHeadimageEntitySerializableMap;
+import com.sas.rh.reimbursehelper.Bean.PersonnameAndHeadimageEntity;
+import com.sas.rh.reimbursehelper.Bean.PersonnameAndHeadimageEntitySerializableMap;
 import com.sas.rh.reimbursehelper.NetUtil.YuangongUtils;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;

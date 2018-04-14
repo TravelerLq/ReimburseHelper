@@ -10,8 +10,6 @@
  */
 package com.sas.rh.reimbursehelper.NetworkUtil;
 
-import android.util.Log;
-
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -55,7 +53,7 @@ public class UploadFileUtil {
             int status = client.executeMethod(postMethod);
             JSONObject responseMsg = JSONObject.parseObject(postMethod.getResponseBodyAsString());
 
-          Log.e("UploadFileUtil","responseMsg="+responseMsg.toString());
+            System.out.println(responseMsg.toString());
             System.out.println(status);
             if (status == HttpStatus.SC_OK) {
                 System.out.println(postMethod.getResponseBodyAsString());
@@ -75,9 +73,7 @@ public class UploadFileUtil {
     public static JSONObject upload(String expenseId,String path) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("expenseId", expenseId);
-        String url = TestAddress+"yuanshensystem/file/up";
-        Log.e("uploadFile","params="+jsonObject.toJSONString() +"path="+path);
-
+        String url = RootAddress+"yuanshensystem/file/up";
         return UploadFileUtil.uploadPdfInvoice(new File(path), url, jsonObject);
     }
 }

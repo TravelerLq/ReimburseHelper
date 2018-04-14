@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_bar_title"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rl_approval_detail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout style="@style/ll_parent_layout_style">
+
+                <TextView
+                    style="@style/info_txt_style"
+                    android:text="报销名称" />
+
+                <TextView
+                    android:id="@+id/tv_expense_name"
+                    style="@style/info_txt_value_style" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:background="@color/gray_DFDFDF" />
+
+            <LinearLayout style="@style/ll_parent_layout_style">
+
+                <TextView
+                    style="@style/info_txt_style"
+                    android:text="审批进度" />
+
+                <TextView
+                    android:id="@+id/tv_approval_progress"
+                    style="@style/info_txt_value_style" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:background="@color/gray_DFDFDF" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:background="@color/gray_DFDFDF" />
+
+            <LinearLayout style="@style/ll_parent_layout_style">
+
+                <TextView
+                    style="@style/info_txt_style"
+                    android:text="更新时间" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    style="@style/info_txt_value_style" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1"
+            android:background="@color/gray_DFDFDF" />
+
+        <LinearLayout
+            android:id="@+id/ll_reject_reason"
+            style="@style/ll_parent_layout_style"
+            android:layout_below="@+id/rl_approval_detail"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/info_txt_style"
+                android:text="@string/rejection_reason" />
+
+            <EditText
+                android:id="@+id/edt_reason"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_48"
+                android:layout_marginRight="@dimen/dimen_12"
+                android:background="@null"
+                android:gravity="center|center_vertical"
+                android:hint="@string/hint_input" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_approval_pdf"
+            android:layout_width="@dimen/dimen_40"
+            android:layout_height="@dimen/dimen_40"
+            android:layout_above="@+id/ll_btn"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_file_pdf"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/ll_btn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_100"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_approval"
+                style="@style/white_middle_style"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_45"
+                android:layout_marginLeft="@dimen/dimen_12"
+                android:layout_marginRight="@dimen/dimen_12"
+
+                android:background="@drawable/btn_save_baoxiajizhu"
+                android:text="@string/pass" />
+
+            <Button
+                android:id="@+id/btn_unpass"
+                style="@style/white_middle_style"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_45"
+                android:layout_marginLeft="@dimen/dimen_12"
+                android:layout_marginRight="@dimen/dimen_12"
+                android:background="@drawable/btn_save_baoxiajizhu"
+                android:text="@string/unpass" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

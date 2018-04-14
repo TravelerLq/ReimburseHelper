@@ -20,7 +20,8 @@ public class RegistPageActivity extends AppCompatActivity {
         startreimburse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent it = new Intent(RegistPageActivity.this,RegFirstStepActivity.class);
+            Intent it = new Intent(RegistPageActivity.this,RegFirstStepActivity.class);
+              //Intent it = new Intent(RegistPageActivity.this,MainActivity.class);
                 startActivity(it);
                 finish();
             }

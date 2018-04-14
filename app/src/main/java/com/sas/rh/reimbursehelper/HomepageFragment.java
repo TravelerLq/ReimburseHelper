@@ -25,11 +25,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sas.rh.reimbursehelper.Dao.BaoxiaoItem;
-import com.sas.rh.reimbursehelper.Entity.BaoxiaoContentEntity;
+import com.sas.rh.reimbursehelper.Bean.BaoxiaoContentEntity;
 import com.sas.rh.reimbursehelper.RecyclerviewWithCheckbox.DividerItemDecoration;
 import com.sas.rh.reimbursehelper.RecyclerviewWithCheckbox.MineRadioAdapter;
 import com.sas.rh.reimbursehelper.Util.DataHelper;
-import com.sas.rh.reimbursehelper.view.activity.AddBaoxiaojizhuActivity;
 import com.sas.rh.reimbursehelper.view.activity.AddExpenseActivity;
 import com.sas.rh.reimbursehelper.view.activity.MyApprovalActivity;
 import com.sas.rh.reimbursehelper.view.activity.MyFeeActivity;

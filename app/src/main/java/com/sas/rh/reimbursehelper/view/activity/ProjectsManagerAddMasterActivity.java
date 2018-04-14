@@ -10,7 +10,7 @@ import android.widget.GridView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.sas.rh.reimbursehelper.Entity.PersonnameAndHeadimageEntity;
+import com.sas.rh.reimbursehelper.Bean.PersonnameAndHeadimageEntity;
 import com.sas.rh.reimbursehelper.NetUtil.YuangongUtils;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;

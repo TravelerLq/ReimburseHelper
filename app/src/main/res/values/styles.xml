@@ -57,4 +57,117 @@
         <item name="actionBarSize">@dimen/actionBarSize</item>
     </style>
 
+
+    <style name="big_text_style">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="middle_text_style">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="smaller_text_style">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="small_text_style">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="super_small_text_style">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
+    <style name="white_big_style" parent="@style/big_text_style">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="white_middle_style" parent="@style/middle_text_style">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="white_smaller_style" parent="@style/smaller_text_style">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="black_big_style" parent="@style/big_text_style">
+        <item name="android:textColor">@color/balck</item>
+    </style>
+
+    <style name="black_middle_style" parent="@style/middle_text_style">
+        <item name="android:textColor">@color/balck</item>
+    </style>
+
+    <style name="black_smaller_style" parent="@style/smaller_text_style">
+        <item name="android:textColor">@color/balck</item>
+    </style>
+
+    <style name="white_small_style" parent="@style/small_text_style">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
+    <style name="gray_hint_big_style" parent="@style/big_text_style">
+        <item name="android:textColor">@color/hint_gray</item>
+    </style>
+
+    <style name="gray_hint_middle_style" parent="@style/middle_text_style">
+        <item name="android:textColor">@color/hint_gray</item>
+    </style>
+
+
+    <style name="gray_hint_small_style" parent="@style/small_text_style">
+        <item name="android:textColor">@color/hint_gray</item>
+    </style>
+
+    <style name="gray_noraml_big_style" parent="@style/big_text_style">
+        <item name="android:textColor">@color/hint_gray</item>
+    </style>
+
+    <style name="gray_noraml_middle_style" parent="@style/middle_text_style">
+        <item name="android:textColor">@color/hint_gray</item>
+    </style>
+
+
+    <style name="gray_noraml_small_style" parent="@style/small_text_style">
+        <item name="android:textColor">@color/hint_gray</item>
+    </style>
+
+
+    <style name="ll_parent_layout_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/dimen_49</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="info_txt_style" parent="@style/black_smaller_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">@dimen/dimen_12</item>
+    </style>
+    <style name="info_txt_value_style" parent="@style/black_middle_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/dimen_12</item>
+        <item name="android:layout_marginRight">@dimen/dimen_12</item>
+    </style>
+
+    <!-- 自定义loading dialog -->
+    <style name="loading_dialog" parent="android:style/Theme.Dialog">
+        <!--背景颜色及透明程度-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--是否有标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否模糊-->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!--<item name="android:windowFrame">@null</item>-->
+    </style>
+
 </resources>

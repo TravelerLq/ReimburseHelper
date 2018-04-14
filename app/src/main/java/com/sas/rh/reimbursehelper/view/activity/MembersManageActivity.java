@@ -20,11 +20,13 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONArray;
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
-import com.sas.rh.reimbursehelper.Entity.MemberDetailInfoEntity;
-import com.sas.rh.reimbursehelper.NetUtil.YuangongUtils;
+import com.sas.rh.reimbursehelper.Bean.MemberDetailInfoEntity;
+import com.sas.rh.reimbursehelper.Bean.UserBean;
+import com.sas.rh.reimbursehelper.NetworkUtil.UserUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Sortlist.CharacterParser;
 import com.sas.rh.reimbursehelper.Sortlist.ClearEditText;
@@ -34,8 +36,6 @@ import com.sas.rh.reimbursehelper.Sortlist.SortGroupMemberAdapter;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,7 +43,7 @@ import java.util.List;
 
 public class MembersManageActivity extends AppCompatActivity implements SectionIndexer {
 
-    private ImageView backbt,add_memberitem;
+    private ImageView backbt, add_memberitem;
     PtrClassicFrameLayout ptrClassicFrameLayout;
     private ListView sortListView;
     private SideBar sideBar;
@@ -59,44 +59,46 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
 
     private CharacterParser characterParser;
     private List<MemberDetailInfoEntity> SourceDateList = new ArrayList<MemberDetailInfoEntity>();
+    private List<UserBean> userList = new ArrayList<>();
 
     private PinyinComparator pinyinComparator;
 
-    private ProgressDialogUtil pdu =new ProgressDialogUtil(MembersManageActivity.this,"提示","提交更改中");
+    private ProgressDialogUtil pdu = new ProgressDialogUtil(MembersManageActivity.this, "提示", "提交更改中");
     String member_id;
-    private JSONObject memberlist;
-    private JSONObject subjectalterrs;
-    private Handler memberlistback = new Handler(){
+    private Handler memberlistback = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
             ptrClassicFrameLayout.refreshComplete();
             ptrClassicFrameLayout.setLoadMoreEnable(false);
-            if(pdu.getMypDialog() != null){
+            if (pdu.getMypDialog() != null) {
                 pdu.dismisspd();
             }
 
-            if(msg.what == 1){
-//                    System.out.println("ResultCode:" + jsonresult.get("ResultCode") + "\t" + "HostTime:"
-//            + jsonresult.get("HostTime") + "\t" + "Note:" + jsonresult.get("Note"));
-                SourceDateList.clear();
-                if (memberlist.get("resultList")!= null) {
-                    //System.out.print("resultList:");
-                    JSONArray jsonArray = memberlist.getJSONArray("resultList");
-                    for (Object object : jsonArray) {
-                        JSONObject jObject = JSONObject.fromObject(object);
-                        MemberDetailInfoEntity mdi = new MemberDetailInfoEntity();
-                        mdi.setMember_id(jObject.get("ygId").toString());
-                        mdi.setMember_name(jObject.get("ygName").toString());
-                        mdi.setMember_sex(jObject.get("ygGender").toString());
-                        mdi.setMember_telnum(jObject.get("ygDianhua").toString());
-                        //mdi.setMember_mail(jObject.get("ygYoujian").toString());
-                        //mdi.setMember_birthday(jObject.get("ygBrith").toString());
-                        //mdi.setMember_enterday(jObject.get("ygEnterdate").toString());
-                        mdi.setMember_gsid(jObject.get("gongsiId").toString());
-                        SourceDateList.add(mdi);
-                    }
-                }
-                if(SourceDateList.size() != 0){
+            if (msg.what == 1) {
+                List<UserBean> list = JSONArray.parseArray(jsonArray.toJSONString(), UserBean.class);
+                userList.clear();
+                userList.addAll(list);
+
+
+//
+//                if (memberlist.get("resultList") != null) {
+//                    //System.out.print("resultList:");
+//                    JSONArray jsonArray = memberlist.getJSONArray("resultList");
+//                    for (Object object : jsonArray) {
+//                        JSONObject jObject = JSONObject.fromObject(object);
+//                        MemberDetailInfoEntity mdi = new MemberDetailInfoEntity();
+//                        mdi.setMember_id(jObject.get("ygId").toString());
+//                        mdi.setMember_name(jObject.get("ygName").toString());
+//                        mdi.setMember_sex(jObject.get("ygGender").toString());
+//                        mdi.setMember_telnum(jObject.get("ygDianhua").toString());
+//                        //mdi.setMember_mail(jObject.get("ygYoujian").toString());
+//                        //mdi.setMember_birthday(jObject.get("ygBrith").toString());
+//                        //mdi.setMember_enterday(jObject.get("ygEnterdate").toString());
+//                        mdi.setMember_gsid(jObject.get("gongsiId").toString());
+//                        SourceDateList.add(mdi);
+//                    }
+//                }
+                if (SourceDateList.size() != 0) {
 
                     filledData(SourceDateList);
                     Collections.sort(SourceDateList, pinyinComparator);
@@ -143,26 +145,27 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
                     });
                 }
                 adapter.notifyDataSetChanged();
-                ToastUtil.showToast(MembersManageActivity.this,memberlist.get("HostTime")+":"+memberlist.get("Note").toString(), Toast.LENGTH_LONG);
+                //  ToastUtil.showToast(MembersManageActivity.this, memberlist.get("HostTime") + ":" + memberlist.get("Note").toString(), Toast.LENGTH_LONG);
 
-            }else if(msg.what == 2){
-                ToastUtil.showToast(MembersManageActivity.this,memberlist.get("HostTime")+":"+memberlist.get("ResultCode").toString(), Toast.LENGTH_LONG);
-            }else if(msg.what == 0){
-                ToastUtil.showToast(MembersManageActivity.this,"通信异常，请检查网络连接！", Toast.LENGTH_LONG);
-            }else if(msg.what == -1){
-                ToastUtil.showToast(MembersManageActivity.this,"通信模块异常！", Toast.LENGTH_LONG);
+            } else if (msg.what == 2) {
+                // ToastUtil.showToast(MembersManageActivity.this, memberlist.get("HostTime") + ":" + memberlist.get("ResultCode").toString(), Toast.LENGTH_LONG);
+            } else if (msg.what == 0) {
+                ToastUtil.showToast(MembersManageActivity.this, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
+            } else if (msg.what == -1) {
+                ToastUtil.showToast(MembersManageActivity.this, "通信模块异常！", Toast.LENGTH_LONG);
             }
         }
 
     };
+    private JSONArray jsonArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_members_manage);
 
-        backbt= (ImageView)findViewById(R.id.backbt) ;
-        add_memberitem = (ImageView)findViewById(R.id.add_memberitem) ;
+        backbt = (ImageView) findViewById(R.id.backbt);
+        add_memberitem = (ImageView) findViewById(R.id.add_memberitem);
 
 
         backbt.setOnClickListener(new View.OnClickListener() {
@@ -175,8 +178,8 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
         add_memberitem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(MembersManageActivity.this,MembersManageAddStaffActivity.class);
-                startActivityForResult(it,1);
+                Intent it = new Intent(MembersManageActivity.this, MembersManageAddStaffActivity.class);
+                startActivityForResult(it, 1);
             }
         });
 
@@ -219,13 +222,21 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                // ����Ҫ����adapter.getItem(position)����ȡ��ǰposition����Ӧ�Ķ���
-//                Toast.makeText(
-//                        getApplication(),
-//                        ((GroupMemberBean) adapter.getItem(position)).getName(),
-//                        Toast.LENGTH_SHORT).show();
-                Intent it = new Intent(MembersManageActivity.this,MembersManageDetailInfoActivity.class);
-                startActivity(it);
+                // 跳到详情
+//                Intent it = new Intent(MembersManageActivity.this, MembersManageDetailInfoActivity.class);
+//                startActivity(it);
+                //选择user
+                // Intent it = new Intent(MembersManageActivity.this, MembersManageDetailInfoActivity.class);
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", userList.get(position));
+//                intent.putExtra("userId", mData.get(pos).getKey());
+//                intent.putExtra("thirdValue", mData.get(pos).getValue());
+                intent.putExtras(bundle);
+                setResult(RESULT_OK, intent);
+                finish();
+//                startActivity(it);
+
             }
         });
 
@@ -234,7 +245,7 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 new AlertDialog.Builder(MembersManageActivity.this)
                         .setMessage("确定删除该项？")
-                        .setNegativeButton("取消",null)
+                        .setNegativeButton("取消", null)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -250,7 +261,7 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
 
         // ����a-z��������Դ����
 
-        adapter = new SortGroupMemberAdapter(this, SourceDateList);
+        adapter = new SortGroupMemberAdapter(this, userList);
         sortListView.setAdapter(adapter);
         ptrClassicFrameLayout.postDelayed(new Runnable() {
 
@@ -297,7 +308,7 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
     /**
      * ΪListView�������
      *
-     * @param date
+     * @param
      * @return
      */
     private void filledData(List<MemberDetailInfoEntity> list) {
@@ -344,8 +355,8 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
         }
 
         // ����a-z��������
-        Collections.sort(filterDateList, pinyinComparator);
-        adapter.updateListView(filterDateList);
+//        Collections.sort(filterDateList, pinyinComparator);
+//        adapter.updateListView(filterDateList);
         if (filterDateList.size() == 0) {
             tvNofriends.setVisibility(View.VISIBLE);
         }
@@ -377,11 +388,11 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
         return -1;
     }
 
-    private void GetallMemberInfo(){
+    private void GetallMemberInfo() {
         new Thread(GetMemberInfoThread).start();
     }
 
-    private void DeleteMember(){
+    private void DeleteMember() {
         pdu.showpd();
         new Thread(DeleteMemberThread).start();
     }
@@ -391,15 +402,15 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
         public void run() {
             // TODO Auto-generated method stub
 
-            try{
-                JSONObject jo = new YuangongUtils().getYgByGongsiId(1);
-                if(jo != null){
-                    memberlist = jo;
+            try {
+                JSONArray jo = new UserUtil().getALlUser(1);
+                if (jo != null) {
+                    jsonArray = jo;
                     memberlistback.sendEmptyMessage(1);
-                }else{
+                } else {
                     memberlistback.sendEmptyMessage(0);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 memberlistback.sendEmptyMessage(-1);
                 e.printStackTrace();
             }
@@ -412,15 +423,15 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
         public void run() {
             // TODO Auto-generated method stub
 
-            try{
-                JSONObject jo = new YuangongUtils().delete(Integer.parseInt(member_id.trim()));
-                if(jo != null){
-                    memberlist = jo;
-                    memberlistback.sendEmptyMessage(2);
-                }else{
-                    memberlistback.sendEmptyMessage(0);
-                }
-            }catch(Exception e){
+            try {
+                // JSONObject jo = new YuangongUtils().delete(Integer.parseInt(member_id.trim()));
+//                if (jo != null) {
+//                  //  memberlist = jo;
+//                    memberlistback.sendEmptyMessage(2);
+//                } else {
+//                    memberlistback.sendEmptyMessage(0);
+//                }
+            } catch (Exception e) {
                 memberlistback.sendEmptyMessage(-1);
                 e.printStackTrace();
             }

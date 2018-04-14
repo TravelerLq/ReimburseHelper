@@ -127,7 +127,7 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
             // TODO Auto-generated method stub
 
             try{
-                JSONObject jo = new DepartmentUtil().addDepartment(spu.getCidNum(),dpname,(byte)0,Double.parseDouble(dplimit),spu.getUidNum());
+                JSONObject jo = new DepartmentUtil().addDepartment(dpname,(byte)0,Double.parseDouble(dplimit),spu.getUidNum());
                 if(jo != null){
                     jsonresult = jo;
                     bumenxinxiback.sendEmptyMessage(1);

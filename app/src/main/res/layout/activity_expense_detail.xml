@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_bar_title"></include>
+
+    <LinearLayout style="@style/ll_parent_layout_style">
+
+        <TextView
+            style="@style/info_txt_style"
+            android:text="报销名称" />
+
+        <TextView
+            android:id="@+id/tv_expense_name"
+            style="@style/info_txt_value_style" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:background="@color/gray_DFDFDF" />
+
+    <LinearLayout style="@style/ll_parent_layout_style">
+
+        <TextView
+            style="@style/info_txt_style"
+            android:text="审批进度" />
+
+        <TextView
+            android:id="@+id/tv_progress"
+            style="@style/info_txt_value_style" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:background="@color/gray_DFDFDF" />
+<!--审批结果-->
+    <LinearLayout style="@style/ll_parent_layout_style">
+
+        <TextView
+            style="@style/info_txt_style"
+            android:text="审批结果" />
+
+        <TextView
+            android:id="@+id/tv_approval_result"
+            style="@style/info_txt_value_style" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:background="@color/gray_DFDFDF" />
+    <!--审批结果-->
+    <LinearLayout style="@style/ll_parent_layout_style">
+
+        <TextView
+            style="@style/info_txt_style"
+            android:text="最终结果" />
+
+        <TextView
+            android:id="@+id/tv_final_result"
+            style="@style/info_txt_value_style" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:background="@color/gray_DFDFDF" />
+    <LinearLayout style="@style/ll_parent_layout_style">
+
+        <TextView
+            style="@style/info_txt_style"
+            android:text="更新时间" />
+
+        <TextView
+            android:id="@+id/tv_update_time"
+            style="@style/info_txt_value_style" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:background="@color/gray_DFDFDF" />
+
+    <LinearLayout
+        android:id="@+id/ll_reject_reason"
+        android:visibility="gone"
+        style="@style/ll_parent_layout_style">
+
+        <TextView
+            style="@style/info_txt_style"
+            android:text="@string/rejection_reason" />
+
+        <TextView
+            android:id="@+id/tv_reason"
+            style="@style/info_txt_value_style" />
+    </LinearLayout>
+
+</LinearLayout>

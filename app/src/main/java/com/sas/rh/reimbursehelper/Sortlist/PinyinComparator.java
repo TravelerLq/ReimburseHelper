@@ -1,6 +1,6 @@
 package com.sas.rh.reimbursehelper.Sortlist;
 
-import com.sas.rh.reimbursehelper.Entity.MemberDetailInfoEntity;
+import com.sas.rh.reimbursehelper.Bean.MemberDetailInfoEntity;
 
 import java.util.Comparator;
 

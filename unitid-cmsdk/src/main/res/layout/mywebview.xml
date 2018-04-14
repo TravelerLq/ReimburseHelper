@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:orientation="vertical" android:layout_marginTop="48dp"
+                  android:background="@color/white">
+        <WebView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/mywebview_webView" android:layout_weight="1"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="48dp" android:layout_gravity="bottom"
+                android:background="@drawable/background_webview_tools">
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:layout_weight="1"
+                    android:id="@+id/mywebview_previous">
+                <ImageView
+                        android:layout_width="30dp" android:layout_height="30dp"
+                        android:layout_gravity="center" android:id="@+id/mywebview_previous_image"
+                        android:src="@drawable/background_webview_preview_clickable"/>
+            </FrameLayout>
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                         android:layout_weight="1" android:id="@+id/mywebview_next">
+                <ImageView android:layout_width="30dp" android:layout_height="30dp"
+                           android:layout_gravity="center" android:id="@+id/mywebview_next_image"
+                           android:src="@drawable/background_webview_next_clickable"/>
+            </FrameLayout>
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                         android:layout_weight="1" android:id="@+id/mywebview_refresh">
+                <ImageView android:layout_width="30dp" android:layout_height="30dp"
+                           android:layout_gravity="center" android:id="@+id/mywebview_refresh_image"
+                           android:src="@drawable/background_webview_refresh"/>
+            </FrameLayout>
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                         android:layout_weight="1" android:visibility="gone">
+                <ImageView android:layout_width="30dp" android:layout_height="30dp"
+                           android:layout_gravity="center" android:id="@+id/mywebview_share"
+                           android:src="@drawable/background_webview_share"/>
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="54dp" android:background="@drawable/background_head">
+        <Button android:layout_width="50dp"
+                android:layout_height="26dp"
+                android:id="@+id/mywebview_finishbutton" android:background="@drawable/button_webview_finish"
+                android:layout_marginLeft="12dp" android:layout_gravity="center_vertical"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/mywebview_title" android:textColor="@color/white"
+                  android:layout_gravity="center" android:textSize="@dimen/text_size_normal"
+                  android:layout_marginLeft="10dp"/>
+    </FrameLayout>
+</FrameLayout>

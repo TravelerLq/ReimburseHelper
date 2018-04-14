@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_45">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_43"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dimen_15"
+        android:text="@string/approval_name" />
+
+    <TextView
+        android:id="@+id/tv_type_name"
+        android:text="@string/select"
+        android:layout_toRightOf="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_43"
+        android:layout_marginLeft="@dimen/dimen_50"
+        android:gravity="center_vertical"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1"
+        android:layout_alignParentBottom="true"
+        android:background="@color/stock" />
+
+</RelativeLayout>

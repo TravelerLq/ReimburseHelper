@@ -8,14 +8,19 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
-import com.sas.rh.reimbursehelper.CountFragment;
-import com.sas.rh.reimbursehelper.EnterpriseFragment;
+import com.sas.rh.reimbursehelper.App;
+import com.sas.rh.reimbursehelper.Util.Loger;
+import com.sas.rh.reimbursehelper.fragment.CountFragment;
+import com.sas.rh.reimbursehelper.fragment.EnterpriseFragment;
 import com.sas.rh.reimbursehelper.HomepageFragment;
-import com.sas.rh.reimbursehelper.MessageFragment;
+import com.sas.rh.reimbursehelper.fragment.MessageFragment;
 import com.sas.rh.reimbursehelper.R;
+import com.sas.rh.reimbursehelper.fragment.SelectViewExpenseFragment;
+import com.sas.rh.reimbursehelper.service.NoticeMsgService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private WeChatRadioGroup gradualRadioGroup;
     private ArrayList<Certificate> certificateArrayList;//证书列表
+    private Intent serviceIntenta;
+    private LinearLayout ll_log_out;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +48,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         gradualRadioGroup = (WeChatRadioGroup) findViewById(R.id.radiogroup);
+
         List<Fragment> list = new ArrayList<Fragment>();
         list.add(new HomepageFragment());
-        list.add(new MessageFragment());
+        list.add(new SelectViewExpenseFragment());
+        //list.add(new MessageFragment());
         list.add(new CountFragment());
         list.add(new EnterpriseFragment());
         viewPager.setAdapter(new DemoPagerAdapter(getSupportFragmentManager(), list));
         gradualRadioGroup.setViewPager(viewPager);
         //初始Application
         SparkApplication.init(getApplication());
-        CBSCertificateStore store=CBSCertificateStore.getInstance();
+        CBSCertificateStore store = CBSCertificateStore.getInstance();
         //查询本地库证书列表,没注册则注册一张
-        certificateArrayList=store.getAllCertificateList();
-        if(certificateArrayList.size() == 0){
-            Intent it = new Intent(MainActivity.this,RegistPageActivity.class);
+        certificateArrayList = store.getAllCertificateList();
+        if (certificateArrayList.size() == 0) {
+            Intent it = new Intent(MainActivity.this, RegFirstStepActivity.class);
             startActivity(it);
             finish();
+        } else {
+            //有证书
+          //  store.deleteCertificate(certificateArrayList.get(0).getId());
+            Loger.e("certificateArrayList.get(0).getId()="+certificateArrayList.get(0).getId());
         }
     }
 
@@ -103,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
             return mData.size();
         }
     }
-
 
 
     @Override

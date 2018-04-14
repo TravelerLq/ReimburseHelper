@@ -20,7 +20,7 @@ import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
-import com.sas.rh.reimbursehelper.Entity.SubjectInfoEntity;
+import com.sas.rh.reimbursehelper.Bean.SubjectInfoEntity;
 import com.sas.rh.reimbursehelper.NetUtil.XfkmUtils;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.RecyclerviewWithCheckbox.DividerItemDecoration;

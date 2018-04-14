@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFF"
-    tools:context="com.sas.rh.reimbursehelper.MessageFragment">
+    tools:context="com.sas.rh.reimbursehelper.fragment.MessageFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

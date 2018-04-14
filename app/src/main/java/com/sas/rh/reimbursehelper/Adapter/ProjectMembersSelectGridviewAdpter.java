@@ -15,7 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sas.rh.reimbursehelper.Entity.PersonnameAndHeadimageEntity;
+import com.sas.rh.reimbursehelper.Bean.PersonnameAndHeadimageEntity;
 import com.sas.rh.reimbursehelper.R;
 
 import java.util.HashMap;

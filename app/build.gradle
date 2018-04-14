@@ -26,7 +26,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
         multiDexEnabled true
@@ -103,4 +103,13 @@ dependencies {
     // ReactiveX
     compile 'io.reactivex:rxjava:1.0.16'
     compile 'io.reactivex:rxandroid:1.0.1'
+
+    //运行时权限
+    compile 'com.yanzhenjie:permission:1.0.7'
+    testCompile 'junit:junit:4.12'
+//选择picker
+    compile 'com.github.addappcn:android-pickers:1.0.1'
+    //adapter helper
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
+    compile 'com.anupcowkur:reservoir:2.1'
 }
