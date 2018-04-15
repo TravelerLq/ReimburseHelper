@@ -196,6 +196,7 @@ public class RegFirstStepActivity extends AppCompatActivity {
         nexttostep2 = (LinearLayout) findViewById(R.id.nexttostep2);
         onlineClient = new OnlineClient(CertServiceUrl.baseUrl, CertServiceUrl.appKey, CertServiceUrl.appSecret);
 
+        //initTestData();
         final MyCountDownTimer myCountDownTimer = new MyCountDownTimer(60000, 1000);
         //  initTestData();
         SaveUserBean saveUserBean = UserData.getUserInfo();
@@ -543,17 +544,17 @@ public class RegFirstStepActivity extends AppCompatActivity {
 
 
     private void initTestData() {
-        edtAccount.setText("Velly");
-        edtPassWord.setText("123456");
-        realnameet.setText("李青");
-        // idnumet.setText("320322199007171111");
-        idnumet.setText("320322199007171428");
-        telnumet.setText("15951882547");
-        edtEmail.setText("2312565623@qq.com");
-//        realnameet.setText("屠正松");
+//        edtAccount.setText("Velly");
+//        edtPassWord.setText("123456");
+//        realnameet.setText("李青");
 //        // idnumet.setText("320322199007171111");
-//        idnumet.setText("320113199310156418");
+//        idnumet.setText("320322199007171428");
 //        telnumet.setText("15951882547");
+//        edtEmail.setText("2312565623@qq.com");
+        realnameet.setText("屠正松");
+        // idnumet.setText("320322199007171111");
+        idnumet.setText("320113199310156418");
+        telnumet.setText("15951882547");
     }
 
     private class MyCountDownTimer extends CountDownTimer {

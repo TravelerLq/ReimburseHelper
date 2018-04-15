@@ -31,8 +31,8 @@ public class ApproveProcedureAddActivity extends BaseActivity {
 
     private LinearLayout llApprovalNum;
     private LinearLayout llApprovalPerson;
-    private EditText edtApprovalNum;
-    private EditText edtApprovalPerson;
+    private TextView edtApprovalNum;
+    private TextView edtApprovalPerson;
     private EditText edtApprovalTitle;
     private TextView tvSure;
     private ImageView ivBack;
@@ -74,8 +74,8 @@ public class ApproveProcedureAddActivity extends BaseActivity {
     protected void initData() {
         llApprovalNum = (LinearLayout) findViewById(R.id.ll_approval_num);
         llApprovalPerson = (LinearLayout) findViewById(R.id.ll_approval_person);
-        edtApprovalNum = (EditText) findViewById(R.id.edt_approval_no);
-        edtApprovalPerson = (EditText) findViewById(R.id.edt_approval_person);
+        edtApprovalNum = (TextView) findViewById(R.id.edt_approval_no);
+        edtApprovalPerson = (TextView) findViewById(R.id.edt_approval_person);
         edtApprovalTitle = (EditText) findViewById(R.id.edt_approval_title);
         tvSure = (TextView) findViewById(R.id.tv_sure);
         ivBack = (ImageView) findViewById(R.id.iv_back);

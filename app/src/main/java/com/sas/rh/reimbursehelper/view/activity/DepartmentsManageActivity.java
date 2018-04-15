@@ -225,7 +225,7 @@ public class DepartmentsManageActivity extends AppCompatActivity {
             // TODO Auto-generated method stub
 
             try {
-                JSONArray jo = DepartmentUtil.selectDepartment(spu.getDidNum());
+                JSONArray jo = DepartmentUtil.selectDepartment(spu.getUidNum());
                 if (jo != null) {
                     departmentlist = jo;
                     deapetmentlistback.sendEmptyMessage(1);

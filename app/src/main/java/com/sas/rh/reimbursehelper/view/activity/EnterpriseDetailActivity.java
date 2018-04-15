@@ -44,20 +44,26 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
             if (msg.what == 1) {
 //                    System.out.println("ResultCode:" + jsonresult.get("ResultCode") + "\t" + "HostTime:"
 //            + jsonresult.get("HostTime") + "\t" + "Note:" + jsonresult.get("Note"));
-                if (jsonresult.get("resultOne") != null) {
-                    JSONObject ejo = jsonresult.getJSONObject("resultOne");
-                    if (ejo.get("gongsiId") != null) {
-                        new SharedPreferencesUtil(EnterpriseDetailActivity.this).writeCompanyId(ejo.get("gongsiId").toString());
-                        //System.out.println("####################:"+ejo.get("gongsiId").toString());
-
-                    }
-//                    if(ejo.get("createPerson") != null){
-//                        System.out.println("####################:"+ejo.get("createPerson").toString());
+//                if (jsonresult.get("resultOne") != null) {
+//                    JSONObject ejo = jsonresult.getJSONObject("resultOne");
+//                    if (ejo.get("gongsiId") != null) {
+//                        new SharedPreferencesUtil(EnterpriseDetailActivity.this).writeCompanyId(ejo.get("gongsiId").toString());
+//                        //System.out.println("####################:"+ejo.get("gongsiId").toString());
 //
 //                    }
-
+////                    if(ejo.get("createPerson") != null){
+////                        System.out.println("####################:"+ejo.get("createPerson").toString());
+////
+////                    }
+//
+//                }
+                if(jsonresult.getIntValue("status")==200){
+                    Toast.makeText(EnterpriseDetailActivity.this,"添加成功",Toast.LENGTH_SHORT).show();
+                    finish();
+                }else{
+                    Toast.makeText(EnterpriseDetailActivity.this,"添加失败，请重试",Toast.LENGTH_SHORT).show();
                 }
-                ToastUtil.showToast(EnterpriseDetailActivity.this, jsonresult.get("HostTime") + ":" + jsonresult.get("Note").toString(), Toast.LENGTH_LONG);
+               // ToastUtil.showToast(EnterpriseDetailActivity.this, jsonresult.get("HostTime") + ":" + jsonresult.get("Note").toString(), Toast.LENGTH_LONG);
             } else if (msg.what == 2) {
                 if (jsonresult.get("Note") == null) {
                     Log.e("---EnterPrise--", "jsonReuslt==null");
@@ -112,7 +118,7 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
         editandsavebt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initTestData();
+               // initTestData();
                 CreateCompanyInfo();
             }
         });
