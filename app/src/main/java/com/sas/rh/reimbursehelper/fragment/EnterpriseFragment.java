@@ -1,5 +1,6 @@
 package com.sas.rh.reimbursehelper.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -20,6 +22,7 @@ import com.sas.rh.reimbursehelper.NetworkUtil.CompanyUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.UserUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
+import com.sas.rh.reimbursehelper.Util.ToastUtil;
 import com.sas.rh.reimbursehelper.view.activity.ApplicantActivity;
 import com.sas.rh.reimbursehelper.view.activity.ApproveProcedureAddActivity;
 import com.sas.rh.reimbursehelper.view.activity.ApproveProcedureManageActivity;
@@ -38,8 +41,9 @@ public class EnterpriseFragment extends Fragment {
     private JSONObject jsonresult;
     private String companyName;
     LinearLayout emb, smb, mmb, dmb, apb, pmb, llAddEnterprise,llApplicant;
-    private TextView tvCompanyName,tvCompanyId;
+    private TextView tvCompanyName,tvCompanyId,tvGetCode;
 
+    private String shareCode;
     private Handler myHandler =new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -47,23 +51,39 @@ public class EnterpriseFragment extends Fragment {
             if(msg.what==1){
                 String companyJson = jsonresult.getString("company");
                 Company company = JSON.parseObject(companyJson, Company.class);
-                companyName=company.getCompanyName();
-                if(!TextUtils.isEmpty(companyName)){
-                    tvCompanyName.setText(companyName);
+                if(company==null){
+                    Toast.makeText(EnterpriseFragment.this.getActivity(),"公司信息为空",Toast.LENGTH_SHORT).show();
+                }else{
+                    companyName=company.getCompanyName();
+                    if(!TextUtils.isEmpty(companyName)){
+                        tvCompanyName.setText(companyName);
+                    }
                 }
 
+
+            }else if(msg.what==2){
+                shareCode = jsonresult.getString("shareCode");
+                tvCodeContent.setText(shareCode);
             }
         }
     };
+    private TextView tvCodeContent;
+    private Context mContext;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_enterprise, container, false);
+        mContext=EnterpriseFragment.this.getActivity();
         sharedPreferencesUtil=new SharedPreferencesUtil(EnterpriseFragment.this.getActivity());
         userId = sharedPreferencesUtil.getUidNum();
-        companyId=sharedPreferencesUtil.getCidNum();
+        if(sharedPreferencesUtil.getCidNum()==-1){
+            ToastUtil.showToast(mContext,"公司ID为空",Toast.LENGTH_SHORT);
+        } else {
+            companyId=sharedPreferencesUtil.getCidNum();
+        }
+
         Loger.e("userId=="+userId +"companyId--"+companyId);
         initview(view);
         getCompany();
@@ -112,6 +132,14 @@ public class EnterpriseFragment extends Fragment {
         pmb = (LinearLayout) view.findViewById(R.id.projectmanage_btn);
         llAddEnterprise = (LinearLayout) view.findViewById(R.id.ll_add_enterprise);
         llApplicant =(LinearLayout)view.findViewById(R.id.ll_applicant) ;
+        tvGetCode =(TextView)view.findViewById(R.id.tv_get_code) ;
+        tvCodeContent =(TextView)view.findViewById(R.id.tv_get_code_content);
+        tvGetCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getCompanyCode();
+            }
+        });
 
 
 
@@ -215,5 +243,29 @@ public class EnterpriseFragment extends Fragment {
         });
     }
 
+    private void getCompanyCode() {
+        new Thread(RunnableGetCompanyCode).start();
 
+    }
+
+
+    Runnable RunnableGetCompanyCode = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                JSONObject jsonObject = CompanyUtil.getShareCode(userId);
+                if (jsonObject != null) {
+                    jsonresult = jsonObject;
+                    myHandler.sendEmptyMessage(2);
+                } else {
+                    myHandler.sendEmptyMessage(0);
+                }
+            } catch (Exception e) {
+                myHandler.sendEmptyMessage(-1);
+                e.printStackTrace();
+            }
+
+
+        }
+    };
 }

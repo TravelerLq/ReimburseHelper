@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1"
         android:background="@color/gray_DFDFDF" />
-<!--审批结果-->
+    <!--审批结果-->
     <LinearLayout style="@style/ll_parent_layout_style">
 
         <TextView
@@ -70,6 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1"
         android:background="@color/gray_DFDFDF" />
+
     <LinearLayout style="@style/ll_parent_layout_style">
 
         <TextView
@@ -88,8 +89,8 @@
 
     <LinearLayout
         android:id="@+id/ll_reject_reason"
-        android:visibility="gone"
-        style="@style/ll_parent_layout_style">
+        style="@style/ll_parent_layout_style"
+        android:visibility="gone">
 
         <TextView
             style="@style/info_txt_style"
@@ -99,5 +100,15 @@
             android:id="@+id/tv_reason"
             style="@style/info_txt_value_style" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_pdf_icon_expense"
+        android:layout_width="@dimen/dimen_50"
+        android:layout_height="@dimen/dimen_50"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/dimen_5"
+        android:layout_marginTop="@dimen/dimen_50"
+        android:src="@drawable/ic_file_pdf"
+        android:visibility="visible" />
 
 </LinearLayout>

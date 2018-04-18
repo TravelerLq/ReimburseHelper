@@ -27,6 +27,10 @@
     <string name="my_pdf_form">生成并查看我的报销单</string>
     <string name="add_expense_item">新增报销项</string>
     <string name="approval_name">审批名称</string>
+    <string name="select_company">选择加入公司</string>
+    <string name="register_company">注册公司</string>
+    <string name="hint_input_code">请输入公司邀请码</string>
+
 
     <string-array name="approval_no">　
         <item>1</item>　

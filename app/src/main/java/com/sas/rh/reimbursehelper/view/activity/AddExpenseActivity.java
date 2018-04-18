@@ -136,10 +136,10 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
                 ToastUtil.showToast(AddExpenseActivity.this, "加载完毕", Toast.LENGTH_LONG);
                 List<SecondCategoryBean> expenseReimbursementFormList = JSONArray.parseArray(jsonresult.toJSONString(), SecondCategoryBean.class);
 
-               if(expenseReimbursementFormList.size()==0){
-                   ToastUtil.showToast(AddExpenseActivity.this, "暂无数据，请重试！", Toast.LENGTH_LONG);
-                   return;
-               }
+                if (expenseReimbursementFormList.size() == 0) {
+                    ToastUtil.showToast(AddExpenseActivity.this, "暂无数据，请重试！", Toast.LENGTH_LONG);
+                    return;
+                }
                 xiaofeileixinglist = new ArrayList<String>();
                 int i = 0;
                 for (SecondCategoryBean object : expenseReimbursementFormList) {
@@ -210,7 +210,7 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
                 }
                 String originalFilename = pdfJsonObjec.getString("originalFilename");
                 String filePath = pdfPath + originalFilename;
-                File file = DownloadFileUtil.base64StringToPdf(pdfBase64Str, filePath);
+                file = DownloadFileUtil.base64StringToPdf(pdfBase64Str, filePath);
                 if (file.exists() && file.length() > 0) {
                     ivPdfIcon.setVisibility(View.VISIBLE);
                 } else {
@@ -234,6 +234,7 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
     private JSONObject pdfJsonObjec;
     private String pdfBase64Str;
     private File pdfFile;
+    private File file;
 
 
     @Override
@@ -272,6 +273,16 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         tvRemarkFinish.setOnClickListener(this);
         ivPhoto.setOnClickListener(this);
         tvAddExpense.setOnClickListener(this);
+        ivPdfIcon.setOnClickListener(this);
+
+
+//        ivPdfIcon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                 startActivity(IntentUtils.getPdfFileIntent(file,AddExpenseActivity.this));
+//                     startActivity(IntentUtils.getPdfIntent(file));
+//            }
+//        });
 
 
         initBxRclv();
@@ -954,7 +965,7 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
             try {
                 Log.e("expenseItem=", "" + expenseItem);
 
-                JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(spu.getUidNum(),expenseItem, expenseCategory, formId, amount, remark);
+                JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(spu.getUidNum(), expenseItem, expenseCategory, formId, amount, remark);
                 if (jo != null) {
                     jsonobj = jo;
                     expenseId = jo.getIntValue("expenseId");
@@ -1095,6 +1106,10 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
             case R.id.tv_submit_pdf:
                 //pdfbase64 签名 －生成key后 组合一下objectStr提交,成功后 finish 回到主页面
                 finish();
+                break;
+            case R.id.iv_pdf_icon:
+                startActivity(IntentUtils.getPdfFileIntent(file, AddExpenseActivity.this));
+//                     startActivity(IntentUtils.getPdfIntent(file));
                 break;
 
             default:

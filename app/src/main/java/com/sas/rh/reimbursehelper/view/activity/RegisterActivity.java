@@ -74,7 +74,7 @@ public class RegisterActivity extends BaseActivity {
                     //用户信息添加成功 去注册证书
                     int userId = jsonresult.getInteger("userId");
                     sharedPreferencesUtil.writeUserId(String.valueOf(userId));
-                    UserData.saveUser(new SaveUserBean(realName, tel, id));
+                    UserData.saveUser(new SaveUserBean(realName, id, tel));
                     goRegisterCertify();
 //                    toActivity(RegisterActivity.this, MainActivity.class);
 //                    finish();
@@ -144,7 +144,8 @@ public class RegisterActivity extends BaseActivity {
                                 formatter.format(x509Certificate.getNotAfter());
 
 //                        goToAddUser();
-                    toActivity(RegisterActivity.this,MainActivity.class);
+                        //注册成功，去加入公司 or注册公司
+                        toActivity(RegisterActivity.this, JoinOrRegisterCompanyActivity.class);
 
                     }
 

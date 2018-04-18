@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/bar"
+        layout="@layout/include_bar_title"></include>
+
+    <TextView
+        android:id="@+id/tv_before_login"
+        android:layout_width="@dimen/dimen_200"
+        android:layout_height="@dimen/dimen_30"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+        android:background="@drawable/btn_save_baoxiajizhu"
+        android:gravity="center"
+        android:text="@string/login"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_before_register"
+        android:layout_width="@dimen/dimen_200"
+        android:layout_height="@dimen/dimen_30"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:background="@drawable/btn_save_baoxiajizhu"
+        android:gravity="center"
+        android:text="@string/register"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_code_title"
+        android:layout_width="@dimen/dimen_200"
+        android:layout_height="@dimen/dimen_30"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="@string/verify_code" />
+
+    <EditText
+        android:id="@+id/edt_verify_code"
+        android:layout_width="@dimen/dimen_200"
+        android:layout_height="@dimen/dimen_30"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dimen_10"
+        style="@style/gray_noraml_small_style"
+        android:layout_toRightOf="@+id/tv_code_title"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_rec_grey"
+        android:hint="@string/hint_input_code" />
+    <Button
+        android:id="@+id/btn_sure"
+        style="@style/white_middle_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dimen_10"
+        android:background="@drawable/btn_save_baoxiajizhu"
+        android:text="@string/sure"
+        android:textColor="@color/white" />
+
+
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.sas.rh.reimbursehelper.view.activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
@@ -10,10 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -28,6 +34,7 @@ import com.sas.rh.reimbursehelper.CertUtil.CertServiceUrl;
 import com.sas.rh.reimbursehelper.NetworkUtil.UserUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
+import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
 import com.sas.rh.reimbursehelper.data.UserData;
 import com.sas.rh.reimbursehelper.service.NoticeMsgService;
@@ -71,6 +78,16 @@ public class RegFirstStepActivity extends AppCompatActivity {
     private JSONObject jsonresult;
     private CBSCertificateStore store = null;
     private Intent serviceIntenta;
+
+    private Dialog dialog;
+    private View inflate;
+
+    private TextView cancel;
+    private TextView tvSelectCompany;
+    private TextView tvRegisterCompany;
+    private ProgressDialogUtil pdu = new ProgressDialogUtil(RegFirstStepActivity.this, "提示", "正在处理中");
+
+
     private Handler myHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -79,7 +96,14 @@ public class RegFirstStepActivity extends AppCompatActivity {
             if (msg.what == 1) {
                 String userJson = jsonresult.getString("user");
                 UserBean userBean = JSON.parseObject(userJson, UserBean.class);
-                companyId = userBean.getCompanyId();
+                if (userBean == null) {
+
+                }
+
+                if (userBean.getCompanyId() != null) {
+                    companyId = userBean.getCompanyId();
+                }
+
                 sharedPreferencesUtil.writeCompanyId(String.valueOf(companyId));
                 SaveUserBean saveUserBean = new SaveUserBean(userBean.getName(), userBean.getIdCardNumber(), userBean.getUserPhone());
 
@@ -93,14 +117,15 @@ public class RegFirstStepActivity extends AppCompatActivity {
                     UserData.saveUser(saveUserBean);
 
                     sharedPreferencesUtil.writeUserId(String.valueOf(userId));
-                    serviceIntenta = new Intent(RegFirstStepActivity.this, NoticeMsgService.class);
-                    startService(serviceIntenta);
+                    sharedPreferencesUtil.writeCompanyId(String.valueOf(userBean.getCompanyId()));
+//                    serviceIntenta = new Intent(RegFirstStepActivity.this, NoticeMsgService.class);
+//                    startService(serviceIntenta);
 //                    SaveUserBean saveUserBean = new SaveUserBean(account, psw, realname, emailStr, telephone, idno);
 //                    UserData.saveUser(saveUserBean);
 //                    SaveUserBean saveUserBean1 = UserData.getUserInfo();
                     // Loger.e("name" + saveUserBean1.getName() + "tel" + saveUserBean1.getUserPhone());
                     // saveData(account, psw, idno, telephone, emailStr, realname);
-                    ToastUtil.showToast(RegFirstStepActivity.this, "成功！", Toast.LENGTH_LONG);
+                    ToastUtil.showToast(RegFirstStepActivity.this, "登录成功！", Toast.LENGTH_LONG);
                     Intent it = new Intent(RegFirstStepActivity.this, MainActivity.class);
                     startActivity(it);
                     finish();
@@ -120,6 +145,7 @@ public class RegFirstStepActivity extends AppCompatActivity {
         }
     };
     private int companyId;
+    private Dialog verifyDialog;
 
     private void saveData(String account, String psw, String id, String tel, String email, String realName) {
 
@@ -196,7 +222,7 @@ public class RegFirstStepActivity extends AppCompatActivity {
         nexttostep2 = (LinearLayout) findViewById(R.id.nexttostep2);
         onlineClient = new OnlineClient(CertServiceUrl.baseUrl, CertServiceUrl.appKey, CertServiceUrl.appSecret);
 
-        //initTestData();
+        //  initTestData();
         final MyCountDownTimer myCountDownTimer = new MyCountDownTimer(60000, 1000);
         //  initTestData();
         SaveUserBean saveUserBean = UserData.getUserInfo();
@@ -217,6 +243,8 @@ public class RegFirstStepActivity extends AppCompatActivity {
         llRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //  showDialog();
+
                 Intent intent = new Intent(RegFirstStepActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
@@ -275,6 +303,61 @@ public class RegFirstStepActivity extends AppCompatActivity {
 
 
     }
+
+
+    public void showDialog() {
+        dialog = new Dialog(this, R.style.BottomDialog);
+        inflate = LayoutInflater.from(this).inflate(R.layout.dialog_layout, null);
+        tvRegisterCompany = (TextView) inflate.findViewById(R.id.tv_register_company);
+        tvSelectCompany = (TextView) inflate.findViewById(R.id.tv_select_company);
+        cancel = (TextView) inflate.findViewById(R.id.btn_cancel);
+        tvRegisterCompany.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Loger.e("-----register com");
+
+
+                dialog.dismiss();
+
+            }
+        });
+        tvSelectCompany.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Loger.e("-----tvSelectCompany");
+                Intent intent = new Intent(RegFirstStepActivity.this, BeforeRegisterActivity.class);
+                startActivity(intent);
+                dialog.dismiss();
+
+
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Loger.e("-----take");
+
+                dialog.dismiss();
+
+            }
+        });
+        dialog.setContentView(inflate);
+        Window dialogWindow = dialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM);
+        // WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        //获得window窗口的属性
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        //设置窗口宽度为充满全屏
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        //设置窗口高度为包裹内容
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        //将设置好的属性set回去
+        dialogWindow.setAttributes(lp);
+        //将自定义布局加载到dialog上
+        dialog.setContentView(inflate);
+        dialog.show();
+    }
+
 
     private void checkData() {
 
@@ -392,9 +475,10 @@ public class RegFirstStepActivity extends AppCompatActivity {
             goLogin();
 
         } else {
+            //goLogin();
             //去申请证书
             //无证书时候
-            goRegisterCertify();
+          goRegisterCertify();
 //            CertificateRegisterService certificateRegisterService = new CertificateRegisterService(RegFirstStepActivity.this,
 //                    onlineClient, new ProcessListener<OnlineApplyResponse>() {
 //                @Override
@@ -471,6 +555,7 @@ public class RegFirstStepActivity extends AppCompatActivity {
 
 
     private void goRegisterCertify() {
+         pdu.showpd();
 
         CertificateRegisterService certificateRegisterService = new CertificateRegisterService(RegFirstStepActivity.this,
                 onlineClient, new ProcessListener<OnlineApplyResponse>() {
@@ -484,9 +569,13 @@ public class RegFirstStepActivity extends AppCompatActivity {
                 CertificateIssueService certificateIssueService = new CertificateIssueService(RegFirstStepActivity.this, onlineClient, new ProcessListener<OnlineIssueResponse>() {
                     @Override
                     public void doFinish(OnlineIssueResponse data, String cert) {
-                        Log.e("CertificateIssueService", "onFinish");
+                        Log.e("CertificateIssueService", "onFinish--start goLogin");
                         //  goAddUser();
+                        if(pdu.getMypDialog().isShowing()){
+                            pdu.dismisspd();
+                        }
                         goLogin();
+
                         String your_signature = data.getSignCert();
                         String your_encryption = data.getEncCert();
 
@@ -512,6 +601,9 @@ public class RegFirstStepActivity extends AppCompatActivity {
 
                     @Override
                     public void doException(CmSdkException exception) {
+                        if(pdu.getMypDialog().isShowing()){
+                            pdu.dismisspd();
+                        }
                         Log.e("CertificateIssueService", "doException");
                         Toast.makeText(RegFirstStepActivity.this, "" + exception.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.e("firstRegister", "showException" + exception.getMessage());
@@ -528,6 +620,9 @@ public class RegFirstStepActivity extends AppCompatActivity {
 
             @Override
             public void doException(CmSdkException e) {
+                if(pdu.getMypDialog().isShowing()){
+                    pdu.dismisspd();
+                }
                 ToastUtil.showToast(RegFirstStepActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT);
                 Log.e("firstRegister", "CmSdkException" + e.getMessage());
             }

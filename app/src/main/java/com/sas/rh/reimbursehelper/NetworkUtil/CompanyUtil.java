@@ -119,9 +119,9 @@ public class CompanyUtil {
 
     public static JSONObject selectCompany(int companyId, int userId) {
         //公司id
-       // Integer companyId = 1;
-        String url = RootAddress+"yuanshensystem/company/select";
-       // Integer userId = 1;
+        // Integer companyId = 1;
+        String url = RootAddress + "yuanshensystem/company/select";
+        // Integer userId = 1;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("companyId", companyId);
         jsonObject.put("userId", userId);
@@ -129,7 +129,7 @@ public class CompanyUtil {
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         String companyJson = reJson.getString("company");
         Company company = JSON.parseObject(companyJson, Company.class);
-       // System.out.println(company.getCompanyName());
+        // System.out.println(company.getCompanyName());
         return reJson;
 
     }
@@ -179,7 +179,7 @@ public class CompanyUtil {
 
     }
 
-    public static JSONObject joinProcess(int userId, int result,int noticeId) {
+    public static JSONObject joinProcess(int userId, int result, int noticeId) {
 //         Integer userId = 1;
 //        Integer noticeId = 7;
 //        Integer result = 1;
@@ -206,6 +206,29 @@ public class CompanyUtil {
 
         jsonObject.put("userId", userId);
         JSONArray reJson = JsonUtil.uploadJsonGetJsonArray(url, jsonObject);
+        return reJson;
+
+    }
+
+    public static JSONObject joinCompany(int userId, String shareCode) {
+//        Integer userId = 20;
+//        String shareCode = "weyq7yabx";
+        String url = RootAddress + "yuanshensystem/public/joincompany";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId", userId);
+        jsonObject.put("shareCode", shareCode);
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        return reJson;
+
+
+    }
+
+    public static JSONObject getShareCode(int userId) {
+       // Integer userId = 1;
+        String url = RootAddress+"yuanshensystem/public/getsharecode";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId", userId);
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         return reJson;
 
     }

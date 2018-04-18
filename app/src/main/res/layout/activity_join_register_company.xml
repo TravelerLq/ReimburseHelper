@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/include_bar_title"></include>
+    <TextView
+        android:id="@+id/tv_company_join"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/edt_remark"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_save_baoxiajizhu"
+        android:gravity="center"
+        android:text="@string/select_company"
+        android:textColor="#FFF"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/tv_company_register"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/edt_remark"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_save_baoxiajizhu"
+        android:gravity="center"
+        android:text="@string/register_company"
+        android:textColor="#FFF"
+        android:textSize="18dp" />
+
+</LinearLayout>

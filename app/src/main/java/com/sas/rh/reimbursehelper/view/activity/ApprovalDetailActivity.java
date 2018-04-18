@@ -34,6 +34,8 @@ import com.sas.rh.reimbursehelper.NetworkUtil.SingleReimbursementUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.DateUtils;
 import com.sas.rh.reimbursehelper.Util.DialogUtils;
+import com.sas.rh.reimbursehelper.Util.IntentUtils;
+import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtils;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
@@ -87,6 +89,7 @@ public class ApprovalDetailActivity extends BaseActivity {
     private String filePath;
     private int code;
     private ProgressDialog dialogLoading;
+    private File file;
 
 
     @Override
@@ -110,7 +113,7 @@ public class ApprovalDetailActivity extends BaseActivity {
         context = ApprovalDetailActivity.this;
         // context = getApplicationContext();
         spu = new SharedPreferencesUtil(ApprovalDetailActivity.this);
-        tvTitle.setText("报销单详情");
+        tvTitle.setText("审批单详情");
 
         myHandler = new MyHandler(this);
         SharedPreferencesUtil spu = new SharedPreferencesUtil(ApprovalDetailActivity.this);
@@ -123,7 +126,9 @@ public class ApprovalDetailActivity extends BaseActivity {
             approvalId = itemBean.getApprovalId();
             formId = itemBean.getFormId();
             //formId = 593;
+            Loger.e("approval dedtail---formId="+formId);
             getExpenseForms(formId);
+
             getPdfForm();
             tvExpenseName.setText(itemBean.getApprovalName());
             tvProgress.setText(String.valueOf(itemBean.getApproveProcessId()));
@@ -150,7 +155,6 @@ public class ApprovalDetailActivity extends BaseActivity {
                     signVerifyP1(pdfBase64Str);
                 }
 
-
                 // submitApproval();
 
             }
@@ -166,6 +170,13 @@ public class ApprovalDetailActivity extends BaseActivity {
                 } else {
                     submitApproval();
                 }
+            }
+        });
+        ivPdfIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(IntentUtils.getPdfFileIntent(file, ApprovalDetailActivity.this));
+//                     startActivity(IntentUtils.getPdfIntent(file));
             }
         });
 
@@ -196,6 +207,7 @@ public class ApprovalDetailActivity extends BaseActivity {
 
     private void submitApproval() {
         reason = editReason.getText().toString().trim();
+
         new Thread(approvalRunnable).start();
 
     }
@@ -258,12 +270,13 @@ public class ApprovalDetailActivity extends BaseActivity {
                         Toast.makeText(context, "文件为空", Toast.LENGTH_SHORT).show();
 
                     } else {
-                        File file = DownloadFileUtil.base64StringToPdf(pdfBase64Str, filePath);
+                        file = DownloadFileUtil.base64StringToPdf(pdfBase64Str, filePath);
 
                         if (file.exists() && file.length() > 0) {
                             ivPdfIcon.setVisibility(View.VISIBLE);
                         } else {
                             Toast.makeText(context, "生成pdf出错", Toast.LENGTH_SHORT).show();
+                            ivPdfIcon.setVisibility(View.GONE);
                         }
                         pdfPathName = file.getPath();
                     }

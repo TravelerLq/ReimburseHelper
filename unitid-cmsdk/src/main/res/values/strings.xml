@@ -216,6 +216,7 @@
     <string name="view_approval_expense">查看待审批报销单</string>
     <string name="register_company">公司注册</string>
     <string name="edit_company">公司信息更新</string>
+    <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="company_manager">企业管理</string>
     <string name="set_approval">审核配置</string>
@@ -225,5 +226,7 @@
     <string name="add_company">添加公司</string>
     <string name="hint_put_company">请输入公司名称</string>
     <string name="applicant">申请人员</string>
+    <string name="verify_code">公司邀请码:</string>
+    <string name="get_code">生成邀请码（点击更新）</string>
 
 </resources>

@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import com.sas.rh.reimbursehelper.NetworkUtil.DepartmentUtil;
 import com.sas.rh.reimbursehelper.Bean.ReimbursementDepartment;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.RecyclerviewWithCheckbox.DividerItemDecoration;
+import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
 import com.zcw.togglebutton.ToggleButton;
@@ -48,7 +50,7 @@ public class DepartmentsManageActivity extends AppCompatActivity {
     private ImageView add_departmentitem, backbt;
     int page = 0;
     private ProgressDialogUtil pdu = new ProgressDialogUtil(DepartmentsManageActivity.this, "提示", "提交更改中");
-    String department_id;
+    int  department_id;
     private SharedPreferencesUtil spu;
     private JSONArray departmentlist;
     private JSONObject deapetmentlist;
@@ -85,7 +87,13 @@ public class DepartmentsManageActivity extends AppCompatActivity {
                 ToastUtil.showToast(DepartmentsManageActivity.this, "加载完毕", Toast.LENGTH_LONG);
 
             } else if (msg.what == 2) {
-                //ToastUtil.showToast(DepartmentsManageActivity.this,deapetmentlist.get("HostTime")+":"+deapetmentlist.get("ResultCode").toString(), Toast.LENGTH_LONG);
+                int status = jsonresult.getIntValue("status");
+                if (status == 200) {
+                    ToastUtil.showToast(DepartmentsManageActivity.this, "加入成功", Toast.LENGTH_LONG);
+                    finish();
+                }
+
+
             } else if (msg.what == 0) {
                 ToastUtil.showToast(DepartmentsManageActivity.this, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
             } else if (msg.what == -1) {
@@ -129,7 +137,18 @@ public class DepartmentsManageActivity extends AppCompatActivity {
         DividerItemDecoration itemDecorationHeader = new DividerItemDecoration(DepartmentsManageActivity.this, DividerItemDecoration.VERTICAL_LIST);
         itemDecorationHeader.setDividerDrawable(ContextCompat.getDrawable(DepartmentsManageActivity.this, R.drawable.divider_main_bg_height_1));
         mRecyclerView.addItemDecoration(itemDecorationHeader);
+
         mRecyclerView.setAdapter(mAdapter);
+
+//        mAdapter.setOnItemClickListener(new RecyclerAdapterWithHF.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(RecyclerAdapterWithHF adapter, RecyclerView.ViewHolder vh, int position) {
+//
+//                Loger.e("departMent---" + mData.get(position).getDepartmentName());
+//            }
+//        });
+
+
         ptrClassicFrameLayout.postDelayed(new Runnable() {
 
             @Override
@@ -145,6 +164,8 @@ public class DepartmentsManageActivity extends AppCompatActivity {
                 GetallDepartmentInfo();
             }
         });
+
+
     }
 
     public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -164,9 +185,13 @@ public class DepartmentsManageActivity extends AppCompatActivity {
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
             DepartmentsManageActivity.ChildViewHolder holder = (DepartmentsManageActivity.ChildViewHolder) viewHolder;
             holder.itemTv.setText(mData.get(position).getDepartmentName());
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+            holder.btnJoin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Loger.e("---click-" + position);
+                    department_id = mData.get(position).getDepartmentId();
+                    joinDepartment();
 
                 }
             });
@@ -179,7 +204,7 @@ public class DepartmentsManageActivity extends AppCompatActivity {
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    department_id = "" + mData.get(position).getDepartmentId();
+                                    department_id = mData.get(position).getDepartmentId();
                                     DeleteSubject();
                                 }
                             }).show();
@@ -196,14 +221,43 @@ public class DepartmentsManageActivity extends AppCompatActivity {
 
     }
 
+    private void joinDepartment() {
+        new Thread(RunnableJoinDepart).start();
+    }
+
+
+    private JSONObject jsonresult;
+    Runnable RunnableJoinDepart = new Runnable() {
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+
+            try {
+                JSONObject jo = DepartmentUtil.joinDept(spu.getUidNum(), department_id);
+                if (jo != null) {
+                    jsonresult = jo;
+                    deapetmentlistback.sendEmptyMessage(2);
+                } else {
+                    deapetmentlistback.sendEmptyMessage(0);
+                }
+            } catch (Exception e) {
+                deapetmentlistback.sendEmptyMessage(-1);
+                e.printStackTrace();
+            }
+        }
+
+    };
+
     public class ChildViewHolder extends RecyclerView.ViewHolder {
         public TextView itemTv;
         public ToggleButton toggleBtn;
+        public Button btnJoin;
 
         public ChildViewHolder(View view) {
             super(view);
             itemTv = (TextView) view.findViewById(R.id.itemTv);
             toggleBtn = (ToggleButton) view.findViewById(R.id.togglebutton);
+            btnJoin=(Button) view.findViewById(R.id.btn_join);
         }
 
     }

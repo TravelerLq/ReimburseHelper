@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import com.sas.rh.reimbursehelper.Util.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sas.rh.reimbursehelper.NetworkUtil.ApprovalUtil.deleteApproveNum;
 import static com.sas.rh.reimbursehelper.NetworkUtil.ApprovalUtil.getMyApproval;
 import static com.sas.rh.reimbursehelper.NetworkUtil.ApprovalUtil.getPendApproval;
 
@@ -42,6 +44,7 @@ public class ViewExpenseActivity extends BaseActivity {
     private RecyclerAdapterWithHF mAdapter;
     private List<ExpenseApprovalResponseBean> mData = new ArrayList<>();
     private TextView tvBarTitle;
+    private ImageView ivBack;
 
     int page = 0;
     //   private ProgressDialogUtil pdu = new ProgressDialogUtil(this, "提示", "加载中");
@@ -73,6 +76,10 @@ public class ViewExpenseActivity extends BaseActivity {
                 mData.clear();
                 List<ExpenseApprovalResponseBean> list = JSONArray.parseArray(jsonResult.toJSONString(),
                         ExpenseApprovalResponseBean.class);
+                if(list.size()==0){
+                    ToastUtil.showToast(ViewExpenseActivity.this, "暂无数据！", Toast.LENGTH_LONG);
+
+                }
                 mData.addAll(list);
                 mAdapter.notifyDataSetChanged();
                 // pdu.dismisspd();
@@ -114,6 +121,7 @@ public class ViewExpenseActivity extends BaseActivity {
         ptrClassicFrameLayout = (PtrClassicFrameLayout) findViewById(R.id.test_recycler_view_frame);
         mRecyclerView = (RecyclerView) findViewById(R.id.test_recycler_view);
         tvBarTitle = (TextView) findViewById(R.id.tv_bar_title);
+        ivBack = (ImageView) findViewById(R.id.iv_back);
         spu = new SharedPreferencesUtil(ViewExpenseActivity.this);
         initView();
         type = getIntent().getStringExtra("type");
@@ -130,7 +138,7 @@ public class ViewExpenseActivity extends BaseActivity {
 
     @Override
     protected void initListeners() {
-
+        ivBack.setOnClickListener(this);
     }
 
     private void initView() {
@@ -199,6 +207,7 @@ public class ViewExpenseActivity extends BaseActivity {
                         "mAdapter第" + position + "个", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
+
                 bundle.putSerializable("itemBean", mData.get(position));
                 intent.putExtra("bundle", bundle);
               /*
@@ -264,7 +273,7 @@ public class ViewExpenseActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("viewExpense --", "onResume--- type="+type);
+        Log.e("viewExpense --", "onResume--- type=" + type);
         if (type.equals("0")) {
             //报销人
             getExpense();
@@ -329,6 +338,12 @@ public class ViewExpenseActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                break;
+            default:
+                break;
+        }
 
     }
 }

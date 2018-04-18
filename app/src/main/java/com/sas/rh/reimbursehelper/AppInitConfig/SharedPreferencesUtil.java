@@ -60,10 +60,7 @@ public class SharedPreferencesUtil {
     }
 
 
-    public void writeCompanyId(String id) {
-        editor.putString("cid", id);
-        editor.commit();
-    }
+
 
     //pdf签名的key
     public void setCertKey(String key) {
@@ -133,6 +130,11 @@ public class SharedPreferencesUtil {
         }
         String cid = userSettings.getString("cid", "");
         return Integer.parseInt(cid);
+    }
+
+    public void writeCompanyId(String id) {
+        editor.putString("cid", id);
+        editor.commit();
     }
 
     public void clearCid() {

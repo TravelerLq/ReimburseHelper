@@ -85,6 +85,8 @@
          <activity android:name=".view.activity.ApplicantActivity"></activity>
         <service android:name=".service.NoticeMsgService"></service>
         <activity android:name=".view.activity.RegisterActivity"></activity>
+        <activity android:name=".view.activity.BeforeRegisterActivity"></activity>
+        <activity android:name=".view.activity.JoinOrRegisterCompanyActivity"></activity>
     </application>
 
 </manifest>

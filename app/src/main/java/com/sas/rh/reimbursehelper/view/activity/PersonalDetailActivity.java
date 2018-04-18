@@ -70,6 +70,8 @@ public class PersonalDetailActivity extends AppCompatActivity {
                 if (saveUserBean != null) {
                     UserData.removeUser();
                 }
+                sharedPreferencesUtil.writeCompanyId("");
+                sharedPreferencesUtil.writeUserId("");
                 Intent intent = new Intent(PersonalDetailActivity.this, RegFirstStepActivity.class);
                 startActivity(intent);
                 finish();
@@ -79,7 +81,7 @@ public class PersonalDetailActivity extends AppCompatActivity {
         backbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                finish();
             }
         });
 

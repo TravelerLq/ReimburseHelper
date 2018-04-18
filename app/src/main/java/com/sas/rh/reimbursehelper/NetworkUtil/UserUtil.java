@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sas.rh.reimbursehelper.Bean.UserBean;
+import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.constant.Constant;
 
 import java.util.List;
@@ -74,6 +75,7 @@ public class UserUtil {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("idCardNumber", idCardNumber);
         String url = RootAddress + "yuanshensystem/user/selectbyidcardnumber";
+        Loger.e("selectbyidcardnumber--url--"+url);
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
 //        String userJson = reJson.getString("user");
 //        User user = JSON.parseObject(userJson, User.class);

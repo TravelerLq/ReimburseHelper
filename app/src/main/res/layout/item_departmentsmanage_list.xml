@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:toggle="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_subjectsmanage_list"
     android:layout_width="match_parent"
     android:layout_height="55dp"
-    android:gravity="center_vertical"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
+    android:gravity="center_vertical"
     android:orientation="horizontal">
 
 
@@ -19,6 +18,12 @@
         android:layout_marginLeft="15dp"
         android:layout_weight="1"
         android:text="部门名称" />
+
+    <Button
+        android:id="@+id/btn_join"
+        android:text="加入"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_40" />
 
 
 </LinearLayout>

@@ -170,4 +170,11 @@
         <!--<item name="android:windowFrame">@null</item>-->
     </style>
 
+    <style name="BottomDialog" parent="Theme.AppCompat.Light.Dialog">
+        <!--背景颜色及透明程度-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+    </style>
+
 </resources>

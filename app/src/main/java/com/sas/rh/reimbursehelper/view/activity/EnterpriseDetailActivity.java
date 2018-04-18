@@ -1,5 +1,6 @@
 package com.sas.rh.reimbursehelper.view.activity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -58,8 +59,11 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
 //
 //                }
                 if(jsonresult.getIntValue("status")==200){
-                    Toast.makeText(EnterpriseDetailActivity.this,"添加成功",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EnterpriseDetailActivity.this,"公司注册成功",Toast.LENGTH_SHORT).show();
+                    Intent intent =new Intent(EnterpriseDetailActivity.this,MainActivity.class);
+                    startActivity(intent);
                     finish();
+
                 }else{
                     Toast.makeText(EnterpriseDetailActivity.this,"添加失败，请重试",Toast.LENGTH_SHORT).show();
                 }
