@@ -6,6 +6,7 @@ package com.sas.rh.reimbursehelper.NetworkUtil;
 
 public class AddressConfig {
     public final static String RootAddress = "http://101.200.85.207:8080/";
-    public final static String TestAddress ="http://192.168.1.114:8080/";
+
+  // public final static String RootAddress = "http://192.168.1.114:8080/";
 //    public final static String RootAddress = "http://dh1028ftp.nat123.net/";
 }

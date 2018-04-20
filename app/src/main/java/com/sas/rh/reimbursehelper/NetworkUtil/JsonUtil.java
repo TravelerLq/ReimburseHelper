@@ -12,7 +12,8 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 
-import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.TestAddress;
+import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.RootAddress;
+
 
 /**
  * @author tuzhengsong
@@ -22,17 +23,21 @@ public class JsonUtil extends PostMethod {
     public static JSONObject uploadJson(String url, JSONObject jsonObject) {
         PostMethod postMethod = new UTF8PostMethod(url);
         JSONObject responseMsg = new JSONObject();
+//        httpGet.setProtocolVersion(HttpVersion.HTTP_1_0);
+//        httpGet.addHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_CLOSE);
         HttpClient client = new HttpClient();
+
         if (!jsonObject.isEmpty()) {
 
             try {
                 NameValuePair message = new NameValuePair("json", jsonObject.toJSONString());
                 Log.e("uploadJson--", "jsonStr" + jsonObject.toJSONString() + "url=" + url);
+                Log.e("uploadJson--url=", "url=" + url);
 
                 postMethod.setRequestBody(new NameValuePair[]{message});
                 client.getHttpConnectionManager().getParams()
 
-                        .setConnectionTimeout(5000);
+                        .setConnectionTimeout(10000);
                 int status = client.executeMethod(postMethod);
                 Log.e("uploadJson", "res=" + postMethod.getResponseBodyAsString());
                 responseMsg = JSONObject.parseObject(postMethod.getResponseBodyAsString());
@@ -52,6 +57,8 @@ public class JsonUtil extends PostMethod {
         }
         return responseMsg;
     }
+
+
 
     public static JSONArray uploadJsonGetJsonArray(String url, JSONObject jsonObject) {
 //        PostMethod postMethod = new PostMethod(url);
@@ -91,8 +98,10 @@ public class JsonUtil extends PostMethod {
         return responseMsg;
     }
 
+
+
     public static void main(String[] args) {
-        String url = TestAddress + "yuanshensystem/form/add";
+        String url = RootAddress + "yuanshensystem/form/add";
         JSONObject jsonObject = new JSONObject();
 //        jsonObject.put("test中文", 1234);
 //        jsonObject.put("sha", "wergf");

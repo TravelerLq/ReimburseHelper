@@ -94,30 +94,32 @@ public class RegFirstStepActivity extends AppCompatActivity {
             // super.handleMessage(msg);
             Loger.e("jsonRsult--" + jsonresult.toJSONString());
             if (msg.what == 1) {
-                String userJson = jsonresult.getString("user");
-                UserBean userBean = JSON.parseObject(userJson, UserBean.class);
-                if (userBean == null) {
+                int statusCode = jsonresult.getIntValue("status");
+                if (statusCode == 200) {
+                    String userJson = jsonresult.getString("user");
+                    UserBean userBean = JSON.parseObject(userJson, UserBean.class);
+                    if (userBean == null) {
 
-                }
+                    }
 
-                if (userBean.getCompanyId() != null) {
-                    companyId = userBean.getCompanyId();
-                }
+                    if (userBean.getCompanyId() != null) {
+                        companyId = userBean.getCompanyId();
+                        sharedPreferencesUtil.writeCompanyId(String.valueOf(companyId));
+                    }
 
-                sharedPreferencesUtil.writeCompanyId(String.valueOf(companyId));
-                SaveUserBean saveUserBean = new SaveUserBean(userBean.getName(), userBean.getIdCardNumber(), userBean.getUserPhone());
 
-                Loger.e("userBean" + userBean.getName());
-                int status = jsonresult.getIntValue("status");
+                    SaveUserBean saveUserBean = new SaveUserBean(userBean.getName(), userBean.getIdCardNumber(), userBean.getUserPhone());
 
-                Loger.e("status--" + status);
-                if (status == 200) {
+                    Loger.e("userBean" + userBean.getName());
+                    int status = jsonresult.getIntValue("status");
+
+                    Loger.e("status--" + status);
                     int userId = userBean.getUserId();
                     Loger.e("userId--" + userId);
                     UserData.saveUser(saveUserBean);
 
                     sharedPreferencesUtil.writeUserId(String.valueOf(userId));
-                    sharedPreferencesUtil.writeCompanyId(String.valueOf(userBean.getCompanyId()));
+
 //                    serviceIntenta = new Intent(RegFirstStepActivity.this, NoticeMsgService.class);
 //                    startService(serviceIntenta);
 //                    SaveUserBean saveUserBean = new SaveUserBean(account, psw, realname, emailStr, telephone, idno);
@@ -129,11 +131,10 @@ public class RegFirstStepActivity extends AppCompatActivity {
                     Intent it = new Intent(RegFirstStepActivity.this, MainActivity.class);
                     startActivity(it);
                     finish();
-
                 } else {
-                    String msgToast = jsonresult.getString("msg");
-                    Loger.e("msgToast--" + msgToast);
-                    // ToastUtil.showToast(RegFirstStepActivity.this, msgToast, Toast.LENGTH_LONG);
+                    // String msgToast = jsonresult.getString("msg");
+                    Loger.e("msgToast--" + "您还没有帐号，请先注册");
+                    ToastUtil.showToast(RegFirstStepActivity.this, "您还没有帐号，请先注册", Toast.LENGTH_LONG);
                 }
 
 
@@ -222,7 +223,7 @@ public class RegFirstStepActivity extends AppCompatActivity {
         nexttostep2 = (LinearLayout) findViewById(R.id.nexttostep2);
         onlineClient = new OnlineClient(CertServiceUrl.baseUrl, CertServiceUrl.appKey, CertServiceUrl.appSecret);
 
-        //  initTestData();
+        initTestData();
         final MyCountDownTimer myCountDownTimer = new MyCountDownTimer(60000, 1000);
         //  initTestData();
         SaveUserBean saveUserBean = UserData.getUserInfo();
@@ -478,7 +479,7 @@ public class RegFirstStepActivity extends AppCompatActivity {
             //goLogin();
             //去申请证书
             //无证书时候
-          goRegisterCertify();
+            goRegisterCertify();
 //            CertificateRegisterService certificateRegisterService = new CertificateRegisterService(RegFirstStepActivity.this,
 //                    onlineClient, new ProcessListener<OnlineApplyResponse>() {
 //                @Override
@@ -555,7 +556,7 @@ public class RegFirstStepActivity extends AppCompatActivity {
 
 
     private void goRegisterCertify() {
-         pdu.showpd();
+        pdu.showpd();
 
         CertificateRegisterService certificateRegisterService = new CertificateRegisterService(RegFirstStepActivity.this,
                 onlineClient, new ProcessListener<OnlineApplyResponse>() {
@@ -571,7 +572,7 @@ public class RegFirstStepActivity extends AppCompatActivity {
                     public void doFinish(OnlineIssueResponse data, String cert) {
                         Log.e("CertificateIssueService", "onFinish--start goLogin");
                         //  goAddUser();
-                        if(pdu.getMypDialog().isShowing()){
+                        if (pdu.getMypDialog().isShowing()) {
                             pdu.dismisspd();
                         }
                         goLogin();
@@ -601,7 +602,7 @@ public class RegFirstStepActivity extends AppCompatActivity {
 
                     @Override
                     public void doException(CmSdkException exception) {
-                        if(pdu.getMypDialog().isShowing()){
+                        if (pdu.getMypDialog().isShowing()) {
                             pdu.dismisspd();
                         }
                         Log.e("CertificateIssueService", "doException");
@@ -620,7 +621,7 @@ public class RegFirstStepActivity extends AppCompatActivity {
 
             @Override
             public void doException(CmSdkException e) {
-                if(pdu.getMypDialog().isShowing()){
+                if (pdu.getMypDialog().isShowing()) {
                     pdu.dismisspd();
                 }
                 ToastUtil.showToast(RegFirstStepActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT);
@@ -646,10 +647,24 @@ public class RegFirstStepActivity extends AppCompatActivity {
 //        idnumet.setText("320322199007171428");
 //        telnumet.setText("15951882547");
 //        edtEmail.setText("2312565623@qq.com");
-        realnameet.setText("屠正松");
-        // idnumet.setText("320322199007171111");
-        idnumet.setText("320113199310156418");
-        telnumet.setText("15951882547");
+//        realnameet.setText("屠正松");
+//        // idnumet.setText("320322199007171111");
+//        idnumet.setText("320113199310156418");
+//        telnumet.setText("15951882547");
+
+//        realnameet.setText("李青");
+//        idnumet.setText("320322199007171428");
+//        telnumet.setText("15951882547");
+
+        realnameet.setText("王朕");
+        idnumet.setText("320113199407266410");
+        telnumet.setText("18205188981");
+
+
+//        realnameet.setText("时辉");
+//        // idnumet.setText("320322199007171111");
+//        idnumet.setText("321028197505222615");
+//        telnumet.setText("15951882547");
     }
 
     private class MyCountDownTimer extends CountDownTimer {

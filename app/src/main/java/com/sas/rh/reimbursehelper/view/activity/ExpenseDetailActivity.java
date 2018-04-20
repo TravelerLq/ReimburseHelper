@@ -59,6 +59,7 @@ public class ExpenseDetailActivity extends BaseActivity {
     private static MyHandler myHandler;
     private JSONObject jsonobj;
 
+
     private String pdfPath = "/storage/emulated/0/Download/";
     private JSONObject pdfJsonObjec;
     private File file;
@@ -71,6 +72,8 @@ public class ExpenseDetailActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        myHandler = new MyHandler(this);
+        spu = new SharedPreferencesUtil(ExpenseDetailActivity.this);
         context = ExpenseDetailActivity.this;
         ivPdfIcon = (ImageView) findViewById(R.id.iv_pdf_icon_expense);
         tvTitle = (TextView) findViewById(R.id.tv_bar_title);
@@ -92,24 +95,40 @@ public class ExpenseDetailActivity extends BaseActivity {
             getPdfForm();
 
             //=1 通过
-            if (itemBean.getApproveResultId() == 1) {
-                tvApprovalResult.setText(getResources().getString(R.string.pass));
-                llReject.setVisibility(View.GONE);
-            } else {
-                tvApprovalResult.setText(getResources().getString(R.string.unpass));
-                llReject.setVisibility(View.VISIBLE);
-                tvReason.setText(itemBean.getRejectReason());
+            if (itemBean.getApproveResultId() == null) {
+                tvApprovalResult.setText(getResources().getString(R.string.wait_approval));
+            } else{
 
+                if (itemBean.getApproveResultId() == 1) {
+                    tvApprovalResult.setText(getResources().getString(R.string.pass));
+                    llReject.setVisibility(View.GONE);
+                } else {
+                    tvApprovalResult.setText(getResources().getString(R.string.unpass));
+                    llReject.setVisibility(View.VISIBLE);
+                    tvReason.setText(itemBean.getRejectReason());
+
+                }
             }
+
             Log.e("name-", "-getApprovalName" + itemBean.getApprovalName());
             if (!TextUtils.isEmpty(itemBean.getApprovalName())) {
                 tvExpenseName.setText(itemBean.getApprovalName().toString());
 
             }
+            if(itemBean.getApproveProcessId()==null){
+                tvFinalResult.setText("暂无");
+            }else{
+                tvProgress.setText(String.valueOf(itemBean.getApproveProcessId()));
+            }
 
 
-            tvProgress.setText(String.valueOf(itemBean.getApproveProcessId()));
-            tvFinalResult.setText(String.valueOf(itemBean.getFinallyResultId()));
+            if(itemBean.getFinallyResultId()==null){
+                tvFinalResult.setText("暂无");
+            }else{
+                tvFinalResult.setText(String.valueOf(itemBean.getFinallyResultId()));
+            }
+
+
 //            String time = String.valueOf(itemBean.getUpdateTime());
 
             Date date = itemBean.getUpdateTime();
@@ -122,6 +141,7 @@ public class ExpenseDetailActivity extends BaseActivity {
         }
         Log.e("approvalId", "--" + approvalId);
 
+
     }
 
 
@@ -130,15 +150,15 @@ public class ExpenseDetailActivity extends BaseActivity {
      */
     private class MyHandler extends Handler {
         //持有弱引用HandlerActivity,GC回收时会被回收掉.
-        private final WeakReference<ApprovalDetailActivity> mActivty;
+        private final WeakReference<ExpenseDetailActivity> mActivty;
 
-        public MyHandler(ApprovalDetailActivity activity) {
-            mActivty = new WeakReference<ApprovalDetailActivity>(activity);
+        public MyHandler(ExpenseDetailActivity activity) {
+            mActivty = new WeakReference<ExpenseDetailActivity>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            ApprovalDetailActivity activity = mActivty.get();
+            ExpenseDetailActivity activity = mActivty.get();
             super.handleMessage(msg);
 
             if (activity != null) {
@@ -163,7 +183,7 @@ public class ExpenseDetailActivity extends BaseActivity {
                         pdfPathName = file.getPath();
                     }
 
-                }  else if (msg.what == 5) {
+                } else if (msg.what == 5) {
                     if (annexId != null) {
                         //去下载pdf
                         toDownLoadPdf();
@@ -220,7 +240,7 @@ public class ExpenseDetailActivity extends BaseActivity {
             // TODO Auto-generated method stub
 
             try {
-                JSONObject jo = FormUtil.getFormPdf(formId);
+                JSONObject jo = FormUtil.getFormPdf(formId, spu.getUidNum());
                 if (jo != null) {
                     jsonobj = jo;
                     annexId = jsonobj.getInteger("annexId");

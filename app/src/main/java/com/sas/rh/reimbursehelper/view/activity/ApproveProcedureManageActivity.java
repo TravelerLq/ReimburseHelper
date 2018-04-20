@@ -54,6 +54,9 @@ public class ApproveProcedureManageActivity extends BaseActivity {
             if (msg.what == 1) {
 
                 List<ApproveNum> approveNumList = JSONArray.parseArray(jsonArray.toJSONString(), ApproveNum.class);
+                if(approveNumList.size()==0){
+                    ToastUtil.showToast(baseContext, "对不起，暂无数据", Toast.LENGTH_LONG);
+                }
                 list.clear();
                 list.addAll(approveNumList);
                 approvalProducerAdapter.notifyDataSetChanged();

@@ -63,15 +63,15 @@ public class MainActivity extends AppCompatActivity {
         //查询本地库证书列表,没注册则注册一张
         certificateArrayList = store.getAllCertificateList();
 
-//        if (certificateArrayList.size() == 0) {
-//            Intent it = new Intent(MainActivity.this, RegFirstStepActivity.class);
-//            startActivity(it);
-//            finish();
-//        } else {
-//            //有证书
-//          //  store.deleteCertificate(certificateArrayList.get(0).getId());
-//            Loger.e("certificateArrayList.get(0).getId()="+certificateArrayList.get(0).getId());
-//        }
+        if (certificateArrayList.size() == 0) {
+            Intent it = new Intent(MainActivity.this, RegFirstStepActivity.class);
+            startActivity(it);
+            finish();
+        } else {
+            //有证书
+          //  store.deleteCertificate(certificateArrayList.get(0).getId());
+            Loger.e("certificateArrayList.get(0).getId()="+certificateArrayList.get(0).getId());
+        }
 
     }
 

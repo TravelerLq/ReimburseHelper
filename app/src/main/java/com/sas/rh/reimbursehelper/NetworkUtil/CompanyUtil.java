@@ -8,7 +8,6 @@ import com.sas.rh.reimbursehelper.Bean.Company;
 import java.util.List;
 
 import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.RootAddress;
-import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.TestAddress;
 
 public class CompanyUtil {
 //    public static void main(String[] args) {
@@ -224,13 +223,27 @@ public class CompanyUtil {
     }
 
     public static JSONObject getShareCode(int userId) {
-       // Integer userId = 1;
-        String url = RootAddress+"yuanshensystem/public/getsharecode";
+        // Integer userId = 1;
+        String url = RootAddress + "yuanshensystem/public/getsharecode";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("userId", userId);
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         return reJson;
 
+    }
+
+
+    //更新一条用户信息
+    public static JSONObject updateUser(int userId, int companyId) {
+//        Integer userId = 3;
+//        Integer companyId = 29;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId", userId);
+        jsonObject.put("companyId", companyId);
+        String url = RootAddress + "/yuanshensystem/user/update";
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        System.out.println(reJson);
+        return reJson;
     }
 
 }

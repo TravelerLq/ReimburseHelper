@@ -8,7 +8,7 @@ import com.sas.rh.reimbursehelper.Bean.ExpenseReimbursementForm;
 import java.util.List;
 
 import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.RootAddress;
-import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.TestAddress;
+
 
 public class FormUtil {
     //    public static void main(String[] args) {
@@ -20,6 +20,7 @@ public class FormUtil {
 ////        getFormPdf();
 //    }
     private static String bxdid;
+    private static final String urlStr=AddressConfig.RootAddress;
 
     //增加一张新的报销单
     public static JSONArray addForm(Integer userId, Byte expenseCategoryId) {
@@ -29,7 +30,7 @@ public class FormUtil {
         //      Byte expenseCategoryId = 1;
 //        Byte expenseCategoryId = 5;
 
-        String url = RootAddress + "yuanshensystem/form/add";
+        String url =urlStr+ "yuanshensystem/form/add";
         // String url = "http://101.200.85.207:8080/yuanshensystem/form/add";
         //String url = RootAddress+"yuanshensystem/form/add";
         JSONObject jsonObject = new JSONObject();
@@ -106,12 +107,13 @@ public class FormUtil {
     }
 
     //获取报销单的pdf
-    public static JSONObject getFormPdf(int formid) {
+    public static JSONObject getFormPdf(int formid,int userId) {
         //报销人id (42)
         Integer formId = formid;
-        String url = AddressConfig.RootAddress + "yuanshensystem/form/getpdf";
+        String url =urlStr + "yuanshensystem/form/getpdf";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("formId", formId);
+        jsonObject.put("userId",userId);
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         //这里得到的是报销单的附件id，根据这个附件id，调用下载文件的方法去下载pdf文件
         Integer annexId = reJson.getInteger("annexId");

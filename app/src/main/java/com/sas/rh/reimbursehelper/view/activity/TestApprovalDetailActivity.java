@@ -447,7 +447,7 @@ public class TestApprovalDetailActivity extends BaseActivity {
             // TODO Auto-generated method stub
 
             try {
-                JSONObject jo = FormUtil.getFormPdf(formId);
+                JSONObject jo = FormUtil.getFormPdf(formId,spu.getUidNum());
                 if (jo != null) {
                     jsonobj = jo;
                     annexId = jsonobj.getInteger("annexId");

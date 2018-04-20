@@ -22,7 +22,7 @@ import org.apache.commons.httpclient.methods.multipart.StringPart;
 import java.io.File;
 
 import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.RootAddress;
-import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.TestAddress;
+
 
 
 /**

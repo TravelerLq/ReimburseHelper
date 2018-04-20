@@ -1,6 +1,9 @@
 package com.sas.rh.reimbursehelper.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -38,15 +42,19 @@ import com.sas.rh.reimbursehelper.NetworkUtil.SingleReimbursementUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.UploadFileUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.FileToBase64Util;
+import com.sas.rh.reimbursehelper.Util.FileUtils;
 import com.sas.rh.reimbursehelper.Util.IntentUtils;
 import com.sas.rh.reimbursehelper.Util.JsonStringUtil;
+import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
 import com.warmtel.expandtab.ExpandPopTabView;
 import com.warmtel.expandtab.KeyValueBean;
 import com.warmtel.expandtab.PopTwoListView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,13 +126,15 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
     private String parentKey;
     private String base64CodeTwo;
     private String base64Code;
+
     private Uri uri;
     private String signJson1;
     private TextView tvPdfForm;
     private TextView tvSubmitPdf;
     private ImageView ivPdfIcon;
-
+    private ImageView ivBack;
     private String pdfPath = "/storage/emulated/0/Download/";
+    private Context context;
     private Handler expenseCategoryback = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
@@ -183,16 +193,55 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 
                 initBxRclv();
             } else if (msg.what == 3) {
-                //开始上传照片
+                //开始上传照片 提交报销项成功－返回expenseId 进行图片验签
+                Loger.e("pic submitJson-expenseId--" + expenseId);
+                if (expenseId != 0) {
+                    submitSignJsonstring();
+                }
 
-                ToastUtil.showToast(AddExpenseActivity.this, "提交成功！", Toast.LENGTH_LONG);
+
+                //ToastUtil.showToast(AddExpenseActivity.this, "提交成功！", Toast.LENGTH_LONG);
             } else if (msg.what == 4) {
+                if (pdu.getMypDialog().isShowing()) {
+                    pdu.dismisspd();
+                }
                 //上传 签名成功
-                ToastUtil.showToast(AddExpenseActivity.this, "签名文件提交成功！", Toast.LENGTH_LONG);
-                Glide.with(AddExpenseActivity.this)
-                        .load(uri)
-                        .thumbnail(0.1f)
-                        .into(ivPhoto);
+                int code = jsonobj.getIntValue("code");
+
+                if (code == 200) {
+                    if (signType.equals("pic")) {
+                        ToastUtil.showToast(AddExpenseActivity.this, "提交成功！", Toast.LENGTH_LONG);
+
+                        ExpenseItemBean bean = new ExpenseItemBean(tvTitleStr, edtFeeStr, edtRemarkStr, selectedPhotos.get(0));
+                        addExpenseItemList.add(bean);
+                        //刷新数据
+                        if (addExpenseRecycleViewAdapter == null) {
+                            addExpenseRecycleViewAdapter = new AddExpenseRecycleViewAdapter(AddExpenseActivity.this, addExpenseItemList);
+                        }
+                        Log.e("addList", "size()=" + addExpenseItemList.size());
+                        // bxRecyclerView.setAdapter(addExpenseRecycleViewAdapter);
+                        addExpenseRecycleViewAdapter.notifyDataSetChanged();
+                        llRemark.setVisibility(View.GONE);
+
+
+//                        Glide.with(AddExpenseActivity.this)
+//                                .load(uri)
+//                                .thumbnail(0.1f)
+//                                .into(ivPhoto);
+                    } else {
+                        ToastUtil.showToast(AddExpenseActivity.this, "文件提交成功！", Toast.LENGTH_LONG);
+//                        if(file.exists()){
+//                            startActivity(IntentUtils.getPdfFileIntent(file,AddExpenseActivity.this));
+//                        }
+
+                        // startActivity(IntentUtils.getPdfIntent(file));
+
+                    }
+
+                } else {
+                    ToastUtil.showToast(AddExpenseActivity.this, "提交失败，请重试！", Toast.LENGTH_LONG);
+                }
+
 
             } else if (msg.what == 5) {
                 if (annexId != null) {
@@ -203,23 +252,37 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
             } else if (msg.what == 6) {
                 //download finish
                 pdfBase64Str = pdfJsonObjec.getString("file");
+
                 if (!TextUtils.isEmpty(pdfBase64Str)) {
                     //签名
                     signType = "pdf";
                     signVerifyP1(pdfBase64Str);
                 }
                 String originalFilename = pdfJsonObjec.getString("originalFilename");
-                String filePath = pdfPath + originalFilename;
+                pdfPath = FileUtils.getExternalFilesDirPath(context);
+
+//                final File file = new File(FileUtils.getExternalFilesDirPath(context),
+//                        "reim/" + FileUtils.getFileName(url));
+                String filePath = pdfPath + "/" + originalFilename;
+                Loger.e("filePath-------" + filePath);
                 file = DownloadFileUtil.base64StringToPdf(pdfBase64Str, filePath);
+                if (file == null) {
+                    Loger.e("-----file------null");
+                }
+                //  startActivity(IntentUtils.getPdfFileIntent(file, AddExpenseActivity.this));
+
                 if (file.exists() && file.length() > 0) {
+                    Loger.e("-----file exist");
                     ivPdfIcon.setVisibility(View.VISIBLE);
+
                 } else {
+                    ivPdfIcon.setVisibility(View.GONE);
                     Toast.makeText(AddExpenseActivity.this, "生成pdf出错", Toast.LENGTH_SHORT).show();
                 }
                 pdfPathName = file.getPath();
 
-                // startActivity(IntentUtils.getPdfFileIntent(file,AddExpenseActivity.this));
-                //     startActivity(IntentUtils.getPdfIntent(file));
+                //   startActivity(IntentUtils.getPdfFileIntent(file,AddExpenseActivity.this));
+                // startActivity(IntentUtils.getPdfIntent(file));
             } else if (msg.what == 0) {
                 ToastUtil.showToast(AddExpenseActivity.this, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
             } else if (msg.what == -1) {
@@ -235,6 +298,9 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
     private String pdfBase64Str;
     private File pdfFile;
     private File file;
+    private String tvTitleStr;
+    private String edtFeeStr;
+    private String edtRemarkStr;
 
 
     @Override
@@ -242,6 +308,7 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         isFirst = true;
+        context = AddExpenseActivity.this;
         setContentView(R.layout.activity_add_expanse);
         if (requestcode == 2) {
             //bxid = getIntent().getStringExtra("biiid");s
@@ -268,12 +335,14 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         tvSubmitPdf.setOnClickListener(this);
 
         ivPdfIcon = (ImageView) findViewById(R.id.iv_pdf_icon);
+        ivBack = (ImageView) findViewById(R.id.backbt);
 
         tvPdfForm.setOnClickListener(this);
         tvRemarkFinish.setOnClickListener(this);
         ivPhoto.setOnClickListener(this);
         tvAddExpense.setOnClickListener(this);
         ivPdfIcon.setOnClickListener(this);
+        ivBack.setOnClickListener(this);
 
 
 //        ivPdfIcon.setOnClickListener(new View.OnClickListener() {
@@ -578,18 +647,24 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
             }
             selectedPhotos.clear();
 
+
             if (photos != null) {
 
                 selectedPhotos.addAll(photos);
             }
             path = selectedPhotos.get(0);
+            String compressPath = compress(path);
 
-            Log.e("path=", "=" + path);
+            Log.e("path=", "=" + path + "---comPressPAth--" + compressPath);
             //photoAdapter.notifyDataSetChanged();
-            uri = Uri.fromFile(new File(selectedPhotos.get(0)));
+
+            //compress pic
+            uri = uri = Uri.fromFile(new File(compressPath));
+            //  uri = Uri.fromFile(new File(selectedPhotos.get(0)));
             try {
 
-                String base64CodePic = FileToBase64Util.encodeBase64File(path);
+                //   String base64CodePic = FileToBase64Util.encodeBase64File(path);
+                String base64CodePic = FileToBase64Util.encodeBase64File(compressPath);
                 signType = "pic";
                 signVerifyP1(base64CodePic);
 
@@ -756,6 +831,7 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 
     //签名验证
     private void signVerifyP1(final String base64Code1) {
+        pdu.showpd();
 
         String plantext = base64Code1;
         base64Code = base64Code1;
@@ -765,9 +841,13 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         SignatureP1Service signatureP1Service = new SignatureP1Service(AddExpenseActivity.this, new ProcessListener<DataProcessResponse>() {
             @Override
             public void doFinish(DataProcessResponse dataProcessResponse, String certificate) {
+                if (pdu.getMypDialog().isShowing()) {
+                    pdu.dismisspd();
+                }
                 if (dataProcessResponse.getRet() == 0) {
                     Log.e("密钥", "= " + dataProcessResponse.getResult());
                     spu.setCertKey(dataProcessResponse.getResult());
+                    //获得就是签名证书
                     Log.e("cert", "= " + certificate);
                     spu.setCert(certificate);
 //                    signJson1 = SingleReimbursementUtil.jsontoStr(base64Code1, certificate, dataProcessResponse.getResult(), path, 1, expenseId);
@@ -776,9 +856,21 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 //                        singTwoVerifyP1(signJson1);
 //                    }
 
-                    //签完名字之后, 先上传签了名字的JsonString ，成功 则Glide 显示图片到界面，否则 提示出错
+                    //只有点击生成报销单时，才去上传签了名字的JsonString
+                    if (signType.equals("pdf")) {
 
-                    submitSignJsonstring();
+                        submitSignJsonstring();
+                    } else {
+                        // if pic -保存picCert 和picKey  显示图片即可
+
+                        Glide.with(AddExpenseActivity.this)
+                                .load(uri)
+                                .thumbnail(0.1f)
+                                .into(ivPhoto);
+
+                    }
+
+
                     //   SingleReimbursementUtil.signJsonString(base64Code, certificate, dataProcessResponse.getResult(), path, 1, expenseId);
 
 
@@ -810,12 +902,18 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 //                        Toast.makeText(AddExpenseActivity.this, "生成sas文件失败，重新上传图片", Toast.LENGTH_SHORT).show();
 //                    }
                 } else {
+                    if (pdu.getMypDialog().isShowing()) {
+                        pdu.dismisspd();
+                    }
                     Toast.makeText(AddExpenseActivity.this, "图片签名失败" + dataProcessResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void doException(CmSdkException e) {
+                if (pdu.getMypDialog().isShowing()) {
+                    pdu.dismisspd();
+                }
                 Toast.makeText(AddExpenseActivity.this, "图片签名失败" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -879,6 +977,8 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
     private String signType;
     private String signPath;
     private String pdfPathName;
+    private String certStr;
+    private String keyStr;
     //上传签名JsonStr
     Runnable SubmitSignThread = new Runnable() {
         @Override
@@ -892,9 +992,11 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
             }
             Log.e("signPath--", "--" + signPath);
             try {
+
+                //  String result=  SingleReimbursementUtil.signJsonStringPdfTest(base64Code, spu.getCert(), spu.getKey(), signPath, index, expenseId);
                 JSONObject jo = SingleReimbursementUtil.signJsonStringNew(base64Code, spu.getCert(), spu.getKey(), signPath, index, expenseId);
 
-                // JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(expenseItem, expenseCategory, formId, amount, remark);
+                //  JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(expenseItem, expenseCategory, formId, amount, remark);
                 if (jo != null) {
                     jsonobj = jo;
                     //  expenseId = jo.getIntValue("expenseId");
@@ -969,6 +1071,7 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
                 if (jo != null) {
                     jsonobj = jo;
                     expenseId = jo.getIntValue("expenseId");
+                    Loger.e("expendId--" + expenseId);
 
                     // new Thread(SubmitfileThread).start();
                     expenseCategoryback.sendEmptyMessage(3);
@@ -1011,7 +1114,7 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
             // TODO Auto-generated method stub
 
             try {
-                JSONObject jo = FormUtil.getFormPdf(formId);
+                JSONObject jo = FormUtil.getFormPdf(formId, spu.getUidNum());
                 if (jo != null) {
                     jsonobj = jo;
                     annexId = jsonobj.getInteger("annexId");
@@ -1089,7 +1192,6 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 
             case R.id.tv_finish_remark:
                 //判空
-
                 Log.e("strToHex=", "=" + FileToBase64Util.str2HexStr("1928"));
                 Log.e("hexToStr=", "=" + FileToBase64Util.hexStr2Str("3338"));
                 checkData();
@@ -1109,7 +1211,10 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.iv_pdf_icon:
                 startActivity(IntentUtils.getPdfFileIntent(file, AddExpenseActivity.this));
-//                     startActivity(IntentUtils.getPdfIntent(file));
+                // startActivity(IntentUtils.getPdfIntent(file));
+                break;
+            case R.id.backbt:
+                finish();
                 break;
 
             default:
@@ -1119,9 +1224,9 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 
 
     private void checkData() {
-        String tvTitleStr = tvRemarkTitle.getText().toString();
-        String edtFeeStr = edtFee.getText().toString();
-        String edtRemarkStr = edtRemark.getText().toString();
+        tvTitleStr = tvRemarkTitle.getText().toString();
+        edtFeeStr = edtFee.getText().toString();
+        edtRemarkStr = edtRemark.getText().toString();
         if (TextUtils.isEmpty(edtFeeStr)) {
             Toast.makeText(this, "报销金额不可为空", Toast.LENGTH_SHORT).show();
             return;
@@ -1145,16 +1250,16 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         remark = edtRemarkStr;
         SubmitbillInfo();
 
-        ExpenseItemBean bean = new ExpenseItemBean(tvTitleStr, edtFeeStr, edtRemarkStr, selectedPhotos.get(0));
-        addExpenseItemList.add(bean);
-        //刷新数据
-        if (addExpenseRecycleViewAdapter == null) {
-            addExpenseRecycleViewAdapter = new AddExpenseRecycleViewAdapter(this, addExpenseItemList);
-        }
-        Log.e("addList", "size()=" + addExpenseItemList.size());
-        // bxRecyclerView.setAdapter(addExpenseRecycleViewAdapter);
-        addExpenseRecycleViewAdapter.notifyDataSetChanged();
-        llRemark.setVisibility(View.GONE);
+//        ExpenseItemBean bean = new ExpenseItemBean(tvTitleStr, edtFeeStr, edtRemarkStr, selectedPhotos.get(0));
+//        addExpenseItemList.add(bean);
+//        //刷新数据
+//        if (addExpenseRecycleViewAdapter == null) {
+//            addExpenseRecycleViewAdapter = new AddExpenseRecycleViewAdapter(this, addExpenseItemList);
+//        }
+//        Log.e("addList", "size()=" + addExpenseItemList.size());
+//        // bxRecyclerView.setAdapter(addExpenseRecycleViewAdapter);
+//        addExpenseRecycleViewAdapter.notifyDataSetChanged();
+//        llRemark.setVisibility(View.GONE);
     }
 
 
@@ -1165,6 +1270,60 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         if (expandTabView != null) {
             expandTabView.onExpandPopView();
         }
+    }
+
+    //图片压缩
+    private DisplayMetrics dm;
+
+    public String compress(String srcPath) {
+        String newPath = srcPath;
+        dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        float hh = dm.heightPixels;
+        float ww = dm.widthPixels;
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;
+        Bitmap bitmap = BitmapFactory.decodeFile(srcPath, opts);
+        opts.inJustDecodeBounds = false;
+        int w = opts.outWidth;
+        int h = opts.outHeight;
+        int size = 0;
+        if (w <= ww && h <= hh) {
+            size = 1;
+        } else {
+            double scale = w >= h ? w / ww : h / hh;
+            double log = Math.log(scale) / Math.log(2);
+            double logCeil = Math.ceil(log);
+            size = (int) Math.pow(2, logCeil);
+        }
+        opts.inSampleSize = size;
+        bitmap = BitmapFactory.decodeFile(srcPath, opts);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int quality = 100;
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+        System.out.println(baos.toByteArray().length);
+        while (baos.toByteArray().length > 45 * 1024) {
+            baos.reset();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+            quality -= 20;
+            System.out.println(baos.toByteArray().length);
+        }
+        try {
+
+            baos.writeTo(new FileOutputStream(newPath));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                baos.flush();
+                baos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return newPath;
+
     }
 }
 

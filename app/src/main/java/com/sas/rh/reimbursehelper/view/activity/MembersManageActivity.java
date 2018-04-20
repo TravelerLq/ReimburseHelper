@@ -24,6 +24,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
+import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.Bean.MemberDetailInfoEntity;
 import com.sas.rh.reimbursehelper.Bean.UserBean;
 import com.sas.rh.reimbursehelper.NetworkUtil.UserUtil;
@@ -56,6 +57,7 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
     private TextView tvNofriends;
 
     private int lastFirstVisibleItem = -1;
+    private SharedPreferencesUtil spu;
 
     private CharacterParser characterParser;
     private List<MemberDetailInfoEntity> SourceDateList = new ArrayList<MemberDetailInfoEntity>();
@@ -98,52 +100,54 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
 //                        SourceDateList.add(mdi);
 //                    }
 //                }
-                if (SourceDateList.size() != 0) {
 
-                    filledData(SourceDateList);
-                    Collections.sort(SourceDateList, pinyinComparator);
-                    sortListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-                        @Override
-                        public void onScrollStateChanged(AbsListView view, int scrollState) {
-                        }
 
-                        @Override
-                        public void onScroll(AbsListView view, int firstVisibleItem,
-                                             int visibleItemCount, int totalItemCount) {
-                            int section = getSectionForPosition(firstVisibleItem);
-                            int nextSection = getSectionForPosition(firstVisibleItem + 1);
-                            int nextSecPosition = getPositionForSection(+nextSection);
-                            if (firstVisibleItem != lastFirstVisibleItem) {
-                                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleLayout
-                                        .getLayoutParams();
-                                params.topMargin = 0;
-                                titleLayout.setLayoutParams(params);
-                                title.setText(SourceDateList.get(
-                                        getPositionForSection(section)).getSortLetters());
-                            }
-                            if (nextSecPosition == firstVisibleItem + 1) {
-                                View childView = view.getChildAt(0);
-                                if (childView != null) {
-                                    int titleHeight = titleLayout.getHeight();
-                                    int bottom = childView.getBottom();
-                                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleLayout
-                                            .getLayoutParams();
-                                    if (bottom < titleHeight) {
-                                        float pushedDistance = bottom - titleHeight;
-                                        params.topMargin = (int) pushedDistance;
-                                        titleLayout.setLayoutParams(params);
-                                    } else {
-                                        if (params.topMargin != 0) {
-                                            params.topMargin = 0;
-                                            titleLayout.setLayoutParams(params);
-                                        }
-                                    }
-                                }
-                            }
-                            lastFirstVisibleItem = firstVisibleItem;
-                        }
-                    });
-                }
+//                if (SourceDateList.size() != 0) {
+//
+//                        filledData(SourceDateList);
+//                        Collections.sort(SourceDateList, pinyinComparator);
+//                        sortListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//                            @Override
+//                            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                            }
+//
+//                            @Override
+//                            public void onScroll(AbsListView view, int firstVisibleItem,
+//                                                 int visibleItemCount, int totalItemCount) {
+//                                int section = getSectionForPosition(firstVisibleItem);
+//                                int nextSection = getSectionForPosition(firstVisibleItem + 1);
+//                                int nextSecPosition = getPositionForSection(+nextSection);
+//                                if (firstVisibleItem != lastFirstVisibleItem) {
+//                                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleLayout
+//                                            .getLayoutParams();
+//                                    params.topMargin = 0;
+//                                    titleLayout.setLayoutParams(params);
+//                                    title.setText(SourceDateList.get(
+//                                            getPositionForSection(section)).getSortLetters());
+//                                }
+//                                if (nextSecPosition == firstVisibleItem + 1) {
+//                                    View childView = view.getChildAt(0);
+//                                    if (childView != null) {
+//                                        int titleHeight = titleLayout.getHeight();
+//                                        int bottom = childView.getBottom();
+//                                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleLayout
+//                                                .getLayoutParams();
+//                                        if (bottom < titleHeight) {
+//                                            float pushedDistance = bottom - titleHeight;
+//                                            params.topMargin = (int) pushedDistance;
+//                                            titleLayout.setLayoutParams(params);
+//                                        } else {
+//                                            if (params.topMargin != 0) {
+//                                                params.topMargin = 0;
+//                                                titleLayout.setLayoutParams(params);
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                                lastFirstVisibleItem = firstVisibleItem;
+//                            }
+//                        });
+//                }
                 adapter.notifyDataSetChanged();
                 //  ToastUtil.showToast(MembersManageActivity.this, memberlist.get("HostTime") + ":" + memberlist.get("Note").toString(), Toast.LENGTH_LONG);
 
@@ -163,6 +167,7 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_members_manage);
+        spu=new SharedPreferencesUtil(MembersManageActivity.this);
 
         backbt = (ImageView) findViewById(R.id.backbt);
         add_memberitem = (ImageView) findViewById(R.id.add_memberitem);
@@ -263,21 +268,22 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
 
         adapter = new SortGroupMemberAdapter(this, userList);
         sortListView.setAdapter(adapter);
-        ptrClassicFrameLayout.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                ptrClassicFrameLayout.autoRefresh(true);
-            }
-        }, 150);
-        //下拉刷新
-        ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                GetallMemberInfo();
-            }
-        });
+        GetallMemberInfo();
+//        ptrClassicFrameLayout.postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                ptrClassicFrameLayout.autoRefresh(true);
+//            }
+//        }, 150);
+//        //下拉刷新
+//        ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+//
+//            @Override
+//            public void onRefreshBegin(PtrFrameLayout frame) {
+//                GetallMemberInfo();
+//            }
+//        });
 
         mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);
 
@@ -403,7 +409,7 @@ public class MembersManageActivity extends AppCompatActivity implements SectionI
             // TODO Auto-generated method stub
 
             try {
-                JSONArray jo = new UserUtil().getALlUser(1);
+                JSONArray jo = new UserUtil().getALlUser(spu.getUidNum());
                 if (jo != null) {
                     jsonArray = jo;
                     memberlistback.sendEmptyMessage(1);

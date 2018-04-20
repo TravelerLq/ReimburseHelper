@@ -10,6 +10,8 @@ import android.util.Log;
 
 //import com.useeinfo.project.assistant.BuildConfig;
 
+import com.sas.rh.reimbursehelper.BuildConfig;
+
 import java.io.File;
 
 /**
@@ -158,7 +160,7 @@ public class IntentUtils {
         // 在24及其以上版本，解决崩溃异常：
         // android.os.FileUriExposedException: file:///storage/emulated/0/xxx exposed beyond app through Intent.getData()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            fileUri = FileProvider.getUriForFile(context, APPLICATION_ID + ".provider", file);
+            fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
         } else {
             fileUri = Uri.fromFile(file);
         }
@@ -195,8 +197,7 @@ public class IntentUtils {
     }
 
 
-    public static Intent getPdfIntent(File file)
-    {
+    public static Intent getPdfIntent(File file) {
         Intent intent = new Intent("android.intent.action.VIEW");
         intent.addCategory("android.intent.category.DEFAULT");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -204,6 +205,7 @@ public class IntentUtils {
         intent.setDataAndType(uri, "application/pdf");
         return intent;
     }
+
     //android获取一个用于打开Excel文件的intent
     public static Intent getExcelFileIntent(File file, Context context) {
 //        Intent intent = new Intent("android.intent.action.VIEW");

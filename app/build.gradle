@@ -41,7 +41,12 @@ android {
         exclude 'META-INF/spring.tooling'
         exclude 'META-INF/spring.handlers'
         exclude 'META-INF/spring.schemas'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+
     }
+
+
 }
 
 
@@ -92,9 +97,7 @@ dependencies {
     implementation files('lib/fastjson-1.2.44.jar')
     implementation files('lib/commons-httpclient-3.1.jar')
     implementation files('lib/commons-lang3-3.4.jar')
-
     compile project(':android-expandpoptab-library')
-
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     compile 'com.squareup.okhttp:okhttp:2.7.0'
@@ -103,13 +106,14 @@ dependencies {
     // ReactiveX
     compile 'io.reactivex:rxjava:1.0.16'
     compile 'io.reactivex:rxandroid:1.0.1'
-
     //运行时权限
     compile 'com.yanzhenjie:permission:1.0.7'
     testCompile 'junit:junit:4.12'
-//选择picker
+    //选择picker
     compile 'com.github.addappcn:android-pickers:1.0.1'
     //adapter helper
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     compile 'com.anupcowkur:reservoir:2.1'
+    implementation files('/Users/liqing/Desktop/httpcore-4.4.9.jar')
+    implementation files('/Users/liqing/Desktop/httpclient-4.5.3.jar')
 }

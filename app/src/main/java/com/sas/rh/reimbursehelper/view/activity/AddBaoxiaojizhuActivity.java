@@ -1,6 +1,8 @@
 package com.sas.rh.reimbursehelper.view.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +43,9 @@ import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +59,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
 
     private PhotoAdapter photoAdapter;//选取照片适配器
     private ArrayList<String> selectedPhotos = new ArrayList<>();
-    private RecyclerView recyclerView ;
+    private RecyclerView recyclerView;
     private RecyclerView bxRecyclerView;
     private RecyclerView.Adapter bxAdapter;
     private RecyclerView.LayoutManager bxLayoutManager;
@@ -62,36 +68,35 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
     private List<String> xiaofeileixinglist = new ArrayList<String>();//创建一个String类型的数组列表。
     private SharedPreferencesUtil spu;
     private ImageView backbt;
-    private TextView photo_amount,saveandaddtv,addandbacktv;
+    private TextView photo_amount, saveandaddtv, addandbacktv;
     private Spinner xflxsp;
     private ArrayAdapter<String> xflxadapter;//创建一个数组适配器
-    private LinearLayout saveandadd,addandback ;
+    private LinearLayout saveandadd, addandback;
     private int requestcode = 0;
     private List<DeptCategoryItemVoExtend> ERFormList;
     private Byte expenseCategoryId;
     private JSONArray jsonresult;
     private JSONObject jsonobj;
     private int upamount = 0;
-    private Byte expenseItem,expenseCategory;
+    private Byte expenseItem, expenseCategory;
     private Integer formId;
     private Double amount;
     private String remark;
     private String path;
-    private ProgressDialogUtil pdu =new ProgressDialogUtil(AddBaoxiaojizhuActivity.this,"上传提示","正在提交中");
+    private ProgressDialogUtil pdu = new ProgressDialogUtil(AddBaoxiaojizhuActivity.this, "上传提示", "正在提交中");
 
 
-
-    private Handler expenseCategoryback = new Handler(){
+    private Handler expenseCategoryback = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
-            if(pdu.getMypDialog().isShowing()){
+            if (pdu.getMypDialog().isShowing()) {
                 pdu.dismisspd();
             }
-            if(msg.what == 1){
+            if (msg.what == 1) {
                 // 获得所有二级报销类别
 //                    System.out.println("ResultCode:" + jsonresult.get("ResultCode") + "\t" + "HostTime:"
 //            + jsonresult.get("HostTime") + "\t" + "Note:" + jsonresult.get("Note"));
-                ToastUtil.showToast(AddBaoxiaojizhuActivity.this,"加载完毕", Toast.LENGTH_LONG);
+                ToastUtil.showToast(AddBaoxiaojizhuActivity.this, "加载完毕", Toast.LENGTH_LONG);
                 List<SecondCategoryBean> expenseReimbursementFormList = JSONArray.parseArray(jsonresult.toJSONString(), SecondCategoryBean.class);
                 xiaofeileixinglist = new ArrayList<String>();
                 for (SecondCategoryBean object : expenseReimbursementFormList) {
@@ -102,13 +107,13 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
 //                if(jsonresult != null){
 //                    finish();
 //                }
-            }else if(msg.what == 2){
+            } else if (msg.what == 2) {
                 ERFormList = new ArrayList<DeptCategoryItemVoExtend>();
                 List<DeptCategoryItemVo> deptCategoryItemVoList =
                         JSONArray.parseArray(jsonresult.toJSONString(), DeptCategoryItemVo.class);
-                for(int i=0;i<deptCategoryItemVoList.size();i++){
-                    if(deptCategoryItemVoList.get(i).getItem()!=null){
-                        DeptCategoryItemVoExtend dcive =new DeptCategoryItemVoExtend();
+                for (int i = 0; i < deptCategoryItemVoList.size(); i++) {
+                    if (deptCategoryItemVoList.get(i).getItem() != null) {
+                        DeptCategoryItemVoExtend dcive = new DeptCategoryItemVoExtend();
                         dcive.setItem(deptCategoryItemVoList.get(i).getItem());
                         dcive.setItemName(deptCategoryItemVoList.get(i).getItemName());
                         dcive.setCategory(deptCategoryItemVoList.get(i).getCategory());
@@ -118,36 +123,37 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
                     }
                 }
                 initBxRclv();
-            }else if(msg.what == 3){
+            } else if (msg.what == 3) {
 
-                ToastUtil.showToast(AddBaoxiaojizhuActivity.this,"提交成功！", Toast.LENGTH_LONG);
-            }else if(msg.what == 0){
-                ToastUtil.showToast(AddBaoxiaojizhuActivity.this,"通信异常，请检查网络连接！", Toast.LENGTH_LONG);
-            }else if(msg.what == -1){
-                ToastUtil.showToast(AddBaoxiaojizhuActivity.this,"通信模块异常！", Toast.LENGTH_LONG);
+                ToastUtil.showToast(AddBaoxiaojizhuActivity.this, "提交成功！", Toast.LENGTH_LONG);
+            } else if (msg.what == 0) {
+                ToastUtil.showToast(AddBaoxiaojizhuActivity.this, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
+            } else if (msg.what == -1) {
+                ToastUtil.showToast(AddBaoxiaojizhuActivity.this, "通信模块异常！", Toast.LENGTH_LONG);
             }
         }
 
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_add_baoxiaojizhu);
-        if(requestcode == 2){
+        if (requestcode == 2) {
             //bxid = getIntent().getStringExtra("biiid");
         }
         ERFormList = new ArrayList<DeptCategoryItemVoExtend>();
         spu = new SharedPreferencesUtil(AddBaoxiaojizhuActivity.this);
-        backbt = (ImageView)findViewById(R.id.backbt) ;
-        photo_amount = (TextView)findViewById(R.id.photo_amount);
-        xflxsp = (Spinner) findViewById(R.id.xflxsp) ;//消费类型
-        recyclerView = (RecyclerView)findViewById(R.id.photo_recycler_view);
+        backbt = (ImageView) findViewById(R.id.backbt);
+        photo_amount = (TextView) findViewById(R.id.photo_amount);
+        xflxsp = (Spinner) findViewById(R.id.xflxsp);//消费类型
+        recyclerView = (RecyclerView) findViewById(R.id.photo_recycler_view);
         pickphotos = (LinearLayout) findViewById(R.id.pickphotos);
-        addandback = (LinearLayout)findViewById(R.id.addandback);
-        saveandadd = (LinearLayout)findViewById(R.id.saveandadd);
-        saveandaddtv = (TextView)findViewById(R.id.saveandaddtv);
-        addandbacktv = (TextView)findViewById(R.id.addandbacktv);
+        addandback = (LinearLayout) findViewById(R.id.addandback);
+        saveandadd = (LinearLayout) findViewById(R.id.saveandadd);
+        saveandaddtv = (TextView) findViewById(R.id.saveandaddtv);
+        addandbacktv = (TextView) findViewById(R.id.addandbacktv);
 
         GetallDepartmentInfo();
 
@@ -203,8 +209,10 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
                     }
                 }));
     }
+
     //收到照片后处理
-    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK &&
@@ -212,6 +220,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
 
             if (data != null) {
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+
                 //System.out.println("********"+photos.get(0)+"********");
             }
             selectedPhotos.clear();
@@ -219,7 +228,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
             if (photos != null) {
 
                 selectedPhotos.addAll(photos);
-                photo_amount.setText("已选择"+photos.size()+"张发票照片");
+                photo_amount.setText("已选择" + photos.size() + "张发票照片");
             }
             photoAdapter.notifyDataSetChanged();
         }
@@ -235,10 +244,10 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         bxRecyclerView.setAdapter(bxAdapter);
     }
 
-    private void initxflxsp(){
+    private void initxflxsp() {
 
         //1.为下拉列表定义一个数组适配器，这个数组适配器就用到里前面定义的list。装的都是list所添加的内容
-        xflxadapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, xiaofeileixinglist);//样式为原安卓里面有的android.R.layout.simple_spinner_item，让这个数组适配器装list内容。
+        xflxadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, xiaofeileixinglist);//样式为原安卓里面有的android.R.layout.simple_spinner_item，让这个数组适配器装list内容。
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
         xflxadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
@@ -249,7 +258,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
                                        int arg2, long arg3) {
                 // TODO Auto-generated method stub
                 // 将所选mySpinner 的值带入myTextView 中
-               // expenseCategoryId = (byte)(arg2+1);
+                // expenseCategoryId = (byte)(arg2+1);
 
                 //GetallFormInfo();
                 //myTextView.setText("您选择的是：" + xflxadapter.getItem(arg2));//文本说明
@@ -263,25 +272,25 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
 
     }
 
-    public void setSpinnerItemSelectedByValue(Spinner spinner,String value){
-        SpinnerAdapter apsAdapter= spinner.getAdapter(); //得到SpinnerAdapter对象
-        int k= apsAdapter.getCount();
-        for(int i=0;i<k;i++){
-            if(value.equals(apsAdapter.getItem(i).toString())){
-                spinner.setSelection(i,true);// 默认选中项
+    public void setSpinnerItemSelectedByValue(Spinner spinner, String value) {
+        SpinnerAdapter apsAdapter = spinner.getAdapter(); //得到SpinnerAdapter对象
+        int k = apsAdapter.getCount();
+        for (int i = 0; i < k; i++) {
+            if (value.equals(apsAdapter.getItem(i).toString())) {
+                spinner.setSelection(i, true);// 默认选中项
                 break;
             }
         }
     }
 
-    private void GetallDepartmentInfo(){
+    private void GetallDepartmentInfo() {
         pdu.showpd();
         new Thread(GetExpenseCategoryInfoThread).start();
     }
 
-    private void SubmitbillInfo(){
+    private void SubmitbillInfo() {
         pdu.showpd();
-        for(upamount = 0;upamount < ERFormList.size();upamount++){
+        for (upamount = 0; upamount < ERFormList.size(); upamount++) {
             expenseItem = ERFormList.get(upamount).getItem();
             expenseCategory = ERFormList.get(upamount).getCategory();
             formId = Integer.parseInt(FormUtil.getBxdid());
@@ -293,12 +302,12 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
 //        for(upamount = 0;upamount < photos.size();upamount++){
 //            formId = Integer.parseInt(FormUtil.getBxdid());
 //            path = photos.get(upamount);
-          new Thread(SubmitfileThread).start();
+        new Thread(SubmitfileThread).start();
 //
 //        }
     }
 
-    private void GetallFormInfo(){
+    private void GetallFormInfo() {
         pdu.showpd();
         new Thread(GetFormInfoThread).start();
     }
@@ -308,15 +317,15 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         public void run() {
             // TODO Auto-generated method stub
 
-            try{
+            try {
                 JSONArray jo = ExpenseCategoryUtil.select(spu.getUidNum());
-                if(jo != null){
+                if (jo != null) {
                     jsonresult = jo;
                     expenseCategoryback.sendEmptyMessage(1);
-                }else{
+                } else {
                     expenseCategoryback.sendEmptyMessage(0);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 expenseCategoryback.sendEmptyMessage(-1);
                 e.printStackTrace();
             }
@@ -329,15 +338,15 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         public void run() {
             // TODO Auto-generated method stub
 
-            try{
-                JSONArray jo = addForm((Integer)spu.getUidNum(),expenseCategoryId);
-                if(jo != null){
+            try {
+                JSONArray jo = addForm((Integer) spu.getUidNum(), expenseCategoryId);
+                if (jo != null) {
                     jsonresult = jo;
                     expenseCategoryback.sendEmptyMessage(2);
-                }else{
+                } else {
                     expenseCategoryback.sendEmptyMessage(0);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 expenseCategoryback.sendEmptyMessage(-1);
                 e.printStackTrace();
             }
@@ -350,15 +359,15 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         public void run() {
             // TODO Auto-generated method stub
 
-            try{
-                JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(spu.getUidNum(),expenseItem,expenseCategory,formId,amount,remark);
-                if(jo != null){
+            try {
+                JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(spu.getUidNum(), expenseItem, expenseCategory, formId, amount, remark);
+                if (jo != null) {
                     jsonobj = jo;
                     expenseCategoryback.sendEmptyMessage(3);
-                }else{
+                } else {
                     expenseCategoryback.sendEmptyMessage(0);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 expenseCategoryback.sendEmptyMessage(-1);
                 e.printStackTrace();
             }
@@ -371,15 +380,15 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         public void run() {
             // TODO Auto-generated method stub
 
-            try{
-                JSONObject jo = UploadFileUtil.upload(""+formId,path);
-                if(jo != null){
+            try {
+                JSONObject jo = UploadFileUtil.upload("" + formId, path);
+                if (jo != null) {
                     jsonobj = jo;
                     expenseCategoryback.sendEmptyMessage(3);
-                }else{
+                } else {
                     expenseCategoryback.sendEmptyMessage(0);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 expenseCategoryback.sendEmptyMessage(-1);
                 e.printStackTrace();
             }
@@ -406,7 +415,7 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_baoxiao_item, parent, false);
             // pass MyCustomEditTextListener to viewholder in onCreateViewHolder
             // so that we don't have to do this expensive allocation in onBindViewHolder
-            ViewHolder vh = new ViewHolder(v, new BxAmountEditTextListener(),new BxContentEditTextListener());
+            ViewHolder vh = new ViewHolder(v, new BxAmountEditTextListener(), new BxContentEditTextListener());
 
             return vh;
         }
@@ -417,10 +426,10 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
             // so that it knows what item in mDataset to update
             holder.bxamountEditTextListener.updatePosition(holder.getAdapterPosition());
             holder.bxcontentEditTextListener.updatePosition(holder.getAdapterPosition());
-            if(ERFormList.get(holder.getAdapterPosition()).getItem().toString().equals("0")){
+            if (ERFormList.get(holder.getAdapterPosition()).getItem().toString().equals("0")) {
                 holder.bxtitle.setText(ERFormList.get(holder.getAdapterPosition()).getCategoryName());
                 holder.bxcontent.setHint(ERFormList.get(holder.getAdapterPosition()).getRemark());
-            }else{
+            } else {
                 holder.bxtitle.setText(ERFormList.get(holder.getAdapterPosition()).getItemName());
                 holder.bxcontent.setHint(ERFormList.get(holder.getAdapterPosition()).getRemark());
             }
@@ -437,11 +446,11 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
             // each data item is just a string in this case
             public EditText bxcontent;
-            public TextView bxtitle,bxamount;
+            public TextView bxtitle, bxamount;
             public BxContentEditTextListener bxcontentEditTextListener;
             public BxAmountEditTextListener bxamountEditTextListener;
 
-            public ViewHolder(View v,BxAmountEditTextListener bxamountEditTextListener, BxContentEditTextListener bxcontentEditTextListener) {
+            public ViewHolder(View v, BxAmountEditTextListener bxamountEditTextListener, BxContentEditTextListener bxcontentEditTextListener) {
                 super(v);
                 this.bxtitle = (TextView) v.findViewById(R.id.bxtitle);
                 this.bxamount = (TextView) v.findViewById(R.id.bxamount);
@@ -505,5 +514,9 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
+
 }
 

@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.ArrayUtils;
 
 import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.RootAddress;
-import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.TestAddress;
+
 //获取二级科目类别
 public class ExpenseCategoryUtil {
 //    public static void main(String[] args) {

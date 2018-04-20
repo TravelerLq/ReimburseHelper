@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sas.rh.reimbursehelper.Bean.SingleReimbursement;
+import com.sas.rh.reimbursehelper.Util.Loger;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,6 +16,7 @@ public class SingleReimbursementUtil {
 //        addSingleReimbursement();
 //    }
     private static final String urlStr = AddressConfig.RootAddress;
+    private static String result;
 
     //新增一条单项报销
     public static JSONObject addSingleReimbursement(int userId,Byte expenseItem, Byte expenseCategory, Integer formId, Double amount, String remark) {
@@ -35,7 +37,7 @@ public class SingleReimbursementUtil {
         jsonObject.put("formId", formId);
         jsonObject.put("amount", amount);
         jsonObject.put("remark", remark);
-        String url = urlStr+"/yuanshensystem/singlereim/add";
+        String url = urlStr+"yuanshensystem/singlereim/add";
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         return reJson;
         //Integer expenseId = reJson.getInteger("expenseId");
@@ -104,7 +106,7 @@ public class SingleReimbursementUtil {
         jsonObject.put("cert", cert);
         jsonObject.put("index", index);
         jsonObject.put("expenseId", expendId);
-        String url = AddressConfig.RootAddress + "yuanshensystem/sign/verify";
+        String url = urlStr + "yuanshensystem/sign/verify";
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
 
         String json = reJson.getString("json");
@@ -121,7 +123,7 @@ public class SingleReimbursementUtil {
         jsonObject.put("cert", cert);
         jsonObject.put("index", index);
         jsonObject.put("expenseId", expendId);
-        String url = AddressConfig.RootAddress + "yuanshensystem/sign/verify";
+        String url = urlStr + "yuanshensystem/sign/verify";
         String jsonStr = jsonObject.toJSONString();
 //        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
 //
@@ -140,6 +142,7 @@ public class SingleReimbursementUtil {
         signText.put("doc", doc);
         signText.put("expenseId", expendId);
         signText.put("name", name);
+        Loger.e("name--"+name);
         JSONArray signatures = new JSONArray();
         //第一个签名需要存储的内容
         JSONObject firstSign = new JSONObject();
@@ -152,7 +155,8 @@ public class SingleReimbursementUtil {
         signText.put("signatures", signatures);
         String jsonStr = signText.toJSONString();
         Log.e("---signJsonStringNew", "---jsonStr=" + jsonStr);
-        String url = AddressConfig.RootAddress + "yuanshensystem/sign/verify";
+
+        String url = urlStr+ "yuanshensystem/sign/verify";
         JSONObject reJson = JsonUtil.uploadJson(url, signText);
         String json = reJson.getString("json");
 
@@ -181,11 +185,46 @@ public class SingleReimbursementUtil {
         signText.put("signatures", signatures);
         String jsonStr = signText.toJSONString();
         Log.e("---signJsonStringNew", "---jsonStr=" + jsonStr);
-        String url = AddressConfig.RootAddress + "yuanshensystem/sign/verifypdfform";
+        String url = urlStr + "yuanshensystem/sign/verifypdfform";
         JSONObject reJson = JsonUtil.uploadJson(url, signText);
         String json = reJson.getString("json");
 
         return reJson;
+
+    }
+
+    //签名证书 以json传入
+    public static String signJsonStringPdfTest(String data, String cert, String key, String name, int index, int formId) {
+        JSONObject signText = new JSONObject();
+        //待签名的文档内容
+        String doc = data;
+
+        signText.put("doc", doc);
+        signText.put("formId", formId);
+        signText.put("name", name);
+        JSONArray signatures = new JSONArray();
+        //第一个签名需要存储的内容
+        JSONObject firstSign = new JSONObject();
+        firstSign.put("index", index);
+        firstSign.put("signature", key);
+        // firstSign.put("originalFilename", name);
+        firstSign.put("certificate", cert);
+
+        signatures.add(firstSign);
+        signText.put("signatures", signatures);
+        String jsonStr = signText.toJSONString();
+        Log.e("---signJsonStringNew", "---jsonStr=" + jsonStr);
+        String url = urlStr + "yuanshensystem/sign/verifypdfform";
+//        JSONObject reJson = JsonUtil.uploadJson(url, signText);
+        try {
+            result = APITest.API(url, signText.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        String json = reJson.getString("json");
+        Loger.e("result-----"+result);
+
+        return result;
 
     }
 

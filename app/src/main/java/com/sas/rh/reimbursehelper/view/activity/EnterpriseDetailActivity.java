@@ -58,19 +58,27 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
 ////                    }
 //
 //                }
-                if(jsonresult.getIntValue("status")==200){
-                    Toast.makeText(EnterpriseDetailActivity.this,"公司注册成功",Toast.LENGTH_SHORT).show();
-                    Intent intent =new Intent(EnterpriseDetailActivity.this,MainActivity.class);
+                if (jsonresult.getIntValue("status") == 200) {
+                    Toast.makeText(EnterpriseDetailActivity.this, "公司注册成功", Toast.LENGTH_SHORT).show();
+                    String compnyId = String.valueOf(jsonresult.getIntValue("companyId"));
+
+                    spu.writeCompanyId(compnyId);
+                    // 成功后 去关联 userId
+                    relateWithUser();
+
+
+                } else {
+                    Toast.makeText(EnterpriseDetailActivity.this, "添加失败，请重试", Toast.LENGTH_SHORT).show();
+                }
+                // ToastUtil.showToast(EnterpriseDetailActivity.this, jsonresult.get("HostTime") + ":" + jsonresult.get("Note").toString(), Toast.LENGTH_LONG);
+            } else if (msg.what == 2) {
+                int status = jsonresult.getIntValue("status");
+                if (status == 200) {
+                    Toast.makeText(EnterpriseDetailActivity.this, "企业用户关联成功", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(EnterpriseDetailActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
 
-                }else{
-                    Toast.makeText(EnterpriseDetailActivity.this,"添加失败，请重试",Toast.LENGTH_SHORT).show();
-                }
-               // ToastUtil.showToast(EnterpriseDetailActivity.this, jsonresult.get("HostTime") + ":" + jsonresult.get("Note").toString(), Toast.LENGTH_LONG);
-            } else if (msg.what == 2) {
-                if (jsonresult.get("Note") == null) {
-                    Log.e("---EnterPrise--", "jsonReuslt==null");
                 }
 
                 // ToastUtil.showToast(EnterpriseDetailActivity.this,jsonresult.get("HostTime")+":"+jsonresult.get("Note").toString(), Toast.LENGTH_LONG);
@@ -82,6 +90,8 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
         }
 
     };
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +128,7 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
             }
         });
 
-        //点击"编辑"
+        //点击"注册"
         editandsavebt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -321,6 +331,11 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
 
     }
 
+    private void relateWithUser() {
+
+        new Thread(relateWithuserThread).start();
+    }
+
     Runnable sendCreateCompanyInfoThread = new Runnable() {
         @Override
         public void run() {
@@ -352,6 +367,30 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
                 if (jo != null) {
                     jsonresult = jo;
                     gongsixinxiback.sendEmptyMessage(1);
+                } else {
+                    gongsixinxiback.sendEmptyMessage(0);
+                }
+            } catch (Exception e) {
+                gongsixinxiback.sendEmptyMessage(-1);
+                e.printStackTrace();
+            }
+        }
+
+    };
+
+    //relate with usetId
+    Runnable relateWithuserThread = new Runnable() {
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+
+            try {
+                JSONObject jo = CompanyUtil.updateUser(spu.getUidNum(), spu.getCidNum());
+
+
+                if (jo != null) {
+                    jsonresult = jo;
+                    gongsixinxiback.sendEmptyMessage(2);
                 } else {
                     gongsixinxiback.sendEmptyMessage(0);
                 }

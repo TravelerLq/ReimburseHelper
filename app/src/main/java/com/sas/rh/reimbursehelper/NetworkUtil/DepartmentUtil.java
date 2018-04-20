@@ -7,7 +7,6 @@ import com.alibaba.fastjson.JSONObject;
 import java.util.List;
 
 import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.RootAddress;
-import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.TestAddress;
 
 /**
  * @author tuzhengsong

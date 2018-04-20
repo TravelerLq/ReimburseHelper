@@ -81,6 +81,7 @@ public class EnterpriseFragment extends Fragment {
         if(sharedPreferencesUtil.getCidNum()==-1){
             ToastUtil.showToast(mContext,"公司ID为空",Toast.LENGTH_SHORT);
         } else {
+
             companyId=sharedPreferencesUtil.getCidNum();
         }
 

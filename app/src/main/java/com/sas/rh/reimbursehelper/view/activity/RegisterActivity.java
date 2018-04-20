@@ -24,6 +24,7 @@ import com.sas.rh.reimbursehelper.Bean.UserBean;
 import com.sas.rh.reimbursehelper.CertUtil.CertServiceUrl;
 import com.sas.rh.reimbursehelper.NetworkUtil.UserUtil;
 import com.sas.rh.reimbursehelper.R;
+import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
 import com.sas.rh.reimbursehelper.data.UserData;
 
@@ -75,6 +76,7 @@ public class RegisterActivity extends BaseActivity {
                     int userId = jsonresult.getInteger("userId");
                     sharedPreferencesUtil.writeUserId(String.valueOf(userId));
                     UserData.saveUser(new SaveUserBean(realName, id, tel));
+                    pdu.showpd();
                     goRegisterCertify();
 //                    toActivity(RegisterActivity.this, MainActivity.class);
 //                    finish();
@@ -111,6 +113,8 @@ public class RegisterActivity extends BaseActivity {
     private String account;
     private String psw;
     private String emailStr;
+    private ProgressDialogUtil pdu = new ProgressDialogUtil(RegisterActivity.this, "提示", "正在加载中");
+
 
     private void goRegisterCertify() {
 
@@ -118,6 +122,8 @@ public class RegisterActivity extends BaseActivity {
                 onlineClient, new ProcessListener<OnlineApplyResponse>() {
             @Override
             public void doFinish(OnlineApplyResponse onlineApplyResponse, String s) {
+
+
 //                        issueId.setText(onlineApplyResponse.getApplyId());
 //                        subject.setText(onlineApplyResponse.getSubject());
 //                        algorithm.setText(onlineApplyResponse.getAlgorithm());
@@ -126,6 +132,9 @@ public class RegisterActivity extends BaseActivity {
                 CertificateIssueService certificateIssueService = new CertificateIssueService(RegisterActivity.this, onlineClient, new ProcessListener<OnlineIssueResponse>() {
                     @Override
                     public void doFinish(OnlineIssueResponse data, String cert) {
+                        if (pdu.getMypDialog().isShowing()) {
+                            pdu.dismisspd();
+                        }
                         Log.e("CertificateIssueService", "onFinish");
 
                         String your_signature = data.getSignCert();
@@ -145,12 +154,16 @@ public class RegisterActivity extends BaseActivity {
 
 //                        goToAddUser();
                         //注册成功，去加入公司 or注册公司
+
                         toActivity(RegisterActivity.this, JoinOrRegisterCompanyActivity.class);
 
                     }
 
                     @Override
                     public void doException(CmSdkException exception) {
+                        if (pdu.getMypDialog().isShowing()) {
+                            pdu.dismisspd();
+                        }
                         Log.e("CertificateIssueService", "doException");
                         Toast.makeText(RegisterActivity.this, "" + exception.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.e("firstRegister", "showException" + exception.getMessage());
@@ -167,6 +180,9 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void doException(CmSdkException e) {
+                if (pdu.getMypDialog().isShowing()) {
+                    pdu.dismisspd();
+                }
                 ToastUtil.showToast(RegisterActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT);
                 Log.e("RegisterActivity", "CmSdkException" + e.getMessage());
             }
@@ -220,6 +236,8 @@ public class RegisterActivity extends BaseActivity {
 
         }
 
+        intTestData();
+
 
     }
 
@@ -235,6 +253,7 @@ public class RegisterActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_register:
+                // intTestData();
                 checkData();
                 goToAddUser();
 
@@ -246,6 +265,24 @@ public class RegisterActivity extends BaseActivity {
             default:
                 break;
         }
+
+    }
+
+    private void intTestData() {
+//        edtAccount.setText("12");
+//        edtPsw.setText("12");
+//        edtEmail.setText("245633");
+//        edtRealName.setText("李青");
+//        edtUserID.setText("320322199007171428");
+//        edtTel.setText("15951882547");
+
+
+        edtAccount.setText("12");
+        edtPsw.setText("12");
+        edtEmail.setText("245633");
+        edtRealName.setText("王朕");
+        edtUserID.setText("320113199407266410");
+        edtTel.setText("18205188981");
 
     }
 
