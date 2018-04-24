@@ -3,10 +3,12 @@ package com.sas.rh.reimbursehelper;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.anupcowkur.reservoir.Reservoir;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sas.rh.reimbursehelper.NetworkUtil.Utils;
 import com.sas.rh.reimbursehelper.service.NoticeMsgService;
 
 
@@ -24,6 +26,7 @@ public class App extends Application {
     public static final long ONE_MB = ONE_KB * 1024L;
     public static final long CACHE_DATA_MAX_SIZE = ONE_MB * 3L;
     private Intent serviceIntenta;
+    private Context mContext;
 
     public static App getInstance() {
         return instance;
@@ -32,6 +35,7 @@ public class App extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        mContext = base;
         // MultiDex.install(this);
     }
 
@@ -41,8 +45,10 @@ public class App extends Application {
         instance = this;
 //        Logger.init();
         initGson();
-
-         initReservoir();
+        if (!Utils.isNetworkAvailable(mContext)) {
+            Toast.makeText(mContext, "当前网络不可用，请连接网络！", Toast.LENGTH_SHORT).show();
+        }
+        initReservoir();
 //        PushManager.getInstance().initialize(getApplicationContext(), GPushService.class);
 //        PushManager.getInstance().registerPushIntentService(getApplicationContext(), GIntentService.class);
     }

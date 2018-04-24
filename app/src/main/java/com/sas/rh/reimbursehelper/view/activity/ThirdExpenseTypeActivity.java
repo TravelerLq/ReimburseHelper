@@ -16,7 +16,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.sas.rh.reimbursehelper.Adapter.ExpenseAdapter;
 import com.sas.rh.reimbursehelper.Adapter.ThirdTypeAdapter;
 import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
+import com.sas.rh.reimbursehelper.Bean.ExpenseThirdTypeBean;
 import com.sas.rh.reimbursehelper.Bean.ThirdExpenseCategoryBean;
+import com.sas.rh.reimbursehelper.NetworkUtil.ExpenseItemUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.RecycleViewDivider;
 import com.warmtel.expandtab.KeyValueBean;
@@ -51,14 +53,14 @@ public class ThirdExpenseTypeActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 Log.e("----handleMsg", "---");
-                List<ThirdExpenseCategoryBean> thirdExpenseCategoryList =
-                        JSONArray.parseArray(jsonresult.toJSONString(), ThirdExpenseCategoryBean.class);
+                List<ExpenseThirdTypeBean> thirdExpenseCategoryList =
+                        JSONArray.parseArray(jsonresult.toJSONString(), ExpenseThirdTypeBean.class);
                 List<KeyValueBean> thirdList = new ArrayList<>();
                 for (int i = 1; i < thirdExpenseCategoryList.size(); i++) {
                     Log.e("----list", "---");
-                    if (thirdExpenseCategoryList.get(i).getItem() != null) {
-                        ThirdExpenseCategoryBean bean = thirdExpenseCategoryList.get(i);
-                        KeyValueBean keyValueBean = new KeyValueBean(bean.getItem(), bean.getItemName());
+                    if (thirdExpenseCategoryList.get(i).getExpenseItemId() != null) {
+                        ExpenseThirdTypeBean bean = thirdExpenseCategoryList.get(i);
+                        KeyValueBean keyValueBean = new KeyValueBean(bean.getExpenseItemId().toString(), bean.getExpenseItemName());
                         thirdList.add(keyValueBean);
                     }
 
@@ -172,7 +174,8 @@ public class ThirdExpenseTypeActivity extends BaseActivity {
             // TODO Auto-generated method stub
 
             try {
-                JSONArray jo = addForm((Integer) spu.getUidNum(), expenseCategoryId);
+                //   JSONArray jo = addForm((Integer) spu.getUidNum(), expenseCategoryId);
+                JSONArray jo = ExpenseItemUtil.getThirdCategory(spu.getUidNum(), expenseCategoryId);
                 if (jo != null) {
                     jsonresult = jo;
                     handler.sendEmptyMessage(1);

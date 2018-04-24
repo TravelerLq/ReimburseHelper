@@ -228,5 +228,8 @@
     <string name="applicant">申请人员</string>
     <string name="verify_code">公司邀请码:</string>
     <string name="get_code">生成邀请码（点击更新）</string>
+    <string name="my_expense">我的报销</string>
+    <string name="my_approval">我的审批</string>
+    <string name="no_data">暂无数据</string>
 
 </resources>

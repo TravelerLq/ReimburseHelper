@@ -37,6 +37,7 @@
             android:id="@+id/add_memberitem"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:visibility="gone"
             android:layout_marginRight="10dp"
             app:srcCompat="@mipmap/add" />
     </LinearLayout>

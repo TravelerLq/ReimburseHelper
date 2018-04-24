@@ -50,7 +50,7 @@ public class DepartmentsManageActivity extends AppCompatActivity {
     private ImageView add_departmentitem, backbt;
     int page = 0;
     private ProgressDialogUtil pdu = new ProgressDialogUtil(DepartmentsManageActivity.this, "提示", "提交更改中");
-    int  department_id;
+    int department_id;
     private SharedPreferencesUtil spu;
     private JSONArray departmentlist;
     private JSONObject deapetmentlist;
@@ -257,7 +257,7 @@ public class DepartmentsManageActivity extends AppCompatActivity {
             super(view);
             itemTv = (TextView) view.findViewById(R.id.itemTv);
             toggleBtn = (ToggleButton) view.findViewById(R.id.togglebutton);
-            btnJoin=(Button) view.findViewById(R.id.btn_join);
+            btnJoin = (Button) view.findViewById(R.id.btn_join);
         }
 
     }

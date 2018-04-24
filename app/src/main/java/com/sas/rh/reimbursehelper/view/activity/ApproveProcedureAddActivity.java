@@ -125,11 +125,14 @@ public class ApproveProcedureAddActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_PERSON_CODE && resultCode == RESULT_OK) {
+            Loger.e("---onActivityResult-----");
             Bundle bundle = data.getExtras();
             UserBean userBean = (UserBean) bundle.getSerializable("user");
             edtApprovalPerson.setText(userBean.getName());
             //此人(即审核人)的id
             approvalId = userBean.getUserId();
+
+            Loger.e(" approveProduAddUserId--"+approvalId);
 
         }
     }
@@ -137,14 +140,14 @@ public class ApproveProcedureAddActivity extends BaseActivity {
     private void checkData() {
         approvalNo = edtApprovalNum.getText().toString();
         approvalPerson = edtApprovalPerson.getText().toString();
-        approvalPerson = "12";
+        //approvalPerson = "12";
         approvalTitle = edtApprovalTitle.getText().toString();
         if (TextUtils.isEmpty(approvalNo)) {
             ToastUtils.show(baseContext, "审批序号不可为空！", ToastUtils.LENGTH_SHORT);
             return;
         }
 
-        if (TextUtils.isEmpty(approvalPerson)) {
+        if (TextUtils.isEmpty(String.valueOf(approvalId))) {
             ToastUtils.show(baseContext, "审批人不可为空！", ToastUtils.LENGTH_SHORT);
             return;
         }
@@ -153,7 +156,7 @@ public class ApproveProcedureAddActivity extends BaseActivity {
             ToastUtils.show(baseContext, "审批名称！", ToastUtils.LENGTH_SHORT);
             return;
         }
-        approvalId = 1;
+//        approvalId = 1;
         approvalNoByte = Byte.valueOf(approvalNo);
 
         submit();
@@ -177,6 +180,7 @@ public class ApproveProcedureAddActivity extends BaseActivity {
 //        Byte approveNum = 3;
 //        //创建人id
 //        Integer userId = 3;
+                Loger.e("approvalId---"+approvalId);
                 JSONObject jo = ApproveNumUtil.addApproveNum(approvalTitle, approvalId, approvalNoByte, userId);
                 if (jo != null) {
                     jsonobj = jo;

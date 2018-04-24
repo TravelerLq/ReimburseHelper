@@ -31,12 +31,14 @@ import com.sas.rh.reimbursehelper.Adapter.AddExpenseRecycleViewAdapter;
 import com.sas.rh.reimbursehelper.Adapter.PhotoAdapter;
 import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.Bean.DeptCategoryItemVoExtend;
+import com.sas.rh.reimbursehelper.Bean.ExpenseThirdTypeBean;
 import com.sas.rh.reimbursehelper.Bean.SecondCategoryBean;
 import com.sas.rh.reimbursehelper.Bean.ExpenseItemBean;
 import com.sas.rh.reimbursehelper.Bean.SingleReimbursement;
 import com.sas.rh.reimbursehelper.Bean.ThirdExpenseCategoryBean;
 import com.sas.rh.reimbursehelper.NetworkUtil.DownloadFileUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.ExpenseCategoryUtil;
+import com.sas.rh.reimbursehelper.NetworkUtil.ExpenseItemUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.FormUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.SingleReimbursementUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.UploadFileUtil;
@@ -127,6 +129,7 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
     private String base64CodeTwo;
     private String base64Code;
 
+
     private Uri uri;
     private String signJson1;
     private TextView tvPdfForm;
@@ -151,11 +154,13 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
                     return;
                 }
                 xiaofeileixinglist = new ArrayList<String>();
+                //是为了一进入，就默认获得第一个二级 的三级
                 int i = 0;
                 for (SecondCategoryBean object : expenseReimbursementFormList) {
                     i++;
-                    Log.e("i=", "" + i);
+                    //
                     xiaofeileixinglist.add(object.getExpenseCategoryName());
+
                     if (i == 1) {
                         String defaultParentId = object.getExpenseCategoryId();
                         getThirdCategory(0, defaultParentId);
@@ -167,31 +172,30 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
                 initExpandaTabView();
 
             } else if (msg.what == 2) {
-                //   ERFormList = new ArrayList<DeptCategoryItemVoExtend>();
-                List<ThirdExpenseCategoryBean> thirdExpenseCategoryList =
-                        JSONArray.parseArray(jsonresult.toJSONString(), ThirdExpenseCategoryBean.class);
-//                for (int i = 0; i < thirdList.size(); i++) {
-//                    Log.e("thirdExpenseCat i=", "" + i + thirdExpenseCategoryList.get(i).getItemName());
-//                }
                 thirdList.clear();
-                for (int i = 1; i < thirdExpenseCategoryList.size(); i++) {
+                Loger.e("third type--jsonresult-----"+jsonresult);
+                //   ERFormList = new ArrayList<DeptCategoryItemVoExtend>();
+                List<ExpenseThirdTypeBean> thirdExpenseCategoryList =
+                        JSONArray.parseArray(jsonresult.toJSONString(), ExpenseThirdTypeBean.class);
+                Loger.e("thirdExpenseCategoryList--get"+thirdExpenseCategoryList.size());
 
-                    if (thirdExpenseCategoryList.get(i).getItem() != null) {
-                        ThirdExpenseCategoryBean bean = thirdExpenseCategoryList.get(i);
-                        KeyValueBean keyValueBean = new KeyValueBean(bean.getItem(), bean.getItemName());
+                for (int i = 0; i < thirdExpenseCategoryList.size(); i++) {
+                    Loger.e("thirdExpenseCategoryList-name"+thirdExpenseCategoryList.get(i).getExpenseItemName());
+                    if (thirdExpenseCategoryList.get(i).getExpenseItemId() != null) {
+                        ExpenseThirdTypeBean bean = thirdExpenseCategoryList.get(i);
+                        KeyValueBean keyValueBean = new KeyValueBean(bean.getExpenseItemId().toString(), bean.getExpenseItemName());
                         thirdList.add(keyValueBean);
                     }
 
 
                 }
                 for (int i = 0; i < thirdList.size(); i++) {
-                    Log.e("thirdList==", "" + thirdList.get(i).getValue());
+                    Log.e("thirdListNewGet==", "" + thirdList.get(i).getValue());
                 }
-
                 popTwoListView.refreshChild(thirdList);
 
 
-                initBxRclv();
+                // initBxRclv();
             } else if (msg.what == 3) {
                 //开始上传照片 提交报销项成功－返回expenseId 进行图片验签
                 Loger.e("pic submitJson-expenseId--" + expenseId);
@@ -274,6 +278,8 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
                 if (file.exists() && file.length() > 0) {
                     Loger.e("-----file exist");
                     ivPdfIcon.setVisibility(View.VISIBLE);
+                    //是否有pdf生成的标志
+
 
                 } else {
                     ivPdfIcon.setVisibility(View.GONE);
@@ -283,6 +289,12 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 
                 //   startActivity(IntentUtils.getPdfFileIntent(file,AddExpenseActivity.this));
                 // startActivity(IntentUtils.getPdfIntent(file));
+            } else if (msg.what == 7) {
+
+                if (TextUtils.isEmpty(FormUtil.getBxdid())) {
+                    Log.e("---formId=null", "null");
+                }
+                formId = Integer.parseInt(FormUtil.getBxdid());
             } else if (msg.what == 0) {
                 ToastUtil.showToast(AddExpenseActivity.this, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
             } else if (msg.what == -1) {
@@ -533,7 +545,7 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    String defaultabTitle = "请选择";
+    //   String defaultabTitle = "请选择";
 
     public void addItem(final ExpandPopTabView expandTabView, List<KeyValueBean> parentLists,
                         List<ArrayList<KeyValueBean>> childrenListLists, String defaultParentSelect, final String defaultChildSelect, String defaultShowText) {
@@ -547,6 +559,7 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
                 Log.e("tag", "thirdshowText :" + showText + " ,parentKey :" + parentKey + " ,childrenKey :" + childrenKey);
                 //三级ID
                 expenseItem = Byte.valueOf(childrenKey);
+
 
                 //三级为空，则显示二级类别
                 if (thirdList.size() == 0) {
@@ -576,20 +589,30 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void getParentValue(int position, String showText, String key) {
                 Log.e("tag", "sencondshowText :" + showText + " ,parentKey :" + key);
+                isFirst = true;
                 parentKey = key;
                 selectSecondType = showText;
                 //报销科目2级ID
                 expenseCategory = Byte.valueOf(key);
-                //根据 parentID，获取三级
-                if (position != 0) {
-                    getThirdCategory(position, key);
+                if (isFirst) {
+                    getFormId();
                 }
+//
+
+                //根据 parentID，获取三级
+
+                getThirdCategory(position, key);
 
 
             }
 
         });
         expandTabView.addItemToExpandTab(defaultShowText, popTwoListView);
+    }
+
+    private void getFormId() {
+
+        new Thread(GetFormIdRunable).start();
     }
 
     private void getThirdCategory(int position, String key) {
@@ -655,16 +678,17 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
             path = selectedPhotos.get(0);
             String compressPath = compress(path);
 
-            Log.e("path=", "=" + path + "---comPressPAth--" + compressPath);
+            //    Log.e("path=", "=" + path + "---comPressPAth--" + compressPath);
+
             //photoAdapter.notifyDataSetChanged();
 
             //compress pic
-            uri = uri = Uri.fromFile(new File(compressPath));
-            //  uri = Uri.fromFile(new File(selectedPhotos.get(0)));
+            //  uri = uri = Uri.fromFile(new File(compressPath));
+            uri = Uri.fromFile(new File(selectedPhotos.get(0)));
             try {
 
-                //   String base64CodePic = FileToBase64Util.encodeBase64File(path);
-                String base64CodePic = FileToBase64Util.encodeBase64File(compressPath);
+                String base64CodePic = FileToBase64Util.encodeBase64File(path);
+                //   String base64CodePic = FileToBase64Util.encodeBase64File(compressPath);
                 signType = "pic";
                 signVerifyP1(base64CodePic);
 
@@ -920,6 +944,7 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void submitSignJsonstring() {
+        pdu.showpd();
         new Thread(SubmitSignThread).start();
     }
 
@@ -1043,10 +1068,11 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
             // TODO Auto-generated method stub
 
             try {
-                JSONArray jo = addForm((Integer) spu.getUidNum(), expenseCategoryId);
+                JSONArray jo = ExpenseItemUtil.getThirdCategory(spu.getUidNum(), expenseCategoryId);
                 if (jo != null) {
                     jsonresult = jo;
                     expenseCategoryback.sendEmptyMessage(2);
+                    Loger.e("third type--send");
                 } else {
                     expenseCategoryback.sendEmptyMessage(0);
                 }
@@ -1075,6 +1101,30 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 
                     // new Thread(SubmitfileThread).start();
                     expenseCategoryback.sendEmptyMessage(3);
+                } else {
+                    expenseCategoryback.sendEmptyMessage(0);
+                }
+            } catch (Exception e) {
+                expenseCategoryback.sendEmptyMessage(-1);
+                e.printStackTrace();
+            }
+        }
+
+    };
+
+
+    private JSONArray jsonFormId;
+    // 获取formId
+    Runnable GetFormIdRunable = new Runnable() {
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+
+            try {
+                JSONArray jo = FormUtil.addForm(spu.getUidNum(), expenseCategory);
+                if (jo != null) {
+                    jsonFormId = jo;
+                    expenseCategoryback.sendEmptyMessage(7);
                 } else {
                     expenseCategoryback.sendEmptyMessage(0);
                 }
@@ -1207,7 +1257,12 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.tv_submit_pdf:
                 //pdfbase64 签名 －生成key后 组合一下objectStr提交,成功后 finish 回到主页面
-                finish();
+                if (ivPdfIcon.getVisibility() == View.VISIBLE) {
+                    finish();
+                } else {
+                    Toast.makeText(context, "您还未去生成报销单！", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.iv_pdf_icon:
                 startActivity(IntentUtils.getPdfFileIntent(file, AddExpenseActivity.this));

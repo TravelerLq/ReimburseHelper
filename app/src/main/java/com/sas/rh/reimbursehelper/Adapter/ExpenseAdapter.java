@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.sas.rh.reimbursehelper.Bean.ExpenseApprovalResponseBean;
 import com.sas.rh.reimbursehelper.R;
+import com.sas.rh.reimbursehelper.Util.DateUtils;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,6 +69,10 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ChildVie
             if (!TextUtils.isEmpty(approvalBean.getApprovalName())) {
                 holder.tvTitle.setText(approvalBean.getApprovalName().toString());
                 holder.tvDepart.setText(String.valueOf(approvalBean.getApprovalId()));
+                Date date = approvalBean.getUpdateTime();
+                String dateStr = DateUtils.parse(date);
+                holder.tvDate.setText(dateStr);
+
 
             }
         }
@@ -82,13 +88,16 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ChildVie
         public TextView tvTitle;
         View view;
         LinearLayout llExpenseItem;
-        private TextView tvDepart;
+        private TextView tvDepart, tvDate;
+
 
         public ChildViewHolder(View view) {
             super(view);
             tvTitle = (TextView) view.findViewById(R.id.tv_title);
             llExpenseItem = (LinearLayout) view.findViewById(R.id.ll_expense_item);
             tvDepart = (TextView) view.findViewById(R.id.tv_depart);
+            tvDate = (TextView) view.findViewById(R.id.tv_approval_date);
+
             this.view = view;
         }
 

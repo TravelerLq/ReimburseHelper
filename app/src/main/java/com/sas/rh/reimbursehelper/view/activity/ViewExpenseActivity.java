@@ -76,7 +76,7 @@ public class ViewExpenseActivity extends BaseActivity {
                 mData.clear();
                 List<ExpenseApprovalResponseBean> list = JSONArray.parseArray(jsonResult.toJSONString(),
                         ExpenseApprovalResponseBean.class);
-                if(list.size()==0){
+                if (list.size() == 0) {
                     ToastUtil.showToast(ViewExpenseActivity.this, "暂无数据！", Toast.LENGTH_LONG);
 
                 }
@@ -203,8 +203,8 @@ public class ViewExpenseActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new RecyclerAdapterWithHF.OnItemClickListener() {
             @Override
             public void onItemClick(RecyclerAdapterWithHF adapter, RecyclerView.ViewHolder vh, int position) {
-                Toast.makeText(ViewExpenseActivity.this,
-                        "mAdapter第" + position + "个", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ViewExpenseActivity.this,
+//                        "mAdapter第" + position + "个", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
 
@@ -340,6 +340,7 @@ public class ViewExpenseActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+                finish();
                 break;
             default:
                 break;

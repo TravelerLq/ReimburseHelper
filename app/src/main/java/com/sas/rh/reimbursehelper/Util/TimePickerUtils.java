@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
+import com.warmtel.expandtab.KeyValueBean;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -40,8 +43,8 @@ public class TimePickerUtils {
         picker.setCanLoop(false);
         picker.setWheelModeEnable(true);
         picker.setTopPadding(15);
-        picker.setRangeStart(calendar.get(Calendar.YEAR)-2, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
-        picker.setRangeEnd(calendar.get(Calendar.YEAR)+2, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        picker.setRangeStart(calendar.get(Calendar.YEAR) - 2, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        picker.setRangeEnd(calendar.get(Calendar.YEAR) + 2, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
         picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
         picker.setWeightEnable(true);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
@@ -86,24 +89,24 @@ public class TimePickerUtils {
         picker.setCanLoop(false);
         picker.setWheelModeEnable(true);
         picker.setTopPadding(15);
-        picker.setRangeStart(calendar.get(Calendar.YEAR)-2, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
-        picker.setRangeEnd(calendar.get(Calendar.YEAR)+2, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        picker.setRangeStart(calendar.get(Calendar.YEAR) - 2, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        picker.setRangeEnd(calendar.get(Calendar.YEAR) + 2, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
         picker.setSelectedItem(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
         picker.setWeightEnable(true);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
-                String endTime="";
+                String endTime = "";
                 if (view instanceof TextView) {
                     Loger.e("view instanceof TextView---");
                     ((TextView) view).setText(year + "-" + month + "-" + day);
-                  endTime=  ((TextView) view).getText().toString().trim();
+                    endTime = ((TextView) view).getText().toString().trim();
                 } else if (view instanceof EditText) {
                     ((EditText) view).setText(year + "-" + month + "-" + day);
-                    endTime=  ((EditText) view).getText().toString().trim();
+                    endTime = ((EditText) view).getText().toString().trim();
                 }
-                Loger.e("startTime="+startTime +"endtime"+endTime);
-                checkDate(startTime,endTime);
+                Loger.e("startTime=" + startTime + "endtime" + endTime);
+                checkDate(startTime, endTime);
 
             }
         });
@@ -142,16 +145,18 @@ public class TimePickerUtils {
     }
 
 
-    private void checkDate(String startTime,String endTime) {
+    private void checkDate(String startTime, String endTime) {
 
         if (!TextUtils.isEmpty(startTime) && !TextUtils.isEmpty(endTime)) {
             if (TimeUtils.timeCompare(startTime, endTime, "yyyy-MM-dd")) {
-               // SimpleToast.ToastMessage("结束日期不合法！");
+                // SimpleToast.ToastMessage("结束日期不合法！");
                 return;
             }
         }
     }
-    public void onListDataPicker(Activity context, final List<String> allStatus, final View view) {
+
+    public View onListDataPicker(Activity context, final List<String> allStatus, final View view) {
+        final int[] pos = {0};
         final SinglePicker<String> picker = new SinglePicker<String>(context, allStatus);
         picker.setCanLoop(true);
         picker.setWheelModeEnable(false);
@@ -162,7 +167,8 @@ public class TimePickerUtils {
         picker.setOnSingleWheelListener(new OnSingleWheelListener() {
             @Override
             public void onWheeled(int i, String s) {
-
+                pos[0] = i;
+                Loger.e("i," + i);
             }
         });
 
@@ -170,6 +176,7 @@ public class TimePickerUtils {
             @Override
             public void onItemPicked(int i, String s) {
                 Loger.e("viewName=" + (view instanceof TextView));
+
                 if (view instanceof TextView) {
                     Loger.e("view instanceof TextView---");
                     ((TextView) view).setText(allStatus.get(i));
@@ -182,12 +189,18 @@ public class TimePickerUtils {
         });
         picker.setWeightEnable(true);
 
+        if (view.getTag() == null) {
+            view.setTag(0);
+        }
+
         picker.show();
+        Loger.e("view.selectPOs()" + view.getTag());
+        return view;
     }
 
 
-    public void onListPicker(Activity context, final List<String> allStatus, final View view) {
-        final SinglePicker<String> picker = new SinglePicker<String>(context, allStatus);
+    public void onListPicker(Activity context, final List<KeyValueBean> allStatus, final View view) {
+        final SinglePicker<KeyValueBean> picker = new SinglePicker<KeyValueBean>(context, allStatus);
         picker.setCanLoop(false);
         picker.setWheelModeEnable(true);
         picker.setTopPadding(15);
@@ -199,15 +212,16 @@ public class TimePickerUtils {
             }
         });
 
-        picker.setOnItemPickListener(new OnItemPickListener<String>() {
+        picker.setOnItemPickListener(new OnItemPickListener<KeyValueBean>() {
             @Override
-            public void onItemPicked(int i, String s) {
+            public void onItemPicked(int i, KeyValueBean s) {
                 Loger.e("viewName=" + (view instanceof TextView));
                 if (view instanceof TextView) {
-                    Loger.e("view instanceof TextView---");
-                    ((TextView) view).setText(allStatus.get(i));
+                    Loger.e("view instanceof TextView---" + allStatus.get(i).getValue());
+
+                    ((TextView) view).setText(allStatus.get(i).getValue());
                 } else if (view instanceof EditText) {
-                    ((EditText) view).setText(allStatus.get(i));
+                    ((EditText) view).setText(allStatus.get(i).getValue());
                 }
 
             }

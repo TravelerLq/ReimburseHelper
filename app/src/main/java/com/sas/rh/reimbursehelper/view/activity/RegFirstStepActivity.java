@@ -223,7 +223,7 @@ public class RegFirstStepActivity extends AppCompatActivity {
         nexttostep2 = (LinearLayout) findViewById(R.id.nexttostep2);
         onlineClient = new OnlineClient(CertServiceUrl.baseUrl, CertServiceUrl.appKey, CertServiceUrl.appSecret);
 
-        initTestData();
+      //  initTestData();
         final MyCountDownTimer myCountDownTimer = new MyCountDownTimer(60000, 1000);
         //  initTestData();
         SaveUserBean saveUserBean = UserData.getUserInfo();

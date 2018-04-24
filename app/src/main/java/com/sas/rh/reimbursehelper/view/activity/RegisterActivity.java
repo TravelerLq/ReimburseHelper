@@ -236,7 +236,7 @@ public class RegisterActivity extends BaseActivity {
 
         }
 
-        intTestData();
+     //  initTestData();
 
 
     }
@@ -268,7 +268,7 @@ public class RegisterActivity extends BaseActivity {
 
     }
 
-    private void intTestData() {
+    private void initTestData() {
 //        edtAccount.setText("12");
 //        edtPsw.setText("12");
 //        edtEmail.setText("245633");

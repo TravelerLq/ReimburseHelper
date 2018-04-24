@@ -103,15 +103,28 @@ public class DepartmentUtil {
 
     }
 
-    public static JSONObject joinDept(int userId,int departmentId) {
+    public static JSONObject joinDept(int userId, int departmentId) {
 //        Integer userId = 28;
 //        Integer departmentId = 2;
-        String url = RootAddress+"yuanshensystem/public/joindept";
+        String url = RootAddress + "yuanshensystem/public/joindept";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("userId", userId);
         jsonObject.put("departmentId", departmentId);
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         return reJson;
+
+    }
+
+    //查询部门的报销权限
+    public static JSONArray getDeptRight(int userId) {
+        // Integer userId = 1;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId", userId);
+        String url = RootAddress + "yuanshensystem/department/selectdeptright";
+        JSONArray jsonArray = JsonUtil.uploadJsonGetJsonArray(url, jsonObject);
+        return jsonArray;
+
+        //   List<ReimbursementRight> reimbursementRightList = JSONArray.parseArray(jsonArray.toJSONString(), ReimbursementRight.class);
 
     }
 

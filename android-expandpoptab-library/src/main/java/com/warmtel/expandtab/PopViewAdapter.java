@@ -40,13 +40,13 @@ public class PopViewAdapter extends BaseAdapter {
     public void setList(List<KeyValueBean> listData) {
         list.clear();
         list.addAll(listData);
-        if(list==null){
-            Log.e("list==","list==null");
-        }else{
-            for(int i=0;i<list.size();i++){
-            Log.e("list==",""+list.get(i).getValue());
-        }
-                notifyDataSetChanged();
+        if (list == null) {
+            Log.e("list==", "list==null");
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                //  Log.e("list==",""+list.get(i).getValue());
+            }
+            notifyDataSetChanged();
         }
 //
 
@@ -98,7 +98,7 @@ public class PopViewAdapter extends BaseAdapter {
 
         KeyValueBean keyValueBean = (KeyValueBean) getItem(position);
 
-        if (keyValueBean != null){
+        if (keyValueBean != null) {
             if (keyValueBean.getValue().equals(selectorText)) {
                 view.setBackgroundResource(selectorResId);
             } else {
@@ -110,7 +110,7 @@ public class PopViewAdapter extends BaseAdapter {
         int pading = context.getResources().getDimensionPixelSize(R.dimen.expand_tab_popview_padingtop);
 
         view.setText(keyValueBean.getValue());
-        Log.e("pos=", keyValueBean.getValue());
+        //   Log.e("pos=", keyValueBean.getValue());
         view.setTag(position);
         if (textSize != -1) {
             view.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);

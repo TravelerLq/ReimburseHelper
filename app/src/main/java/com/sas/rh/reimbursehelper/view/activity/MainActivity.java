@@ -17,6 +17,7 @@ import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.fragment.CountFragment;
 import com.sas.rh.reimbursehelper.fragment.EnterpriseFragment;
 import com.sas.rh.reimbursehelper.HomepageFragment;
+import com.sas.rh.reimbursehelper.fragment.HomeFragment;
 import com.sas.rh.reimbursehelper.fragment.MessageFragment;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.fragment.SelectViewExpenseFragment;
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
         gradualRadioGroup = (WeChatRadioGroup) findViewById(R.id.radiogroup);
 
         List<Fragment> list = new ArrayList<Fragment>();
-        list.add(new HomepageFragment());
+        // list.add(new HomepageFragment());
+        list.add(new HomeFragment());
         list.add(new SelectViewExpenseFragment());
         //list.add(new MessageFragment());
         list.add(new CountFragment());
@@ -69,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
             finish();
         } else {
             //有证书
-          //  store.deleteCertificate(certificateArrayList.get(0).getId());
-            Loger.e("certificateArrayList.get(0).getId()="+certificateArrayList.get(0).getId());
+            //  store.deleteCertificate(certificateArrayList.get(0).getId());
+            Loger.e("certificateArrayList.get(0).getId()=" + certificateArrayList.get(0).getId());
         }
 
     }

@@ -45,4 +45,12 @@
     <color name="blue_24ADF3">#24ADF3</color>
     <color name="blue_7686fb">#7686fb</color>
     <color name="black_333333">#333333</color>
+    <color name="orange">#fc902d</color>
+    <color name="text_orange">#ffd117</color>
+    <color name="bg_home">#c6d5ed</color>
+    <color name="bg_grey_color">#f6f6f6</color>
+    <color name="green">#1eba93</color>
+    <color name="green_text">#1eba93</color>
+    <color name="blue_text">#4f82d9</color>
+
 </resources>

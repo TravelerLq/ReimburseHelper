@@ -120,4 +120,18 @@ public class FormUtil {
         System.out.println(annexId);
         return reJson;
     }
+
+    //删除报销一个报销项
+
+    public static JSONObject deleteSingleReimbursement(int expenseId) {
+        //单项报销id
+       // Integer expenseId = 3;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("expenseId", expenseId);
+        String url = RootAddress+"yuanshensystem/singlereim/delete";
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        return reJson;
+       // System.out.println(reJson.toString());
+    }
+
 }

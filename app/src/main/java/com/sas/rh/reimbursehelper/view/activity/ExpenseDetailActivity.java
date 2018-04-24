@@ -58,6 +58,7 @@ public class ExpenseDetailActivity extends BaseActivity {
     private String filePath;
     private static MyHandler myHandler;
     private JSONObject jsonobj;
+    private ImageView ivBack;
 
 
     private String pdfPath = "/storage/emulated/0/Download/";
@@ -84,6 +85,7 @@ public class ExpenseDetailActivity extends BaseActivity {
         tvExpenseName = (TextView) findViewById(R.id.tv_expense_name);
         llReject = (LinearLayout) findViewById(R.id.ll_reject_reason);
         tvReason = (TextView) findViewById(R.id.tv_reason);
+        ivBack = (ImageView) findViewById(R.id.iv_back);
         tvTitle.setText("报销单详情");
         Bundle bundle = (Bundle) getIntent().getExtras().get("bundle");
         itemBean = (ExpenseApprovalResponseBean) bundle.getSerializable("itemBean");
@@ -97,7 +99,7 @@ public class ExpenseDetailActivity extends BaseActivity {
             //=1 通过
             if (itemBean.getApproveResultId() == null) {
                 tvApprovalResult.setText(getResources().getString(R.string.wait_approval));
-            } else{
+            } else {
 
                 if (itemBean.getApproveResultId() == 1) {
                     tvApprovalResult.setText(getResources().getString(R.string.pass));
@@ -115,16 +117,16 @@ public class ExpenseDetailActivity extends BaseActivity {
                 tvExpenseName.setText(itemBean.getApprovalName().toString());
 
             }
-            if(itemBean.getApproveProcessId()==null){
+            if (itemBean.getApproveProcessId() == null) {
                 tvFinalResult.setText("暂无");
-            }else{
+            } else {
                 tvProgress.setText(String.valueOf(itemBean.getApproveProcessId()));
             }
 
 
-            if(itemBean.getFinallyResultId()==null){
+            if (itemBean.getFinallyResultId() == null) {
                 tvFinalResult.setText("暂无");
-            }else{
+            } else {
                 tvFinalResult.setText(String.valueOf(itemBean.getFinallyResultId()));
             }
 
@@ -259,6 +261,7 @@ public class ExpenseDetailActivity extends BaseActivity {
 
     @Override
     protected void initListeners() {
+        ivBack.setOnClickListener(this);
         ivPdfIcon.setOnClickListener(this);
     }
 
@@ -268,6 +271,9 @@ public class ExpenseDetailActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.iv_pdf_icon_expense:
                 viewPdf();
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
             default:
                 break;

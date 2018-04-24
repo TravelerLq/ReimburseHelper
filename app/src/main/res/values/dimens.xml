@@ -122,8 +122,12 @@
     <dimen name="dimen_216">216dp</dimen>
     <dimen name="dimen_220">220dp</dimen>
     <dimen name="dimen_233">233dp</dimen>
+    <dimen name="dimen_250">250dp</dimen>
     <dimen name="dimen_468">468dp</dimen>
-    <dimen name="super_small_textsize">12sp</dimen>
+    <dimen name="super_small_text_size">12sp</dimen>
+    <dimen name="middle_text_size">16sp</dimen>
+    <dimen name="big_text_size">20sp</dimen>
+    <dimen name="small_text_size">14sp</dimen>
 
 
 

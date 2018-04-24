@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class ViewApprovalDetailActivity extends BaseActivity {
     private RecyclerAdapterWithHF mAdapter;
     private List<ExpenseApprovalResponseBean> mData = new ArrayList<>();
     private TextView tvBarTitle;
+    private ImageView ivBack;
 
     int page = 0;
     private ProgressDialogUtil pdu = new ProgressDialogUtil(this, "提示", "加载中");
@@ -61,7 +63,7 @@ public class ViewApprovalDetailActivity extends BaseActivity {
                 mData.addAll(list);
                 mAdapter.notifyDataSetChanged();
                 // pdu.dismisspd();
-             //  getPic(mData.get(0).get);
+                //  getPic(mData.get(0).get);
             }
             //报销人 加载成功
             if (msg.what == 1) {
@@ -109,6 +111,7 @@ public class ViewApprovalDetailActivity extends BaseActivity {
         ptrClassicFrameLayout = (PtrClassicFrameLayout) findViewById(R.id.test_recycler_view_frame);
         mRecyclerView = (RecyclerView) findViewById(R.id.test_recycler_view);
         tvBarTitle = (TextView) findViewById(R.id.tv_bar_title);
+        ivBack = (ImageView) findViewById(R.id.iv_back);
         spu = new SharedPreferencesUtil(ViewApprovalDetailActivity.this);
         initView();
         type = getIntent().getStringExtra("type");
@@ -124,7 +127,7 @@ public class ViewApprovalDetailActivity extends BaseActivity {
 
     @Override
     protected void initListeners() {
-
+        ivBack.setOnClickListener(this);
     }
 
     private void initView() {
@@ -274,7 +277,7 @@ public class ViewApprovalDetailActivity extends BaseActivity {
 
             try {
 
-                jsonResult = getPendApproval( 1);
+                jsonResult = getPendApproval(1);
 
                 if (jsonResult != null) {
                     handler.sendEmptyMessage(2);
@@ -322,6 +325,13 @@ public class ViewApprovalDetailActivity extends BaseActivity {
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
+            default:
+                break;
+        }
 
     }
 }

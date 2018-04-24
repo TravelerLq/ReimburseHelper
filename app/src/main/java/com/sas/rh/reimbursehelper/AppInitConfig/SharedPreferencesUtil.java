@@ -60,6 +60,18 @@ public class SharedPreferencesUtil {
     }
 
 
+    public void setPos(String key) {
+        editor.putString("selectPos", key);
+        editor.commit();
+    }
+    public String getPos() {
+        String key = userSettings.getString("selectPos", null);
+        Log.e("selectPos=", "" + key);
+        if (TextUtils.isEmpty(key)) {
+            return null;
+        }
+        return key;
+    }
 
 
     //pdf签名的key
