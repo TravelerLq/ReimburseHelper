@@ -169,6 +169,37 @@ public class SingleReimbursementUtil {
 
     }
 
+    //签名证书 以json传入 针对pdf
+    public static JSONObject signJsonStrPdf(String data, String cert, String key, String name, int index, int formId) {
+        JSONObject signText = new JSONObject();
+        //待签名的文档内容
+        String doc = data;
+
+        signText.put("doc", doc);
+        signText.put("formId", formId);
+        signText.put("name", name);
+        Loger.e("name--" + name);
+        JSONArray signatures = new JSONArray();
+        //第一个签名需要存储的内容
+        JSONObject firstSign = new JSONObject();
+        firstSign.put("index", index);
+        firstSign.put("signature", key);
+        // firstSign.put("originalFilename", name);
+        firstSign.put("certificate", cert);
+
+        signatures.add(firstSign);
+        signText.put("signatures", signatures);
+        String jsonStr = signText.toJSONString();
+        Log.e("---signJsonStringNew", "---jsonStr=" + jsonStr);
+
+        String url = urlStr + "yuanshensystem/sign/verifmyform";
+        JSONObject reJson = JsonUtil.uploadJson(url, signText);
+        String json = reJson.getString("json");
+
+        return reJson;
+
+    }
+
     //签名证书 以json传入
     public static JSONObject signJsonStringPdf(String data, String cert, String key, String name, int index, int formId) {
         JSONObject signText = new JSONObject();

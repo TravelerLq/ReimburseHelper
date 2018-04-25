@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_recycle"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dimen_5"
+    android:paddingRight="@dimen/dimen_10">
+
+    <RelativeLayout
+        android:id="@+id/rl_expense_item"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_150"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/dimen_5"
+        android:paddingRight="@dimen/dimen_10"
+        android:paddingTop="@dimen/dimen_13">
+
+        <ImageView
+            android:id="@+id/iv_person"
+            android:layout_width="@dimen/dimen_20"
+            android:layout_height="@dimen/dimen_20"
+            android:layout_above="@+id/tv_expense_category"
+            android:layout_alignStart="@+id/imageView9"
+            android:src="@drawable/ic_rmb_blue" />
+
+
+        <TextView
+            android:id="@+id/tv_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/iv_person"
+            android:layout_alignStart="@+id/tv_explain"
+            android:text="张三" />
+
+
+        <TextView
+            android:id="@+id/tv_expense_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/imageView9"
+            android:layout_marginBottom="8dp"
+            android:text="2018-01-21" />
+
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="11dp"
+            android:text="¥23.30"
+            android:textSize="@dimen/big_text_size" />
+
+        <ImageView
+            android:id="@+id/iv_type_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dimen_10"
+            android:src="@drawable/ic_expense_type" />
+
+        <TextView
+            android:id="@+id/tv_expense_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/iv_type_icon"
+            android:layout_alignParentEnd="true"
+            android:text="1" />
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="@dimen/dimen_20"
+            android:layout_height="@dimen/dimen_20"
+            android:layout_alignStart="@+id/tv_money"
+            android:layout_below="@+id/tv_"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_remark" />
+
+        <TextView
+            android:id="@+id/tv_explain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView9"
+            android:layout_marginLeft="@dimen/dimen_2"
+            android:layout_toRightOf="@+id/imageView9"
+            android:text="说明加班打车报销" />
+
+        <TextView
+            android:id="@+id/tv_department"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/tv_explain"
+            android:text="财务部审批" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_8"
+        android:background="@color/bg_recycle" />
+
+</LinearLayout>
