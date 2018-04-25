@@ -58,6 +58,43 @@ public class JsonUtil extends PostMethod {
         return responseMsg;
     }
 
+    public static JSONObject newUploadJson(String url, JSONObject jsonObject) {
+        PostMethod postMethod = new UTF8PostMethod(url);
+        JSONObject responseMsg = new JSONObject();
+//        httpGet.setProtocolVersion(HttpVersion.HTTP_1_0);
+//        httpGet.addHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_CLOSE);
+        HttpClient client = new HttpClient();
+
+        if (!jsonObject.isEmpty()) {
+
+            try {
+                NameValuePair message = new NameValuePair("json", jsonObject.toJSONString());
+                Log.e("uploadJson--", "jsonStr" + jsonObject.toJSONString() + "url=" + url);
+                Log.e("uploadJson--url=", "url=" + url);
+
+                postMethod.setRequestBody(new NameValuePair[]{message});
+                client.getHttpConnectionManager().getParams()
+
+                        .setConnectionTimeout(10000);
+                int status = client.executeMethod(postMethod);
+                Log.e("uploadJson", "res=" + postMethod.getResponseBodyAsString());
+                responseMsg = JSONObject.parseObject(postMethod.getResponseBodyAsString());
+                if (status == HttpStatus.SC_OK) {
+                    System.out.println(postMethod.getResponseBodyAsString());
+                } else {
+                    System.out.println("fail");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                //释放链接
+                postMethod.releaseConnection();
+            }
+        } else {
+            responseMsg.put("error", "上传的json为空");
+        }
+        return responseMsg;
+    }
 
 
     public static JSONArray uploadJsonGetJsonArray(String url, JSONObject jsonObject) {
@@ -97,7 +134,6 @@ public class JsonUtil extends PostMethod {
         }
         return responseMsg;
     }
-
 
 
     public static void main(String[] args) {

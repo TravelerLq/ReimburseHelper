@@ -9,17 +9,21 @@ import com.sas.rh.reimbursehelper.Bean.SingleReimbursement;
 import com.sas.rh.reimbursehelper.Util.Loger;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+
+import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.RootAddress;
 
 public class SingleReimbursementUtil {
     //    public static void main(String[] args) {
 //        addSingleReimbursement();
 //    }
-    private static final String urlStr = AddressConfig.RootAddress;
+    private static final String urlStr = RootAddress;
     private static String result;
 
     //新增一条单项报销
-    public static JSONObject addSingleReimbursement(int userId,Byte expenseItem, Byte expenseCategory, Integer formId, Double amount, String remark) {
+    public static JSONObject addSingleReimbursement(int userId, Byte expenseItem, Byte expenseCategory, Integer formId,
+                                                    Double amount, String remark, Date date) {
 //        //报销科目三级id
 //        Byte expenseItem = 0;
 //        //报销科目二级id
@@ -37,7 +41,8 @@ public class SingleReimbursementUtil {
         jsonObject.put("formId", formId);
         jsonObject.put("amount", amount);
         jsonObject.put("remark", remark);
-        String url = urlStr+"yuanshensystem/singlereim/add";
+        jsonObject.put("generationTime", date);
+        String url = urlStr + "yuanshensystem/singlereim/add";
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         return reJson;
         //Integer expenseId = reJson.getInteger("expenseId");
@@ -133,7 +138,7 @@ public class SingleReimbursementUtil {
 
     }
 
-    //签名证书 以json传入
+    //签名证书 以json传入 针对图片
     public static JSONObject signJsonStringNew(String data, String cert, String key, String name, int index, int expendId) {
         JSONObject signText = new JSONObject();
         //待签名的文档内容
@@ -142,7 +147,7 @@ public class SingleReimbursementUtil {
         signText.put("doc", doc);
         signText.put("expenseId", expendId);
         signText.put("name", name);
-        Loger.e("name--"+name);
+        Loger.e("name--" + name);
         JSONArray signatures = new JSONArray();
         //第一个签名需要存储的内容
         JSONObject firstSign = new JSONObject();
@@ -156,7 +161,7 @@ public class SingleReimbursementUtil {
         String jsonStr = signText.toJSONString();
         Log.e("---signJsonStringNew", "---jsonStr=" + jsonStr);
 
-        String url = urlStr+ "yuanshensystem/sign/verify";
+        String url = urlStr + "yuanshensystem/sign/verifysingle";
         JSONObject reJson = JsonUtil.uploadJson(url, signText);
         String json = reJson.getString("json");
 
@@ -222,14 +227,14 @@ public class SingleReimbursementUtil {
             e.printStackTrace();
         }
 //        String json = reJson.getString("json");
-        Loger.e("result-----"+result);
+        Loger.e("result-----" + result);
 
         return result;
 
     }
 
 
-    public static JSONObject dgetPdfByFormId(Integer formId){
+    public static JSONObject dgetPdfByFormId(Integer formId) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("formId", formId);
         String url = urlStr + "yuanshensystem/filedown/getpdfbyformid";
@@ -238,8 +243,24 @@ public class SingleReimbursementUtil {
         String originalFilename = reJson.getString("originalFilename");
 //        String filePath = fileFolder + originalFilename;
 //        System.out.println(fileJson);
-       // base64ToImage(fileJson, filePath);
+        // base64ToImage(fileJson, filePath);
         return reJson;
+    }
+
+    //查询备注的提示
+    public static JSONObject getExpenseRemark(int userId, Byte categoryId, Byte expenseItemId) {
+//        Integer userId = 54;
+//        //单项报销id
+//        Byte category = 8;
+//        Byte item = 2;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId", userId);
+        jsonObject.put("category", categoryId);
+        jsonObject.put("item", expenseItemId);
+        String url = RootAddress + "yuanshensystem/singlereim/selectremarktip";
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        return reJson;
+
     }
 
 

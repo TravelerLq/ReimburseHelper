@@ -20,7 +20,8 @@ public class FormUtil {
 ////        getFormPdf();
 //    }
     private static String bxdid;
-    private static final String urlStr=AddressConfig.RootAddress;
+    private static final String urlStr = AddressConfig.RootAddress;
+    private static int formId;
 
     //增加一张新的报销单
     public static JSONArray addForm(Integer userId, Byte expenseCategoryId) {
@@ -30,7 +31,7 @@ public class FormUtil {
         //      Byte expenseCategoryId = 1;
 //        Byte expenseCategoryId = 5;
 
-        String url =urlStr+ "yuanshensystem/form/add";
+        String url = urlStr + "yuanshensystem/form/add";
         // String url = "http://101.200.85.207:8080/yuanshensystem/form/add";
         //String url = RootAddress+"yuanshensystem/form/add";
         JSONObject jsonObject = new JSONObject();
@@ -52,6 +53,12 @@ public class FormUtil {
     public static String getBxdid() {
         return bxdid;
     }
+
+    public static int returnFormId() {
+
+        return formId;
+    }
+
 
     //更新报销单
     public static void updateForm() {
@@ -107,13 +114,13 @@ public class FormUtil {
     }
 
     //获取报销单的pdf
-    public static JSONObject getFormPdf(int formid,int userId) {
+    public static JSONObject getFormPdf(int formid, int userId) {
         //报销人id (42)
         Integer formId = formid;
-        String url =urlStr + "yuanshensystem/form/getpdf";
+        String url = urlStr + "yuanshensystem/form/getpdf";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("formId", formId);
-        jsonObject.put("userId",userId);
+        jsonObject.put("userId", userId);
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         //这里得到的是报销单的附件id，根据这个附件id，调用下载文件的方法去下载pdf文件
         Integer annexId = reJson.getInteger("annexId");
@@ -125,13 +132,29 @@ public class FormUtil {
 
     public static JSONObject deleteSingleReimbursement(int expenseId) {
         //单项报销id
-       // Integer expenseId = 3;
+        // Integer expenseId = 3;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("expenseId", expenseId);
-        String url = RootAddress+"yuanshensystem/singlereim/delete";
+        String url = RootAddress + "yuanshensystem/singlereim/delete";
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         return reJson;
-       // System.out.println(reJson.toString());
+        // System.out.println(reJson.toString());
     }
+
+    public static JSONObject getFormId(int userId) {
+        //  Integer userId = 1;
+        //报销的二级科目id
+
+        String url = RootAddress + "yuanshensystem/form/add";
+        JSONObject jsonObject = new JSONObject();
+        //即用户id
+        jsonObject.put("userId", userId);
+
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        formId = reJson.getIntValue("formId");
+        return reJson;
+    }
+
+
 
 }

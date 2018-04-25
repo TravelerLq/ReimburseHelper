@@ -30,6 +30,7 @@ import com.sas.rh.reimbursehelper.NetworkUtil.ExpenseCategoryUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.FormUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.SingleReimbursementUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.UploadFileUtil;
+import com.sas.rh.reimbursehelper.NetworkUtil.Utils;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.FileToBase64Util;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
@@ -870,7 +871,8 @@ public class AddExpenseTestActivity extends AppCompatActivity implements View.On
             // TODO Auto-generated method stub
 
             try {
-                JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(spu.getUidNum(),expenseItem, expenseCategory, formId, amount, remark);
+                JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(spu.getUidNum(),expenseItem, expenseCategory, formId, amount, remark,
+                        Utils.strToDate("2018-1-21"));
                 if (jo != null) {
                     jsonobj = jo;
                     expenseId = jo.getIntValue("expenseId");

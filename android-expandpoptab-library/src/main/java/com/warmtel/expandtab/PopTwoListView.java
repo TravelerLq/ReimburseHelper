@@ -32,7 +32,7 @@ public class PopTwoListView extends LinearLayout {
     public interface OnSelectListener {
         void getValue(String showText, String parentKey, String childrenKey);
 
-        void getParentValue(int position,String showText, String key);
+        void getParentValue(int position, String showText, String key);
     }
 
 
@@ -75,7 +75,7 @@ public class PopTwoListView extends LinearLayout {
 //                    mExpandPopTabView.setToggleButtonText(keyValueBean.getValue());
                     KeyValueBean keyValueBean = (KeyValueBean) adapter.getItem(position);
 //                    mSelectParentKey = keyValueBean.getKey();
-                    mOnSelectListener.getParentValue(position,keyValueBean.getValue(), keyValueBean.getKey());
+                    mOnSelectListener.getParentValue(position, keyValueBean.getValue(), keyValueBean.getKey());
                 }
             }
         });
@@ -194,13 +194,15 @@ public class PopTwoListView extends LinearLayout {
             }
         }
     }
-//初始化ParentList View
-public void setParentData(ExpandPopTabView expandPopTabView, List<KeyValueBean> _groups,OnSelectListener onSelectListener){
-    groups = _groups;
-    parentListViewAdapter.setList(_groups);
-    mExpandPopTabView = expandPopTabView;
-    mOnSelectListener = onSelectListener;
-}
+
+    //初始化ParentList View
+    public void setParentData(ExpandPopTabView expandPopTabView, List<KeyValueBean> _groups, OnSelectListener onSelectListener) {
+        groups = _groups;
+        parentListViewAdapter.setList(_groups);
+        mExpandPopTabView = expandPopTabView;
+        mOnSelectListener = onSelectListener;
+    }
+
     public void setCallBackAndData(ExpandPopTabView expandPopTabView, List<KeyValueBean> _groups, List<ArrayList<KeyValueBean>> _children, OnSelectListener onSelectListener) {
         groups = _groups;
         children = _children;
@@ -215,8 +217,7 @@ public void setParentData(ExpandPopTabView expandPopTabView, List<KeyValueBean> 
                 return;
             parentListViewAdapter.setSelectorText(groups.get(0).getValue());
 //            childrenItem.addAll(children.get(0));
-      }
- else {
+        } else {
             if (mDefaultParentText != null) {
                 setDefaultSelect();
             } else {

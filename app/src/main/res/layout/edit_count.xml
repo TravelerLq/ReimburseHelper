@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    android:background="@drawable/boundary_edtcount"
+    >
+
+    <EditText
+        android:layout_above="@+id/count_Num"
+        android:id="@+id/etContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="@null"
+        android:gravity="top"
+        android:textSize="14sp"
+        android:textColor="@color/gray"
+        android:textCursorDrawable="@null"
+        android:hint="请输入内容"
+        android:maxLength="100"
+        android:minHeight="120dp"
+        android:padding="5dp"
+        android:scrollbars="vertical"
+        android:singleLine="false" />
+
+    <TextView
+        android:id="@+id/count_Num"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="0/125" />
+
+</RelativeLayout>

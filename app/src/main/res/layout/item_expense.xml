@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dimen_5"
+    android:paddingRight="@dimen/dimen_10"
+    android:background="@color/bg_recycle"
+  >
+
+    <RelativeLayout
+        android:id="@+id/rl_expense_item"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_110"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/dimen_5"
+        android:paddingRight="@dimen/dimen_10"
+        android:paddingTop="@dimen/dimen_13">
+
+        <TextView
+            android:id="@+id/tv_money_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_50"
+            android:text="报销金额" />
+
+        <TextView
+            android:id="@+id/tv_expense_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="2018-01-21" />
+
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_money_title"
+            android:layout_marginLeft="@dimen/dimen_50"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:text="¥23.30"
+            android:textSize="@dimen/big_text_size" />
+
+        <ImageView
+            android:id="@+id/iv_type_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="51dp"
+            android:src="@drawable/expense_type_grey" />
+
+        <TextView
+            android:id="@+id/tv_expense_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/iv_type_icon"
+            android:layout_alignParentEnd="true"
+            android:text="交通费" />
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/tv_money"
+            android:src="@drawable/ic_remark" />
+
+        <TextView
+            android:id="@+id/tv_explain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView9"
+            android:layout_marginLeft="@dimen/dimen_2"
+            android:layout_toRightOf="@+id/imageView9"
+            android:text="说明加班打车报销" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_money"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/check_blue" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_8"
+        android:background="@color/bg_recycle" />
+
+</LinearLayout>

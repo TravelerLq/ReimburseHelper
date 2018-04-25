@@ -78,7 +78,7 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
             tButton.setTextSize(mToggleTextSize);
         }
 
-        tButton.setText(tabTitle);
+      //  tButton.setText(tabTitle);
         tButton.setTag(++mTabPostion);
         tButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -115,7 +115,7 @@ public class ExpandPopTabView extends LinearLayout implements OnDismissListener 
 
     public void setToggleButtonText(String tabTitle){
         ToggleButton toggleButton = (ToggleButton) getChildAt(mSelectPosition);
-        toggleButton.setText(tabTitle);
+       // toggleButton.setText(tabTitle);
     }
 
     private void expandPopView() {

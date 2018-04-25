@@ -42,6 +42,7 @@ import com.sas.rh.reimbursehelper.NetworkUtil.ExpenseItemUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.FormUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.SingleReimbursementUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.UploadFileUtil;
+import com.sas.rh.reimbursehelper.NetworkUtil.Utils;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.FileToBase64Util;
 import com.sas.rh.reimbursehelper.Util.FileUtils;
@@ -59,6 +60,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.unitid.spark.cm.sdk.business.SignatureP1Service;
@@ -173,14 +175,14 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 
             } else if (msg.what == 2) {
                 thirdList.clear();
-                Loger.e("third type--jsonresult-----"+jsonresult);
+                Loger.e("third type--jsonresult-----" + jsonresult);
                 //   ERFormList = new ArrayList<DeptCategoryItemVoExtend>();
                 List<ExpenseThirdTypeBean> thirdExpenseCategoryList =
                         JSONArray.parseArray(jsonresult.toJSONString(), ExpenseThirdTypeBean.class);
-                Loger.e("thirdExpenseCategoryList--get"+thirdExpenseCategoryList.size());
+                Loger.e("thirdExpenseCategoryList--get" + thirdExpenseCategoryList.size());
 
                 for (int i = 0; i < thirdExpenseCategoryList.size(); i++) {
-                    Loger.e("thirdExpenseCategoryList-name"+thirdExpenseCategoryList.get(i).getExpenseItemName());
+                    Loger.e("thirdExpenseCategoryList-name" + thirdExpenseCategoryList.get(i).getExpenseItemName());
                     if (thirdExpenseCategoryList.get(i).getExpenseItemId() != null) {
                         ExpenseThirdTypeBean bean = thirdExpenseCategoryList.get(i);
                         KeyValueBean keyValueBean = new KeyValueBean(bean.getExpenseItemId().toString(), bean.getExpenseItemName());
@@ -223,15 +225,9 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
                             addExpenseRecycleViewAdapter = new AddExpenseRecycleViewAdapter(AddExpenseActivity.this, addExpenseItemList);
                         }
                         Log.e("addList", "size()=" + addExpenseItemList.size());
-                        // bxRecyclerView.setAdapter(addExpenseRecycleViewAdapter);
                         addExpenseRecycleViewAdapter.notifyDataSetChanged();
                         llRemark.setVisibility(View.GONE);
 
-
-//                        Glide.with(AddExpenseActivity.this)
-//                                .load(uri)
-//                                .thumbnail(0.1f)
-//                                .into(ivPhoto);
                     } else {
                         ToastUtil.showToast(AddExpenseActivity.this, "文件提交成功！", Toast.LENGTH_LONG);
 //                        if(file.exists()){
@@ -1092,8 +1088,10 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 
             try {
                 Log.e("expenseItem=", "" + expenseItem);
+                String date = "2018-1-12";
+                Date date1 = Utils.strToDate(date);
 
-                JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(spu.getUidNum(), expenseItem, expenseCategory, formId, amount, remark);
+                JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(spu.getUidNum(), expenseItem, expenseCategory, formId, amount, remark, date1);
                 if (jo != null) {
                     jsonobj = jo;
                     expenseId = jo.getIntValue("expenseId");

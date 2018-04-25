@@ -39,6 +39,7 @@ import com.sas.rh.reimbursehelper.NetworkUtil.ExpenseCategoryUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.FormUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.SingleReimbursementUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.UploadFileUtil;
+import com.sas.rh.reimbursehelper.NetworkUtil.Utils;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
@@ -359,8 +360,10 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
         public void run() {
             // TODO Auto-generated method stub
 
+
             try {
-                JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(spu.getUidNum(), expenseItem, expenseCategory, formId, amount, remark);
+                JSONObject jo = SingleReimbursementUtil.addSingleReimbursement(spu.getUidNum(), expenseItem, expenseCategory,
+                        formId, amount, remark, Utils.strToDate("2018-1-20"));
                 if (jo != null) {
                     jsonobj = jo;
                     expenseCategoryback.sendEmptyMessage(3);
@@ -514,8 +517,6 @@ public class AddBaoxiaojizhuActivity extends AppCompatActivity {
             }
         }
     }
-
-
 
 
 }

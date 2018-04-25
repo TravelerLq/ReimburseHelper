@@ -4,6 +4,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by liqing on 18/3/27.
  */
@@ -42,4 +47,25 @@ public class Utils {
         return false;
     }
 
+
+//    1.string格式转化为Date对象：
+//
+//    //把string转化为date
+//    DateFormat fmt =new SimpleDateFormat("yyyy-MM-dd");
+//
+//    Date date = fmt.parse(szBeginTime);
+//test.setStartTime(date);
+//byte 与 int 的相互转换
+public static Date strToDate(String str) {
+    //把string转化为date
+    DateFormat fmt =new SimpleDateFormat("yyyy-MM-dd");
+    Date date = null;
+    try {
+        date = fmt.parse(str);
+    } catch (ParseException e) {
+        e.printStackTrace();
+    }
+
+    return date;
+}
 }

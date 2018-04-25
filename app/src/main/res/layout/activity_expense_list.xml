@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_recycle"
+    android:orientation="vertical"
+    tools:context="com.sas.rh.reimbursehelper.fragment.MessageFragment">
+
+    <include
+        android:id="@+id/bar"
+        layout="@layout/include_bar_title"></include>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rl_expense"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bar"
+        android:background="@android:color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg_recycle"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="新增"
+            android:visibility="gone"
+            android:textColor="@color/blue_text" />
+
+        <TextView
+            android:layout_width="@dimen/dimen_1"
+            android:layout_height="match_parent"
+            android:background="@color/stock" />
+
+        <TextView
+            android:id="@+id/tv_expense_submit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/expense_file"
+            android:background="@drawable/bg_rec_grey"
+            android:textColor="@color/blue_text" />
+    </LinearLayout>
+
+
+</RelativeLayout>

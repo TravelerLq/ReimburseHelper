@@ -77,7 +77,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"
-                tools:replace="name,resource"/>
+                tools:replace="name,resource" />
         </provider>
 
         <activity android:name=".view.activity.RegCertActivity" />
@@ -96,11 +96,19 @@
         <activity android:name=".view.activity.CompanyManaSelectActivity"></activity>
         <activity android:name=".view.activity.ApproveProcedureManageActivity"></activity>
         <activity android:name=".view.activity.SelectCompanyActivity"></activity>
-         <activity android:name=".view.activity.ApplicantActivity"></activity>
+        <activity android:name=".view.activity.ApplicantActivity"></activity>
+
         <service android:name=".service.NoticeMsgService"></service>
+
         <activity android:name=".view.activity.RegisterActivity"></activity>
         <activity android:name=".view.activity.BeforeRegisterActivity"></activity>
         <activity android:name=".view.activity.JoinOrRegisterCompanyActivity"></activity>
+
+        <!--新的-->
+        <activity android:name=".newactivity.AddExpenseItemActivtity"></activity>
+        <activity android:name=".newactivity.ExpenseTypeActivity"></activity>
+        <activity android:name=".newactivity.ExpenseItemListActivity"></activity>
+        <activity android:name=".newactivity.SubmitExpenseActivity"></activity>
     </application>
 
 </manifest>

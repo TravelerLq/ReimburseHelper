@@ -52,5 +52,9 @@
     <color name="green">#1eba93</color>
     <color name="green_text">#1eba93</color>
     <color name="blue_text">#4f82d9</color>
+    <color name="blue_line">#3a76d6</color>
+    <color name="gray_read_details">#f7f7f7</color>
+    <color name="bg_recycle">#f5f5f5</color>
+    <color name="divider">#e1e1e1</color>
 
 </resources>

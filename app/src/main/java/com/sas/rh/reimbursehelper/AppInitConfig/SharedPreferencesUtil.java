@@ -64,6 +64,7 @@ public class SharedPreferencesUtil {
         editor.putString("selectPos", key);
         editor.commit();
     }
+
     public String getPos() {
         String key = userSettings.getString("selectPos", null);
         Log.e("selectPos=", "" + key);
@@ -102,7 +103,8 @@ public class SharedPreferencesUtil {
         }
         return cert;
     }
-//用户名
+
+    //用户名
     public void setAccount(String account) {
         editor.putString("account", account);
         editor.commit();
@@ -116,8 +118,6 @@ public class SharedPreferencesUtil {
         }
         return account;
     }
-
-
 
 
     public boolean isCidEmpty() {
@@ -142,6 +142,30 @@ public class SharedPreferencesUtil {
         }
         String cid = userSettings.getString("cid", "");
         return Integer.parseInt(cid);
+    }
+
+    //formId
+    public void setFormId(int formId) {
+
+        editor.putString("formId", String.valueOf(formId));
+        editor.commit();
+    }
+
+    public int getFormId() {
+
+        if (isFormIdEmpty() == true) {
+            return -1;
+        }
+        String formId = userSettings.getString("formId", "");
+        return Integer.parseInt(formId);
+    }
+
+    public boolean isFormIdEmpty() {
+        String did = userSettings.getString("formId", null);
+        if (did == null || did.equals("")) {
+            return true;
+        }
+        return false;
     }
 
     public void writeCompanyId(String id) {
