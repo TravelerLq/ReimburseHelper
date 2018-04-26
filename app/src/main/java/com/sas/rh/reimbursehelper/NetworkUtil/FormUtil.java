@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sas.rh.reimbursehelper.Bean.ExpenseReimbursementForm;
+import com.sas.rh.reimbursehelper.Bean.SingleReimbursement;
 
 import java.util.List;
 
@@ -155,6 +156,20 @@ public class FormUtil {
         return reJson;
     }
 
+    //根据报销单id查询报销项
+    public static JSONArray getExpenseItem(int formId) {
+        //单项报销id
+        //  Integer formId = 1320;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("formId", formId);
+        String url = RootAddress + "yuanshensystem/singlereim/selectbyformid";
+        JSONArray jsonArray = JsonUtil.uploadJsonGetJsonArray(url, jsonObject);
+//        List<SingleReimbursement> singleReimbursementList = JSONArray.parseArray(jsonArray.toJSONString(), SingleReimbursement.class);
+//        for (int i = 0; i < singleReimbursementList.size(); i++) {
+//            System.out.println(singleReimbursementList.get(i).getExpenseId());
+//        }
+        return jsonArray;
+    }
 
 
 }

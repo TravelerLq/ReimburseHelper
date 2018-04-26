@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/bg_recycle"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/dimen_5"
-    android:paddingRight="@dimen/dimen_10">
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/bar_title"
+        layout="@layout/include_bar_title"></include>
 
     <RelativeLayout
         android:id="@+id/rl_expense_item"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_110"
+        android:layout_below="@+id/bar_title"
         android:background="@color/white"
         android:paddingBottom="@dimen/dimen_5"
         android:paddingRight="@dimen/dimen_10"
@@ -83,9 +84,46 @@
             android:src="@drawable/check_blue" />
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_8"
-        android:background="@color/bg_recycle" />
 
-</LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rl_time_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_expense_submit"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/dimen_30"
+        android:layout_marginEnd="@dimen/dimen_10"></android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/rl_expense_submit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_40"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_rec_grey">
+
+        <TextView
+            android:id="@+id/tv_approval_unpass"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/unpass"
+            android:textColor="@color/red" />
+
+        <TextView
+            android:layout_width="@dimen/dimen_1"
+            android:layout_height="match_parent"
+            android:background="@color/stock" />
+
+        <TextView
+            android:id="@+id/tv_approval_pass"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/pass"
+            android:textColor="@color/blue_text" />
+    </LinearLayout>
+
+</RelativeLayout>
+

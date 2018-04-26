@@ -16,8 +16,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_150"
-        android:layout_marginTop="@dimen/dimen_50"
+        android:layout_height="@dimen/dimen_130"
+        android:layout_marginTop="@dimen/dimen_30"
         android:orientation="horizontal">
         <LinearLayout
             android:layout_width="0dp"
@@ -62,98 +62,99 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bg_home"
-        android:orientation="vertical"
-        android:padding="@dimen/dimen_20">
-
-        <RelativeLayout
-            android:id="@+id/rl_my_expense"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_160"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="56dp"
-            android:background="@color/white"
-            android:padding="@dimen/dimen_37">
+            android:layout_height="match_parent"
+            android:background="@color/bg_home"
+            android:orientation="vertical"
+            android:padding="@dimen/dimen_20">
 
-            <ImageView
-                android:id="@+id/iv_my_expense"
-                android:layout_width="@dimen/dimen_100"
-                android:layout_height="@dimen/dimen_90"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/bg_round_orange_shape"
-                android:src="@drawable/icon_expense" />
+            <RelativeLayout
+                android:id="@+id/rl_my_approval"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_160"
+                android:background="@color/white"
+                android:padding="@dimen/dimen_37">
 
-            <TextView
-                android:id="@+id/tv_my_expense_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_20"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@+id/iv_my_expense"
-                android:text="@string/my_expense"
-                android:textColor="@color/text_orange"
-                android:textSize="@dimen/middle_text_size" />
+                <ImageView
+                    android:id="@+id/iv_my_approval"
+                    android:layout_width="@dimen/dimen_100"
+                    android:layout_height="@dimen/dimen_90"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/bg_round_green_shape"
+                    android:src="@drawable/ic_my_expense" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/tv_my_expense_title"
-                android:layout_below="@+id/tv_my_expense_title"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/btn_no_data"
-                android:paddingLeft="@dimen/dimen_10"
-                android:paddingRight="@dimen/dimen_10"
-                android:text="@string/no_data"
-                android:textSize="@dimen/super_small_text_size" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_my_approval"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_160"
-            android:background="@color/white"
-            android:layout_marginTop="@dimen/dimen_20"
-            android:padding="@dimen/dimen_37">
+                <TextView
+                    android:id="@+id/tv_my_approval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_20"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/iv_my_approval"
+                    android:text="@string/my_approval"
+                    android:textColor="@color/green_text"
+                    android:textSize="@dimen/middle_text_size" />
 
-            <ImageView
-                android:id="@+id/iv_my_approval"
-                android:layout_width="@dimen/dimen_100"
-                android:layout_height="@dimen/dimen_90"
-                android:layout_alignParentStart="true"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tv_my_approval"
+                    android:layout_below="@+id/tv_my_approval"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/btn_no_data"
+                    android:paddingLeft="@dimen/dimen_10"
+                    android:paddingRight="@dimen/dimen_10"
+                    android:text="@string/no_data"
+                    android:textSize="@dimen/super_small_text_size" />
+            </RelativeLayout>
 
-                android:layout_alignParentTop="true"
-                android:background="@drawable/bg_round_green_shape"
-                android:src="@drawable/ic_my_expense" />
+            <RelativeLayout
+                android:id="@+id/rl_my_expense"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_160"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+               android:layout_marginBottom="@dimen/dimen_30"
+                android:background="@color/white"
+                android:padding="@dimen/dimen_37">
 
-            <TextView
-                android:id="@+id/tv_my_approval"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/iv_my_approval"
-                android:layout_marginLeft="@dimen/dimen_20"
-                android:layout_marginTop="20dp"
-                android:text="@string/my_approval"
-                android:textColor="@color/green_text"
-                android:textSize="@dimen/middle_text_size" />
+                <ImageView
+                    android:id="@+id/iv_my_expense"
+                    android:layout_width="@dimen/dimen_100"
+                    android:layout_height="@dimen/dimen_90"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/bg_round_orange_shape"
+                    android:src="@drawable/icon_expense" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/tv_my_approval"
-                android:layout_below="@+id/tv_my_approval"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/btn_no_data"
-                android:paddingLeft="@dimen/dimen_10"
-                android:paddingRight="@dimen/dimen_10"
-                android:text="@string/no_data"
-                android:textSize="@dimen/super_small_text_size" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_my_expense_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_20"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/iv_my_expense"
+                    android:text="@string/my_expense"
+                    android:textColor="@color/text_orange"
+                    android:textSize="@dimen/middle_text_size" />
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tv_my_expense_title"
+                    android:layout_below="@+id/tv_my_expense_title"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/btn_no_data"
+                    android:paddingLeft="@dimen/dimen_10"
+                    android:paddingRight="@dimen/dimen_10"
+                    android:text="@string/no_data"
+                    android:textSize="@dimen/super_small_text_size" />
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
     </LinearLayout>
     </ScrollView>
 

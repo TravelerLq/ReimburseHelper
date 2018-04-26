@@ -5,6 +5,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -12,12 +14,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.dfqin.grantor.PermissionListener;
 import com.github.dfqin.grantor.PermissionsUtil;
+import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
+import com.sas.rh.reimbursehelper.NetworkUtil.FormUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.newactivity.AddExpenseItemActivtity;
+import com.sas.rh.reimbursehelper.newactivity.ApprovalProcessRecyActvity;
 import com.sas.rh.reimbursehelper.newactivity.ExpenseItemListActivity;
+import com.sas.rh.reimbursehelper.newactivity.ExpenseProcessRecyActvity;
 import com.sas.rh.reimbursehelper.view.activity.AddExpenseActivity;
 
 import java.io.IOException;
@@ -46,6 +53,21 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     RelativeLayout rlMyApproval;
     public static final int REQUEST_CODE_TAKE_PIC = 234;
     private ArrayList<String> selectedPhotos;
+    private SharedPreferencesUtil spu;
+    private int formId;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                if (status == 200) {
+                    spu.setFormId(formId);
+                    hasFormId = true;
+                }
+            }
+        }
+    };
+    private int status;
+    private boolean hasFormId = false;
 
     @Override
     protected int getLayoutId() {
@@ -67,7 +89,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initData() {
+
+        spu = new SharedPreferencesUtil(HomeFragment.this.getActivity());
         tvTitle.setText("报销");
+        //   getFormId();
     }
 
     @Override
@@ -75,8 +100,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.iv_add_expense:
                 Loger.e("----ivAdd--click");
+
                 Intent it = new Intent(getActivity(), AddExpenseItemActivtity.class);
+                it.putExtra("type", "home");
                 startActivity(it);
+
+
                 break;
             case R.id.iv_home_pic:
 //                PhotoPicker.builder()
@@ -88,17 +117,49 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 takePic(REQUEST_CODE_TAKE_PIC);
                 break;
             case R.id.rl_my_expense:
+//                Intent intent = new Intent(HomeFragment.this.getActivity(), ExpenseProcessRecyActvity.class);
+//                startActivity(intent);
                 Intent intent = new Intent(HomeFragment.this.getActivity(), ExpenseItemListActivity.class);
                 startActivity(intent);
                 break;
 
             case R.id.rl_my_approval:
+                Intent intentApproval = new Intent(HomeFragment.this.getActivity(), ApprovalProcessRecyActvity.class);
+                startActivity(intentApproval);
                 break;
             default:
                 break;
         }
 
     }
+
+    private void getFormId() {
+        new Thread(GetFormIdRunable).start();
+    }
+
+
+    Runnable GetFormIdRunable = new Runnable() {
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+
+            try {
+                JSONObject jo = FormUtil.getFormId(spu.getUidNum());
+                if (jo != null) {
+                    handler.sendEmptyMessage(1);
+                    formId = FormUtil.returnFormId();
+                    status = jo.getIntValue("status");
+                } else {
+                    handler.sendEmptyMessage(0);
+                }
+            } catch (Exception e) {
+                handler.sendEmptyMessage(-1);
+                e.printStackTrace();
+            }
+        }
+
+    };
+
 
     private void takePic(final int requestCode) {
 

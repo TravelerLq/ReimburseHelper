@@ -142,7 +142,15 @@ public class AddExpenseItemActivtity extends BaseActivity {
             } else if (msg.what == 4) {
 
                 //新增一条报销项成功－提交jsonStr验签
-                submitJsonStr();
+                if (addSingleReimStatus == 200) {
+                    submitJsonStr();
+                } else {
+                    if (pdu.getMypDialog().isShowing()) {
+                        pdu.dismisspd();
+                    }
+                    ToastUtil.showToast(AddExpenseItemActivtity.this, "提交失败，请重试！", Toast.LENGTH_LONG);
+                }
+
             } else if (msg.what == 5) {
 
                 if (pdu.getMypDialog().isShowing()) {
@@ -184,6 +192,8 @@ public class AddExpenseItemActivtity extends BaseActivity {
     private JSONObject jsonRemark;
     private String remarkStr;
     private CharSequence inputStr;
+    private int addSingleReimStatus;
+    private String intentType;
 
 
     @Override
@@ -210,13 +220,32 @@ public class AddExpenseItemActivtity extends BaseActivity {
         edtMoney = (EditText) findViewById(R.id.edt_money);
         tvTitle.setText("报销单");
         spu = new SharedPreferencesUtil(AddExpenseItemActivtity.this);
+        formId = spu.getFormId();
+        Loger.e("addExpens--formId=" + formId);
         countEditText
                 .setLength(125)
                 .setType(CountEditText.PERCENTAGE)
                 .show();
         //开始加载 二级科目
         getExpenseSecondType();
-        getFormId();
+
+        /* 这里判断是从主页进入？还是从列表的"＋"进入的？
+         从intent 里获取type 类型 ＝home :主页 ＝list 列表
+         home -getFormId; list -则从spu 获得
+
+          */
+        if (getIntent() != null) {
+            intentType = getIntent().getStringExtra("type");
+        }
+        if (intentType.equals("home")) {
+            getFormId();
+        } else {
+            formId = spu.getFormId();
+        }
+        Loger.e("--intentType--" + intentType + "  formId--" + formId);
+
+
+        //  getFormId();
         //   edtMoney.addTextChangedListener(mTextWatcher);
 
 
@@ -726,6 +755,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
                 if (jo != null) {
                     jsonobj = jo;
                     expenseId = jo.getIntValue("expenseId");
+                    addSingleReimStatus = jo.getIntValue("status");
                     Loger.e("expendId--" + expenseId);
 
                     handler.sendEmptyMessage(4);

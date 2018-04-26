@@ -25,6 +25,7 @@ import com.sas.rh.reimbursehelper.fragment.HomeFragment;
 import com.sas.rh.reimbursehelper.view.activity.AddExpenseActivity;
 import com.sas.rh.reimbursehelper.view.activity.BaseActivity;
 import com.sas.rh.reimbursehelper.view.activity.MainActivity;
+import com.sas.rh.reimbursehelper.widget.CountEditText;
 
 import java.io.File;
 
@@ -42,9 +43,9 @@ import cn.unitid.spark.cm.sdk.listener.ProcessListener;
  */
 
 public class SubmitExpenseActivity extends BaseActivity {
-    @InjectView(R.id.iv_pdf)
+
     ImageView ivPdf;
-    @InjectView(R.id.tv_expense_submit)
+
     TextView tvSubmit;
 
     private Integer annexId;
@@ -56,6 +57,7 @@ public class SubmitExpenseActivity extends BaseActivity {
     private String pdfBase64Str;
     private String base64Code;
     private ProgressDialogUtil pdu = new ProgressDialogUtil(SubmitExpenseActivity.this, "提示", "正在加载中");
+    private ProgressDialogUtil pduPdf = new ProgressDialogUtil(SubmitExpenseActivity.this, "提示", "正在生成，请稍后...");
 
     private String pdfPath;
     private File file;
@@ -64,13 +66,28 @@ public class SubmitExpenseActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
+
                 if (annexId != null) {
                     //去下载pdf
-                    toDownLoadPdf();
+                    int status = jsonobj.getIntValue("status");
+                    if (status == 200) {
+                        toDownLoadPdf();
+                    } else {
+                        if (pduPdf.getMypDialog().isShowing()) {
+                            pduPdf.dismisspd();
+                        }
+                        // getPdfForm();
+                        Toast.makeText(SubmitExpenseActivity.this, "获取生成pdf出错", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
             } else if (msg.what == 2) {
                 //download finish
+
+                if (pduPdf.getMypDialog().isShowing()) {
+                    pduPdf.dismisspd();
+                }
                 pdfBase64Str = pdfJsonObjec.getString("file");
 
                 if (!TextUtils.isEmpty(pdfBase64Str)) {
@@ -110,18 +127,20 @@ public class SubmitExpenseActivity extends BaseActivity {
                     pdu.dismisspd();
                 }
 
-                int code = jsonobj.getIntValue("code");
+                int code = jsonobj.getIntValue("status");
                 if (code == 200) {
                     ToastUtil.showToast(SubmitExpenseActivity.this, "提交成功！", Toast.LENGTH_LONG);
                     toActivity(SubmitExpenseActivity.this, MainActivity.class);
                     finish();
 
                 } else {
-                    ToastUtil.showToast(SubmitExpenseActivity.this, "文件提交成功！", Toast.LENGTH_LONG);
+                    ToastUtil.showToast(SubmitExpenseActivity.this, "文件提交失败，请重试！", Toast.LENGTH_LONG);
                 }
             }
         }
     };
+    private String pdfPath1;
+    private File file1;
 
 
     @Override
@@ -132,9 +151,26 @@ public class SubmitExpenseActivity extends BaseActivity {
     @Override
     protected void initData() {
         spu = new SharedPreferencesUtil(SubmitExpenseActivity.this);
+
+        pdfPath = spu.getPdfFile();
+
+        //  pdfPath = FileUtils.getExternalFilesDirPath(SubmitExpenseActivity.this);
+        ivPdf = (ImageView) findViewById(R.id.iv_pdf);
+        tvSubmit = (TextView) findViewById(R.id.tv_expense_submit);
         formId = spu.getFormId();
+        file = new File(pdfPath);
+        if (file.exists() && file.length() > 0) {
+            viewPdf();
+            ivPdf.setVisibility(View.VISIBLE);
+        }
+        if (getIntent() != null) {
+            pdfBase64Str = getIntent().getStringExtra("data");
+        } else {
+            Loger.e("getIntent--null-");
+        }
+
         if (formId != -1) {
-            getPdfForm();
+            //  getPdfForm();
         } else {
             ToastUtil.showToast(SubmitExpenseActivity.this, "formid＝－1", Toast.LENGTH_SHORT);
         }
@@ -143,6 +179,7 @@ public class SubmitExpenseActivity extends BaseActivity {
     }
 
     private void getPdfForm() {
+        pduPdf.showpd();
         new Thread(GetPdfFormRunnable).start();
     }
 
@@ -160,7 +197,9 @@ public class SubmitExpenseActivity extends BaseActivity {
 
             try {
                 JSONObject jo = FormUtil.getFormPdf(formId, spu.getUidNum());
+
                 if (jo != null) {
+
                     jsonobj = jo;
                     annexId = jsonobj.getInteger("annexId");
                     handler.sendEmptyMessage(1);
@@ -254,7 +293,7 @@ public class SubmitExpenseActivity extends BaseActivity {
         public void run() {
 
             base64Code = pdfBase64Str;
-            signPath = pdfPathName;
+            signPath = file.getPath();
 
             Log.e("signPath--", "--" + signPath);
             try {

@@ -64,10 +64,10 @@ public class AddExpenseRecycleAdapter extends RecyclerView.Adapter<AddExpenseRec
                 Log.e("holder.tvTitle", "null");
             } else {
 
-                holder.tvFee.setText(bean.getFee().toString());
-                holder.tvExplain.setText(bean.getRemark().toString());
+                holder.tvFee.setText(bean.getMoney());
+                holder.tvExplain.setText(bean.getRemark());
                 holder.tvDate.setText(bean.getDate());
-                holder.tvType.setText(bean.getType());
+                holder.tvType.setText(bean.getName());
                 holder.rlItem.setTag(position);
                 holder.rlItem.setOnClickListener(new View.OnClickListener() {
                     @Override

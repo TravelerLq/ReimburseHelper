@@ -109,9 +109,11 @@
         <activity android:name=".newactivity.ExpenseTypeActivity"></activity>
         <activity android:name=".newactivity.ExpenseItemListActivity"></activity>
         <activity android:name=".newactivity.SubmitExpenseActivity"></activity>
-        <!--我的报销单审批进度详情-->
+        <!--我的报销单 审批进度详情-->
+        <activity android:name=".newactivity.ApprovalProcessRecyActvity"></activity>
         <activity android:name=".newactivity.ExpenseProcessDetailActvity"></activity>
         <!--待审批报销单进度详情-->
+        <activity android:name=".newactivity.ExpenseProcessRecyActvity"></activity>
         <activity android:name=".newactivity.ApprovalProcessDetailActvity"></activity>
     </application>
 

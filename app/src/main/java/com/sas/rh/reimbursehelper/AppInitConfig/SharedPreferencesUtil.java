@@ -75,6 +75,21 @@ public class SharedPreferencesUtil {
     }
 
 
+    public void setPdfFile(String path) {
+        editor.putString("path", path);
+        editor.commit();
+    }
+
+    public String getPdfFile() {
+        String path = userSettings.getString("path", null);
+        Log.e("path=", "" + path);
+        if (TextUtils.isEmpty(path)) {
+            return null;
+        }
+        return path;
+    }
+
+
     //pdf签名的key
     public void setCertKey(String key) {
         editor.putString("key", key);

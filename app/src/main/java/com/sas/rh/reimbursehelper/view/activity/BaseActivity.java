@@ -15,8 +15,9 @@ import com.sas.rh.reimbursehelper.R;
  */
 
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
- protected Context baseContext;
+    protected Context baseContext;
     SharedPreferencesUtil spu;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,23 +26,35 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         initToolbars();
         this.initData();
         this.initListeners();
-        baseContext=BaseActivity.this;
-        spu=new  SharedPreferencesUtil(baseContext);
+        baseContext = BaseActivity.this;
+        spu = new SharedPreferencesUtil(baseContext);
     }
 
     private void initToolbars() {
-       // View view =findViewById(R.layout.include_bar_title)
+        // View view =findViewById(R.layout.include_bar_title)
     }
 
-//
+    //
     protected abstract int getLayoutId();
 
     protected abstract void initData();
 
     protected abstract void initListeners();
 
-    protected <T> void toActivity( Context context,Class<T> tClass) {
+    protected <T> void toActivity(Context context, Class<T> tClass) {
         Intent intent = new Intent(context, tClass);
+        startActivity(intent);
+    }
+
+    protected <T> void toActivityWithType(Context context, Class<T> tClass, String data) {
+        Intent intent = new Intent(context, tClass);
+        intent.putExtra("type", data);
+        startActivity(intent);
+    }
+
+    protected <T> void toActivityWithData(Context context, Class<T> tClass, String key, String data) {
+        Intent intent = new Intent(context, tClass);
+        intent.putExtra(key, data);
         startActivity(intent);
     }
 

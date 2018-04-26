@@ -20,7 +20,7 @@
             android:id="@+id/iv_person"
             android:layout_width="@dimen/dimen_20"
             android:layout_height="@dimen/dimen_20"
-            android:layout_above="@+id/tv_expense_category"
+            android:layout_above="@+id/imageView9"
             android:layout_alignStart="@+id/imageView9"
             android:src="@drawable/ic_rmb_blue" />
 
@@ -63,7 +63,7 @@
             android:src="@drawable/ic_expense_type" />
 
         <TextView
-            android:id="@+id/tv_expense_category"
+            android:id="@+id/tv_expense_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_type_icon"
@@ -75,7 +75,7 @@
             android:layout_width="@dimen/dimen_20"
             android:layout_height="@dimen/dimen_20"
             android:layout_alignStart="@+id/tv_money"
-            android:layout_below="@+id/tv_"
+            android:layout_alignTop="@+id/tv_expense_num"
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_remark" />
 
@@ -92,7 +92,6 @@
             android:id="@+id/tv_department"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/tv_explain"
             android:text="财务部审批" />

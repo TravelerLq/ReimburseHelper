@@ -7,34 +7,42 @@ import com.sas.rh.reimbursehelper.Bean.BaseBean;
  */
 
 public class ExpenseItemBean extends BaseBean {
-    int id;
-    String type;
-    String fee;
-    String remark;
-    String date;
 
-    public int getId() {
-        return id;
+
+    /**
+     * date : 2018-04-26
+     * money : 32.56
+     * name : 餐饮费
+     * remark : 23/天
+     */
+
+    private String date;
+    private String money;
+    private String name;
+    private String remark;
+
+    public String getDate() {
+        return date;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public String getType() {
-        return type;
+    public String getMoney() {
+        return money;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setMoney(String money) {
+        this.money = money;
     }
 
-    public String getFee() {
-        return fee;
+    public String getName() {
+        return name;
     }
 
-    public void setFee(String fee) {
-        this.fee = fee;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getRemark() {
@@ -43,13 +51,5 @@ public class ExpenseItemBean extends BaseBean {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 }
