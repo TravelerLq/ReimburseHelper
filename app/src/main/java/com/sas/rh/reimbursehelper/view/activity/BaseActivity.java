@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -16,7 +19,7 @@ import com.sas.rh.reimbursehelper.R;
 
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
     protected Context baseContext;
-    SharedPreferencesUtil spu;
+   protected SharedPreferencesUtil spu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +59,20 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         Intent intent = new Intent(context, tClass);
         intent.putExtra(key, data);
         startActivity(intent);
+    }
+
+    public void addFragmentNotToStack(int layoutId, Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(layoutId,fragment);
+        fragmentTransaction.commit();
+    }
+
+    public void addFragmentByTagNotToStack(int layoutId, Fragment fragment,String tag){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(layoutId,fragment,tag);
+        fragmentTransaction.commit();
     }
 
 }

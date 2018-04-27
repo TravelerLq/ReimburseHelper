@@ -23,15 +23,13 @@ import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.newactivity.AddExpenseItemActivtity;
 import com.sas.rh.reimbursehelper.newactivity.ApprovalProcessRecyActvity;
-import com.sas.rh.reimbursehelper.newactivity.ExpenseItemListActivity;
 import com.sas.rh.reimbursehelper.newactivity.ExpenseProcessRecyActvity;
-import com.sas.rh.reimbursehelper.view.activity.AddExpenseActivity;
+import com.sas.rh.reimbursehelper.newactivity.MyExpenseProcessActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.InjectView;
-import me.iwf.photopicker.PhotoPicker;
 import me.iwf.photopicker.utils.ImageCaptureManager;
 
 
@@ -116,16 +114,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //                        .start(HomeFragment.this.getActivity());
                 takePic(REQUEST_CODE_TAKE_PIC);
                 break;
-            case R.id.rl_my_expense:
-//                Intent intent = new Intent(HomeFragment.this.getActivity(), ExpenseProcessRecyActvity.class);
-//                startActivity(intent);
-                Intent intent = new Intent(HomeFragment.this.getActivity(), ExpenseItemListActivity.class);
-                startActivity(intent);
-                break;
-
             case R.id.rl_my_approval:
+                //审批
                 Intent intentApproval = new Intent(HomeFragment.this.getActivity(), ApprovalProcessRecyActvity.class);
                 startActivity(intentApproval);
+                break;
+
+            case R.id.rl_my_expense:
+                //报销
+                Intent intent = new Intent(HomeFragment.this.getActivity(), MyExpenseProcessActivity.class);
+                startActivity(intent);
+//                Intent intent = new Intent(HomeFragment.this.getActivity(), ExpenseItemListActivity.class);
+//                startActivity(intent);
                 break;
             default:
                 break;

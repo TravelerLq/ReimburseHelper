@@ -61,7 +61,7 @@ public class TestApprovalDetailActivity extends BaseActivity {
     private static ExpenseApprovalResponseBean itemBean;
     private static MyHandler myHandler;
     private static int userId;
-    private static Byte approveResultId;
+    private static Boolean approveResultId;
     private static String reason;
     private static int approvalId;
     private Button btnUnpass;
@@ -121,7 +121,7 @@ public class TestApprovalDetailActivity extends BaseActivity {
                 // DialogUtils.startLoad(ApprovalDetailActivity.this, null);
                 // DialogUtils.startLoad(context, null);
                 ProgressDialogUtils.instance(context).show("提交中");
-                approveResultId = 1;
+                approveResultId = true;
                 llReject.setVisibility(View.GONE);
                 if (!TextUtils.isEmpty(pdfBase64Str)) {
                     //签名

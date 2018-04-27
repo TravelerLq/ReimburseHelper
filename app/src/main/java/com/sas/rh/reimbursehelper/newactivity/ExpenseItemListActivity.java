@@ -67,21 +67,34 @@ public class ExpenseItemListActivity extends BaseActivity {
 
             }
             if (msg.what == 3) {
+                //  int status=  jsonobj.getIntValue("status")
+                int status = jsonobj.getIntValue("status");
+                if (status == 200) {
+                    annexId = jsonobj.getInteger("annexId");
+                    toDownLoadPdf();
+                } else {
 
-                if (annexId != 0) {
-                    //去下载pdf
-                    int status = jsonobj.getIntValue("status");
-                    if (status == 200) {
-                        toDownLoadPdf();
-                    } else {
-                        if (pduPdf.getMypDialog().isShowing()) {
-                            pduPdf.dismisspd();
-                        }
-                        // getPdfForm();
-                        Toast.makeText(ExpenseItemListActivity.this, "获取生成pdf出错", Toast.LENGTH_SHORT).show();
+                    if (pduPdf.getMypDialog().isShowing()) {
+                        pduPdf.dismisspd();
                     }
-
+                    // getPdfForm();
+                    Toast.makeText(ExpenseItemListActivity.this, "获取生成pdf出错", Toast.LENGTH_SHORT).show();
                 }
+
+//                if (annexId != 0) {
+//                    //去下载pdf
+//                  //  int status = jsonobj.getIntValue("status");
+//                    if (status == 200) {
+//                        toDownLoadPdf();
+//                    } else {
+//                        if (pduPdf.getMypDialog().isShowing()) {
+//                            pduPdf.dismisspd();
+//                        }
+//                        // getPdfForm();
+//                        Toast.makeText(ExpenseItemListActivity.this, "获取生成pdf出错", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                }
 
             } else if (msg.what == 4) {
                 //download finish
@@ -111,7 +124,7 @@ public class ExpenseItemListActivity extends BaseActivity {
                 if (file.exists() && file.length() > 0) {
                     Loger.e("-----file exist");
                     spu.setPdfFile(file.getPath());
-                    toActivityWithData(context, SubmitExpenseActivity.class,"data",pdfBase64Str);
+                    toActivityWithData(context, SubmitExpenseActivity.class, "data", pdfBase64Str);
 
                 } else {
                     Toast.makeText(ExpenseItemListActivity.this, "生成pdf出错,请重试", Toast.LENGTH_SHORT).show();
@@ -248,7 +261,7 @@ public class ExpenseItemListActivity extends BaseActivity {
                 if (jo != null) {
 
                     jsonobj = jo;
-                    annexId = jsonobj.getInteger("annexId");
+
                     handler.sendEmptyMessage(3);
                 } else {
                     handler.sendEmptyMessage(0);

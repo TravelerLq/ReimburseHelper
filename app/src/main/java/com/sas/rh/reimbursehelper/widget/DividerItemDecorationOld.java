@@ -50,7 +50,7 @@ public class DividerItemDecorationOld extends RecyclerView.ItemDecoration {
         // 此处设置了两只分别设置 时分 & 年月
         mPaint1 = new Paint();
         mPaint1.setColor(Color.BLUE);
-        mPaint1.setTextSize(30);
+        mPaint1.setTextSize(45);
 
         mPaint2 = new Paint();
         mPaint2.setColor(Color.BLUE);
@@ -63,10 +63,10 @@ public class DividerItemDecorationOld extends RecyclerView.ItemDecoration {
         itemView_topinterval = 50;
 
         // 赋值轴点圆的半径为10
-        circle_radius = 10;
+        circle_radius = 20;
 
         // 获取图标资源
-      //  mIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_progress_select);
+        //  mIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_progress_select);
 
     }
 
@@ -103,9 +103,9 @@ public class DividerItemDecorationOld extends RecyclerView.ItemDecoration {
             float centerx = child.getLeft() - itemView_leftinterval / 3;
             float centery = child.getTop() - itemView_topinterval + (itemView_topinterval + child.getHeight()) / 2;
             // 绘制轴点圆
-          c.drawCircle(centerx, centery, circle_radius, mPaint);
+            c.drawCircle(centerx, centery, circle_radius, mPaint);
             // 通过Canvas绘制角标
-       //     c.drawBitmap(mIcon,centerx - circle_radius ,centery - circle_radius,mPaint);
+            //     c.drawBitmap(mIcon,centerx - circle_radius ,centery - circle_radius,mPaint);
 
             /**
              * 绘制上半轴线
@@ -143,42 +143,43 @@ public class DividerItemDecorationOld extends RecyclerView.ItemDecoration {
             // 获取每个Item的位置
             int index = parent.getChildAdapterPosition(child);
             // 设置文本起始坐标
-            float Text_x = child.getLeft() - itemView_leftinterval * 5 / 6;
+            float Text_x = child.getLeft() - itemView_leftinterval * 5 / 8;
             float Text_y = upLine_bottom_y;
 
             // 根据Item位置设置时间文本
             switch (index) {
                 case (0):
                     // 设置日期绘制位置
-                    c.drawText("13:40", Text_x, Text_y, mPaint1);
-                    c.drawText("2017.4.03", Text_x + 5, Text_y + 20, mPaint2);
+                    c.drawText("1", Text_x, Text_y, mPaint1);
+                    //   c.drawText("2017.4.03", Text_x + 5, Text_y + 20, mPaint2);
                     break;
                 case (1):
                     // 设置日期绘制位置
-                    c.drawText("17:33", Text_x, Text_y, mPaint1);
-                    c.drawText("2017.4.03", Text_x + 5, Text_y + 20, mPaint2);
+                    c.drawText("2", Text_x, Text_y, mPaint1);
+                    // c.drawText("2017.4.03", Text_x + 5, Text_y + 20, mPaint2);
                     break;
                 case (2):
                     // 设置日期绘制位置
-                    c.drawText("18:11", Text_x, Text_y, mPaint1);
-                    c.drawText("2017.4.03", Text_x + 5, Text_y + 20, mPaint2);
+                    c.drawText("3", Text_x, Text_y, mPaint1);
+                    //   c.drawText("2017.4.03", Text_x + 5, Text_y + 20, mPaint2);
                     break;
                 case (3):
                     // 设置日期绘制位置
-                    c.drawText("9:40", Text_x, Text_y, mPaint1);
-                    c.drawText("2017.4.04", Text_x + 5, Text_y + 20, mPaint2);
+                    c.drawText("4", Text_x, Text_y, mPaint1);
+                    //  c.drawText("2017.4.04", Text_x + 5, Text_y + 20, mPaint2);
                     break;
                 case (4):
                     // 设置日期绘制位置
-                    c.drawText("13:20", Text_x, Text_y, mPaint1);
-                    c.drawText("2017.4.04", Text_x + 5, Text_y + 20, mPaint2);
+                    c.drawText("5", Text_x, Text_y, mPaint1);
+                    //  c.drawText("2017.4.04", Text_x + 5, Text_y + 20, mPaint2);
                     break;
                 case (5):
                     // 设置日期绘制位置
-                    c.drawText("20:40", Text_x, Text_y, mPaint1);
-                    c.drawText("2017.4.04", Text_x + 5, Text_y + 20, mPaint2);
+                    c.drawText("6", Text_x, Text_y, mPaint1);
+                    // c.drawText("2017.4.04", Text_x + 5, Text_y + 20, mPaint2);
                     break;
-                default:c.drawText("已签收", Text_x, Text_y, mPaint1);
+                default:
+                    c.drawText("无进度", Text_x, Text_y, mPaint1);
             }
         }
     }

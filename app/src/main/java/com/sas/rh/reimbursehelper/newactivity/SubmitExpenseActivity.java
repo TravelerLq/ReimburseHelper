@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
+import com.sas.rh.reimbursehelper.NetworkUtil.ApprovalUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.DownloadFileUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.FormUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.SingleReimbursementUtil;
@@ -122,13 +123,28 @@ public class SubmitExpenseActivity extends BaseActivity {
                 //   startActivity(IntentUtils.getPdfFileIntent(file,AddExpenseActivity.this));
                 // startActivity(IntentUtils.getPdfIntent(file));
             } else if (msg.what == 3) {
-                //上传 签名成功
+
+                int code = jsonobj.getIntValue("status");
+                if (code == 200) {
+
+                    //提交成功，加入审批流程
+                    addApproval();
+
+                } else {
+                    //上传 签名成功
+                    if (pdu.getMypDialog().isShowing()) {
+                        pdu.dismisspd();
+                    }
+
+                    ToastUtil.showToast(SubmitExpenseActivity.this, "文件提交失败，请重试！", Toast.LENGTH_LONG);
+                }
+            } else if (msg.what == 4) {
                 if (pdu.getMypDialog().isShowing()) {
                     pdu.dismisspd();
                 }
 
-                int code = jsonobj.getIntValue("status");
-                if (code == 200) {
+                int status = approvalJo.getIntValue("status");
+                if (status == 200) {
                     ToastUtil.showToast(SubmitExpenseActivity.this, "提交成功！", Toast.LENGTH_LONG);
                     toActivity(SubmitExpenseActivity.this, MainActivity.class);
                     finish();
@@ -136,11 +152,17 @@ public class SubmitExpenseActivity extends BaseActivity {
                 } else {
                     ToastUtil.showToast(SubmitExpenseActivity.this, "文件提交失败，请重试！", Toast.LENGTH_LONG);
                 }
+
+
             }
         }
     };
+
+
     private String pdfPath1;
     private File file1;
+    private int userId;
+    private JSONObject approvalJo;
 
 
     @Override
@@ -158,6 +180,7 @@ public class SubmitExpenseActivity extends BaseActivity {
         ivPdf = (ImageView) findViewById(R.id.iv_pdf);
         tvSubmit = (TextView) findViewById(R.id.tv_expense_submit);
         formId = spu.getFormId();
+        userId = spu.getUidNum();
         file = new File(pdfPath);
         if (file.exists() && file.length() > 0) {
             viewPdf();
@@ -238,6 +261,35 @@ public class SubmitExpenseActivity extends BaseActivity {
 
     };
 //
+
+
+    private void addApproval() {
+        new Thread(AddApprovalRunnable).start();
+    }
+
+
+    //下载pdf form
+    Runnable AddApprovalRunnable = new Runnable() {
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+
+            try {
+                JSONObject jo = ApprovalUtil.addApprove(userId, formId);
+                if (jo != null) {
+                    approvalJo = jo;
+
+                    handler.sendEmptyMessage(4);
+                } else {
+                    handler.sendEmptyMessage(0);
+                }
+            } catch (Exception e) {
+                handler.sendEmptyMessage(-1);
+                e.printStackTrace();
+            }
+        }
+
+    };
 
     //签名验证
     private void signVerifyP1(final String base64Code1) {

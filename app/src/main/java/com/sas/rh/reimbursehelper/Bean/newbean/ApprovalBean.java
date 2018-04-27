@@ -8,45 +8,40 @@ import com.sas.rh.reimbursehelper.Bean.BaseBean;
  */
 
 public class ApprovalBean extends BaseBean {
-    int id;
 
-    String fee;
-    String name;
-    String remark;
-    String date;
-    String expenseNum;
-    String departMent;
 
-    public int getId() {
-        return id;
+    /**
+     * approvalId : 450
+     * count : 1
+     * date : 2018-04-26
+     * formId : 1373
+     * money : 23.66
+     * process : 部门审批
+     * userName : 王朕
+     */
+
+    private int approvalId;
+    private int count;
+    private String date;
+    private int formId;
+    private String money;
+    private String process;
+    private String userName;
+
+    public int getApprovalId() {
+        return approvalId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setApprovalId(int approvalId) {
+        this.approvalId = approvalId;
     }
 
-    public String getFee() {
-        return fee;
+    public int getCount() {
+        return count;
     }
 
-    public void setFee(String fee) {
-        this.fee = fee;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public String getDate() {
@@ -57,19 +52,35 @@ public class ApprovalBean extends BaseBean {
         this.date = date;
     }
 
-    public String getExpenseNum() {
-        return expenseNum;
+    public int getFormId() {
+        return formId;
     }
 
-    public void setExpenseNum(String expenseNum) {
-        this.expenseNum = expenseNum;
+    public void setFormId(int formId) {
+        this.formId = formId;
     }
 
-    public String getDepartMent() {
-        return departMent;
+    public String getMoney() {
+        return money;
     }
 
-    public void setDepartMent(String departMent) {
-        this.departMent = departMent;
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public String getProcess() {
+        return process;
+    }
+
+    public void setProcess(String process) {
+        this.process = process;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

@@ -24,6 +24,8 @@
 
 package com.sas.rh.reimbursehelper.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -48,13 +50,13 @@ public abstract class BaseFragment extends Fragment {
 
 
     /**
-     * @param inflater The LayoutInflater object that can be used to inflate
-     * any views in the fragment,
-     * @param container If non-null, this is the parent view that the fragment's
-     * UI should be attached to.  The fragment should not add the view itself,
-     * but this can be used to generate the LayoutParams of the view.
+     * @param inflater           The LayoutInflater object that can be used to inflate
+     *                           any views in the fragment,
+     * @param container          If non-null, this is the parent view that the fragment's
+     *                           UI should be attached to.  The fragment should not add the view itself,
+     *                           but this can be used to generate the LayoutParams of the view.
      * @param savedInstanceState If non-null, this fragment is being re-constructed
-     * from a previous saved state as given here.
+     *                           from a previous saved state as given here.
      * @return Return the View for the fragment's UI, or null.
      */
     @Nullable
@@ -68,8 +70,8 @@ public abstract class BaseFragment extends Fragment {
 //            ViewGroup parent = (ViewGroup) this.self.getParent();
 //            parent.removeView(this.self);
 //        }
-      //  ButterKnife.bind (this, self);
-        ButterKnife.inject (this, self);
+        //  ButterKnife.bind (this, self);
+        ButterKnife.inject(this, self);
         this.initViews(this.self, savedInstanceState);
         this.initData();
         this.initListeners();
@@ -87,7 +89,7 @@ public abstract class BaseFragment extends Fragment {
     /**
      * Initialize the view in the layout
      *
-     * @param self self
+     * @param self               self
      * @param savedInstanceState savedInstanceState
      */
     protected abstract void initViews(View self, Bundle savedInstanceState);
@@ -106,11 +108,12 @@ public abstract class BaseFragment extends Fragment {
     /**
      * Find the view by id
      *
-     * @param id id
+     * @param id  id
      * @param <V> V
      * @return V
      */
-    @SuppressWarnings("unchecked") protected <V extends View> V findView(int id) {
+    @SuppressWarnings("unchecked")
+    protected <V extends View> V findView(int id) {
         return (V) this.self.findViewById(id);
     }
 
@@ -150,5 +153,24 @@ public abstract class BaseFragment extends Fragment {
     /*********
      * Toast *
      *********/
+
+
+    protected <T> void toActivity(Context context, Class<T> tClass) {
+        Intent intent = new Intent(context, tClass);
+        startActivity(intent);
+    }
+
+    protected <T> void toActivityWithType(Context context, Class<T> tClass, String data) {
+        Intent intent = new Intent(context, tClass);
+        intent.putExtra("type", data);
+        startActivity(intent);
+    }
+
+    protected <T> void toActivityWithData(Context context, Class<T> tClass, String key, String data) {
+        Intent intent = new Intent(context, tClass);
+        intent.putExtra(key, data);
+        startActivity(intent);
+    }
+
 
 }

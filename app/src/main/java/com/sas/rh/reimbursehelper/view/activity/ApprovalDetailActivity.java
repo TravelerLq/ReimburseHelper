@@ -69,7 +69,7 @@ public class ApprovalDetailActivity extends BaseActivity {
     private static ExpenseApprovalResponseBean itemBean;
     private static MyHandler myHandler;
     private static int userId;
-    private static Byte approveResultId;
+    private static Boolean approveResultId;
     private static String reason;
     private static int approvalId;
     private Button btnUnpass;
@@ -126,7 +126,7 @@ public class ApprovalDetailActivity extends BaseActivity {
             approvalId = itemBean.getApprovalId();
             formId = itemBean.getFormId();
             //formId = 593;
-            Loger.e("approval dedtail---formId="+formId);
+            Loger.e("approval dedtail---formId=" + formId);
             getExpenseForms(formId);
 
             getPdfForm();
@@ -148,7 +148,7 @@ public class ApprovalDetailActivity extends BaseActivity {
                 // DialogUtils.startLoad(ApprovalDetailActivity.this, null);
                 // DialogUtils.startLoad(context, null);
                 ProgressDialogUtils.instance(context).show("提交中");
-                approveResultId = 1;
+                approveResultId = true;
                 llReject.setVisibility(View.GONE);
                 if (!TextUtils.isEmpty(pdfBase64Str)) {
                     //签名
@@ -163,7 +163,7 @@ public class ApprovalDetailActivity extends BaseActivity {
         btnUnpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                approveResultId = 2;
+                approveResultId = false;
                 llReject.setVisibility(View.VISIBLE);
                 if (TextUtils.isEmpty(editReason.getText().toString())) {
                     Toast.makeText(ApprovalDetailActivity.this, "请填写驳回理由", Toast.LENGTH_SHORT).show();
@@ -472,7 +472,7 @@ public class ApprovalDetailActivity extends BaseActivity {
             // TODO Auto-generated method stub
 
             try {
-                JSONObject jo = FormUtil.getFormPdf(formId,spu.getUidNum());
+                JSONObject jo = FormUtil.getFormPdf(formId, spu.getUidNum());
                 if (jo != null) {
                     jsonobj = jo;
                     annexId = jsonobj.getInteger("annexId");

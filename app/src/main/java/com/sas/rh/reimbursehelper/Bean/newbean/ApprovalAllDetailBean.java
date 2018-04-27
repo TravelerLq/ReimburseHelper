@@ -1,4 +1,4 @@
-package com.sas.rh.reimbursehelper.Bean;
+package com.sas.rh.reimbursehelper.Bean.newbean;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import java.util.List;
  * Created by liqing on 18/3/29.
  */
 
-public class test {
+public class ApprovalAllDetailBean {
 
 
     /**

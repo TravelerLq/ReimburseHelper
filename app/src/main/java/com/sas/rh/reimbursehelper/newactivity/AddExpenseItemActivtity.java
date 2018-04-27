@@ -157,7 +157,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
                     pdu.dismisspd();
                 }
                 //上传 签名成功
-                int code = jsonobj.getIntValue("code");
+                int code = jsonobj.getIntValue("status");
 
                 if (code == 200) {
 

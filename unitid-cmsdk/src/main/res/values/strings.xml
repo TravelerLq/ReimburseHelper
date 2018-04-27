@@ -236,5 +236,6 @@
     <string name="pic_title">票据\n照片</string>
     <string name="expense_file">生成报销单</string>
     <string name="expense_submit">提交报销单</string>
+    <string name="reject_reason">请填写拒绝理由</string>
 
 </resources>
