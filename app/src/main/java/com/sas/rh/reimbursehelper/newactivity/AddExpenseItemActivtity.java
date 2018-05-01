@@ -574,6 +574,8 @@ public class AddExpenseItemActivtity extends BaseActivity {
             try {
 
                 String base64CodePic = FileToBase64Util.encodeBase64File(path);
+
+
                 signVerifyP1(base64CodePic);
 
             } catch (Exception e) {

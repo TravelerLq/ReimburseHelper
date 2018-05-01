@@ -1,5 +1,9 @@
 package com.sas.rh.reimbursehelper.Bean.newbean;
 
+import android.graphics.Bitmap;
+
+import com.sas.rh.reimbursehelper.Bean.BaseBean;
+
 import java.util.List;
 
 /**
@@ -99,7 +103,7 @@ public class ApprovalAllDetailBean {
         }
     }
 
-    public static class SingleReimVoAppArrayListBean {
+    public static class SingleReimVoAppArrayListBean extends BaseBean {
         /**
          * date : 2018-04-26
          * expenseId : 306
@@ -113,6 +117,35 @@ public class ApprovalAllDetailBean {
         private String money;
         private String name;
         private String remark;
+
+        private String fileData;
+        private String fileDate;
+        private String fileName;
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public void setFileName(String fileName) {
+            this.fileName = fileName;
+        }
+
+        public String getFileDate() {
+            return fileDate;
+        }
+
+        public void setFileDate(String fileDate) {
+            this.fileDate = fileDate;
+        }
+
+        public String getFileData() {
+            return fileData;
+        }
+
+        public void setFileData(String fileData) {
+            this.fileData = fileData;
+        }
+
 
         public String getDate() {
             return date;

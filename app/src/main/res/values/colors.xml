@@ -59,5 +59,7 @@
     <color name="bg_gray">#F0F0F0</color>
     <color name="light_gray">#969696</color>
     <color name="bg_tab_grey">#efefef</color>
+    <color name="line">#d4d4d4</color>
+    <color name="login_color">#72a0e9</color>
 
 </resources>

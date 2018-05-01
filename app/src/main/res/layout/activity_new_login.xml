@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_bar_title"></include>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_login_logo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dimen_30"
+        android:paddingRight="@dimen/dimen_30">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_75">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_70"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_tel_grey" />
+
+            <EditText
+                android:id="@+id/edt_account"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/textView12"
+                android:layout_marginStart="@dimen/dimen_10"
+                android:layout_toEndOf="@+id/textView12"
+                android:background="@null"
+                android:textColor="@color/white"
+                style="@style/white_middle_style"
+                android:hint="@string/label_username"
+                android:textColorHint="@color/white"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:layout_alignStart="@+id/edt_account"
+                android:layout_below="@+id/edt_account"
+                android:background="@color/line" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_75">
+
+            <TextView
+                android:id="@+id/tv_tel_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_70"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_tel_grey" />
+
+            <EditText
+                android:id="@+id/edt_psw"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/tv_tel_logo"
+                android:layout_marginStart="@dimen/dimen_10"
+                android:layout_toEndOf="@+id/tv_tel_logo"
+                android:background="@null"
+                android:textColor="@color/white"
+                style="@style/white_middle_style"
+                android:textColorHint="@color/white"
+                android:hint="@string/label_password" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:layout_alignStart="@+id/edt_psw"
+                android:layout_below="@+id/edt_psw"
+                android:background="@color/line" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_login"
+            style="@style/white_small_style"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_40"
+            android:background="@color/login_color"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dimen_30"
+            android:layout_marginBottom="@dimen/dimen_20"
+            android:text="@string/login" />
+
+        <TextView
+            android:id="@+id/tv_forget_psw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forget_psw"
+            android:layout_gravity="center"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

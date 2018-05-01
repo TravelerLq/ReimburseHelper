@@ -25,6 +25,7 @@ import com.sas.rh.reimbursehelper.newactivity.AddExpenseItemActivtity;
 import com.sas.rh.reimbursehelper.newactivity.ApprovalProcessRecyActvity;
 import com.sas.rh.reimbursehelper.newactivity.ExpenseProcessRecyActvity;
 import com.sas.rh.reimbursehelper.newactivity.MyExpenseProcessActivity;
+import com.sas.rh.reimbursehelper.newactivity.TestActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -112,7 +113,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //                        .setPreviewEnabled(false)
 //                        .setSelected(selectedPhotos)
 //                        .start(HomeFragment.this.getActivity());
-                takePic(REQUEST_CODE_TAKE_PIC);
+                // takePic(REQUEST_CODE_TAKE_PIC);
+                toActivity(HomeFragment.this.getActivity(), TestActivity.class);
                 break;
             case R.id.rl_my_approval:
                 //审批

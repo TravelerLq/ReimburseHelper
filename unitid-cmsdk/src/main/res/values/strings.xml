@@ -237,5 +237,10 @@
     <string name="expense_file">生成报销单</string>
     <string name="expense_submit">提交报销单</string>
     <string name="reject_reason">请填写拒绝理由</string>
+    <string name="name">姓名</string>
+    <string name="tel">手机号</string>
+    <string name="id_no">身份证号</string>
+    <string name="reg_cert">注册证书</string>
+    <string name="forget_psw">忘记密码</string>
 
 </resources>

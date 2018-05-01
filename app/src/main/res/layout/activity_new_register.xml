@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_f5f5f5"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_bar_title"></include>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dimen_30"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dimen_50"
+        android:layout_marginLeft="@dimen/dimen_15"
+        android:layout_marginRight="@dimen/dimen_12"
+        android:paddingRight="@dimen/dimen_30">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_75">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_70"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_tel_grey" />
+
+            <EditText
+                android:id="@+id/edt_account"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/textView12"
+                android:layout_marginStart="@dimen/dimen_10"
+                android:layout_toEndOf="@+id/textView12"
+                android:background="@null"
+                android:textColor="@color/white"
+                style="@style/gray_hint_middle_style"
+                android:hint="@string/label_username"
+                android:textColorHint="@color/stock"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@+id/edt_account"
+                android:background="@color/line" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_75">
+
+            <TextView
+                android:id="@+id/tv_tel_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_70"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_psw" />
+
+            <EditText
+                android:id="@+id/edt_psw"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/tv_tel_logo"
+                android:layout_marginStart="@dimen/dimen_10"
+                android:layout_toEndOf="@+id/tv_tel_logo"
+                android:background="@null"
+                style="@style/gray_hint_middle_style"
+                android:inputType="numberPassword"
+                android:textColorHint="@color/stock"
+                android:hint="@string/label_password" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:layout_alignStart="@+id/edt_psw"
+                android:layout_below="@+id/edt_psw"
+                android:background="@color/line" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_regist"
+            style="@style/white_small_style"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_40"
+            android:background="@color/login_color"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dimen_30"
+            android:layout_marginBottom="@dimen/dimen_20"
+            android:text="@string/register" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

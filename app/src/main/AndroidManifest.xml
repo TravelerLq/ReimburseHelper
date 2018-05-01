@@ -118,7 +118,9 @@
 
         <!--我的报销单 审批进度详情 审批中 ／已审批 Tab-->
         <activity android:name=".newactivity.MyExpenseProcessActivity"></activity>
+        <activity android:name=".newactivity.TestActivity"></activity>
 
+        <activity android:name=".newactivity.ViewImageActivity"></activity>
     </application>
 
 </manifest>

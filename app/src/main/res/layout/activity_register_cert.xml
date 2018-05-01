@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_bar_title"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dimen_20"
+        android:layout_marginLeft="@dimen/dimen_15"
+        android:layout_marginRight="@dimen/dimen_15"
+        android:paddingLeft="@dimen/dimen_15"
+        android:paddingRight="@dimen/dimen_16"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_75">
+
+            <TextView
+                android:id="@+id/tv_tel_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_70"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_tel_grey" />
+
+            <EditText
+                android:id="@+id/edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/tv_tel_logo"
+                android:layout_marginStart="@dimen/dimen_10"
+                android:layout_toEndOf="@+id/tv_tel_logo"
+                android:background="@null"
+                android:hint="@string/name" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:layout_alignStart="@+id/edt_name"
+                android:layout_below="@+id/edt_name"
+                android:background="@color/line" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_75">
+
+            <TextView
+                android:id="@+id/tv_id_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_70"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_tel_grey" />
+
+            <EditText
+                android:id="@+id/edt_id_no"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/tv_id_logo"
+                android:layout_marginStart="@dimen/dimen_10"
+                android:layout_toEndOf="@+id/tv_id_logo"
+                android:background="@null"
+                android:hint="@string/id_no" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:layout_alignStart="@+id/edt_id_no"
+                android:layout_below="@+id/edt_id_no"
+                android:background="@color/line" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_75">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_70"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_tel_grey" />
+
+            <EditText
+                android:id="@+id/edt_tel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/textView12"
+                android:layout_marginStart="@dimen/dimen_10"
+                android:layout_toEndOf="@+id/textView12"
+                android:background="@null"
+                android:hint="@string/tel" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:layout_alignStart="@+id/edt_tel"
+                android:layout_below="@+id/edt_tel"
+                android:background="@color/line" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_reg_cert"
+            style="@style/white_small_style"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_40"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dimen_30"
+            android:layout_marginBottom="@dimen/dimen_20"
+            android:text="@string/reg_cert" />
+
+
+    </LinearLayout>
+</LinearLayout>
