@@ -222,6 +222,25 @@ public class CompanyUtil {
 
     }
 
+    public static JSONObject sendShareCode(String shareCode) {
+        String url =RootAddress+"yuanshensystem/public/verifysharecode";
+        JSONObject jsonObject = new JSONObject();
+       // String shareCode = "welqa65ty";
+
+        jsonObject.put("shareCode", shareCode);
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        return reJson;
+
+    }
+    public static void getShareCode() {
+        Integer userId = 54;
+        String url = RootAddress+"/yuanshensystem/public/getsharecode";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId", userId);
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+
+    }
+
     public static JSONObject getShareCode(int userId) {
         // Integer userId = 1;
         String url = RootAddress + "yuanshensystem/public/getsharecode";

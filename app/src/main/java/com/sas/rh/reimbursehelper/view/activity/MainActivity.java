@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 
 import com.sas.rh.reimbursehelper.App;
+import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.fragment.CountFragment;
 import com.sas.rh.reimbursehelper.fragment.EnterpriseFragment;
@@ -21,6 +22,7 @@ import com.sas.rh.reimbursehelper.fragment.HomeFragment;
 import com.sas.rh.reimbursehelper.fragment.MessageFragment;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.fragment.SelectViewExpenseFragment;
+import com.sas.rh.reimbursehelper.newactivity.*;
 import com.sas.rh.reimbursehelper.service.NoticeMsgService;
 
 import java.util.ArrayList;
@@ -41,11 +43,13 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Certificate> certificateArrayList;//证书列表
     private Intent serviceIntenta;
     private LinearLayout ll_log_out;
+    private SharedPreferencesUtil spu;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        spu = new SharedPreferencesUtil(MainActivity.this);
         setContentView(R.layout.activity_main);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         gradualRadioGroup = (WeChatRadioGroup) findViewById(R.id.radiogroup);
@@ -66,7 +70,15 @@ public class MainActivity extends AppCompatActivity {
         certificateArrayList = store.getAllCertificateList();
 
         if (certificateArrayList.size() == 0) {
-            Intent it = new Intent(MainActivity.this, RegFirstStepActivity.class);
+            //  Intent it = new Intent(MainActivity.this, RegFirstStepActivity.class);   Intent it
+            Intent it = null;
+
+            if (spu.getUidNum() != -1) {
+                it = new Intent(MainActivity.this, com.sas.rh.reimbursehelper.newactivity.RegCertActivity.class);
+            } else {
+                it = new Intent(MainActivity.this, LoginOrRegisterActivity.class);
+            }
+
             startActivity(it);
             finish();
         } else {

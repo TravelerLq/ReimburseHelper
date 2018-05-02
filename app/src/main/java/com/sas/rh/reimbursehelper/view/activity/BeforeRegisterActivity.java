@@ -1,6 +1,7 @@
 package com.sas.rh.reimbursehelper.view.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -21,9 +22,12 @@ import com.sas.rh.reimbursehelper.NetworkUtil.CompanyUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
+import com.sas.rh.reimbursehelper.newactivity.*;
+import com.sas.rh.reimbursehelper.newactivity.RegCertActivity;
 
 /**
  * Created by liqing on 18/4/17.
+ * 填写验证码Activity
  */
 
 public class BeforeRegisterActivity extends BaseActivity {
@@ -49,13 +53,20 @@ public class BeforeRegisterActivity extends BaseActivity {
             if (msg.what == 1) {
                 int status = jsonresult.getIntValue("status");
                 if (status == 200) {
-                    int companyId =jsonresult.getIntValue("companyId");
+                    int userId = jsonresult.getIntValue("userId");
                     ToastUtil.showToast(BeforeRegisterActivity.this, "加入公司成功！", Toast.LENGTH_SHORT);
-
-                    sharedPreferencesUtil.writeCompanyId(String.valueOf(companyId));
-                    toActivity(BeforeRegisterActivity.this,MainActivity.class);
+                    sharedPreferencesUtil.writeUserId(String.valueOf(userId));
+                    int usId = sharedPreferencesUtil.getUidNum();
+                    Loger.e("---userid=" + usId);
+                    // toActivity(RegCertActivity.this,MainActivity.class);
+                    Intent intent = new Intent(BeforeRegisterActivity.this, RegCertActivity.class);
+                    // intent.putExtra("id",)
+                    startActivity(intent);
                     finish();
+                } else {
+                    ToastUtil.showToast(BeforeRegisterActivity.this, "失败，请重试！", Toast.LENGTH_SHORT);
                 }
+
             }
         }
     };
@@ -68,7 +79,7 @@ public class BeforeRegisterActivity extends BaseActivity {
     @Override
     protected void initData() {
         sharedPreferencesUtil = new SharedPreferencesUtil(BeforeRegisterActivity.this);
-        userId = sharedPreferencesUtil.getUidNum();
+     //   userId = sharedPreferencesUtil.getUidNum();
 
         ivBack = (ImageView) findViewById(R.id.iv_back);
         tvTitle = (TextView) findViewById(R.id.tv_bar_title);
@@ -81,7 +92,7 @@ public class BeforeRegisterActivity extends BaseActivity {
     }
 
     private void initTestData() {
-        edtCode.setText("weyq7yabx");
+        edtCode.setText("welq5n4ly");
     }
 
     @Override
@@ -156,9 +167,9 @@ public class BeforeRegisterActivity extends BaseActivity {
     }
 
     private void checkData() {
-        if (userId == -1) {
-            ToastUtil.showToast(BeforeRegisterActivity.this, "userId为空", Toast.LENGTH_SHORT);
-        }
+//        if (userId == -1) {
+//            ToastUtil.showToast(BeforeRegisterActivity.this, "userId为空", Toast.LENGTH_SHORT);
+//        }
         code = edtCode.getText().toString();
 
         if (TextUtils.isEmpty(code)) {
@@ -179,7 +190,7 @@ public class BeforeRegisterActivity extends BaseActivity {
         @Override
         public void run() {
             try {
-                JSONObject jsonObject = CompanyUtil.joinCompany(userId, code);
+                JSONObject jsonObject = CompanyUtil.sendShareCode(code);
                 if (jsonObject != null) {
                     jsonresult = jsonObject;
                     myHandler.sendEmptyMessage(1);

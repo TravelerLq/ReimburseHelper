@@ -105,6 +105,21 @@ public class SharedPreferencesUtil {
         return key;
     }
 
+    //pdf签名的key
+    public void setTel(String key) {
+        editor.putString("tel", key);
+        editor.commit();
+    }
+
+    public String getTel() {
+        String key = userSettings.getString("tel", null);
+        Log.e("tel=", "" + key);
+        if (TextUtils.isEmpty(key)) {
+            return null;
+        }
+        return key;
+    }
+
     public void setCert(String cert) {
         editor.putString("cert", cert);
         editor.commit();

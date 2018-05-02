@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.sas.rh.reimbursehelper.R;
+import com.sas.rh.reimbursehelper.newactivity.LoginOrRegisterActivity;
 
 public class RegistPageActivity extends AppCompatActivity {
 
@@ -21,8 +22,8 @@ public class RegistPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
               //  Intent it = new Intent(RegistPageActivity.this,BeforeRegisterActivity.class);
-            Intent it = new Intent(RegistPageActivity.this,RegFirstStepActivity.class);
-              //Intent it = new Intent(RegistPageActivity.this,MainActivity.class);
+            //Intent it = new Intent(RegistPageActivity.this,RegFirstStepActivity.class);
+              Intent it = new Intent(RegistPageActivity.this,LoginOrRegisterActivity.class);
                 startActivity(it);
                 finish();
             }

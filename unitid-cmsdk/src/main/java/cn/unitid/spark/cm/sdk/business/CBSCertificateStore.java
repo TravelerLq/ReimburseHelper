@@ -47,7 +47,8 @@ public class CBSCertificateStore {
     private CertificateStore store = null;
     private MyComparator comparator = new MyComparator();
 
-    private static  CBSCertificateStore cbsStore=null;
+    private static CBSCertificateStore cbsStore = null;
+
     /**
      * 构造器使用前请先初始化Application  SparkApplication.init(Activity.getApplication());
      */
@@ -55,14 +56,14 @@ public class CBSCertificateStore {
         File path = SparkApplication.getExampleApplicationContext().getFilesDir();
         String certpath = path.getAbsolutePath() + "/certificate.store";
 
-        System.out.println("=CBSCertificateStore============="+certpath);
+        System.out.println("=CBSCertificateStore=============" + certpath);
         store = CertificateStore.getInstance(certpath);
     }
 
-    public static  CBSCertificateStore getInstance(){
-                if(cbsStore==null){
-                    cbsStore=new CBSCertificateStore();
-                }
+    public static CBSCertificateStore getInstance() {
+        if (cbsStore == null) {
+            cbsStore = new CBSCertificateStore();
+        }
         return cbsStore;
     }
 
@@ -80,11 +81,12 @@ public class CBSCertificateStore {
         }
         return response;
     }
+
     /**
      * 根据id 获取证书信息 {@link cn.unitid.spark.cm.sdk.data.entity.Certificate}
      *
-     * @param certificateId  证书ID;
-     * @return  {@link cn.unitid.spark.cm.sdk.data.response.ObjectResponse}
+     * @param certificateId 证书ID;
+     * @return {@link cn.unitid.spark.cm.sdk.data.response.ObjectResponse}
      */
     public ObjectResponse getCertificate(String certificateId) {
         ObjectResponse response = null;
@@ -103,6 +105,7 @@ public class CBSCertificateStore {
 
     /**
      * 根据Id 删除库里证书
+     *
      * @param certificateId 证书ID
      * @return {@link cn.unitid.spark.cm.sdk.data.response.ObjectResponse}
      */
@@ -130,12 +133,13 @@ public class CBSCertificateStore {
 
     /**
      * 导入证书
+     *
      * @param issueResponse 签发返回对象 {@link cn.com.syan.spark.client.sdk.data.response.MyIssueResponse}
-     * @param pin  pin码
+     * @param pin           pin码
      * @return {@link cn.unitid.spark.cm.sdk.data.response.ObjectResponse}
      */
-     public ObjectResponse importCertificate(OnlineIssueResponse issueResponse, String pin) {
-         ObjectResponse response = null;
+    public ObjectResponse importCertificate(OnlineIssueResponse issueResponse, String pin) {
+        ObjectResponse response = null;
         try {
             store.open();
             java.security.cert.X509Certificate x509Certificate = getX509Certificate(issueResponse.getSignCert());
@@ -151,14 +155,14 @@ public class CBSCertificateStore {
                     byte[] encBlobKey = Base64.decodeBase64(issueResponse.getEncKey());
                     store.importCertificateAndEnvelopedPrivateKey(encX509Certificate, encBlobKey, xx509Cert.getPrivateKey(), pin, new Date());
                 }
-                response = new ObjectResponse(BaseService.MSG_SUCCESS,"",new Certificate(xx509Cert));
+                response = new ObjectResponse(BaseService.MSG_SUCCESS, "", new Certificate(xx509Cert));
             }
             if (response == null) {
-                response =new ObjectResponse(BaseService.MSG_SUCCESS, "didn't import",null);
+                response = new ObjectResponse(BaseService.MSG_SUCCESS, "didn't import", null);
             }
         } catch (Exception e) {
             Log.e("importCertificate", "importCertificate " + e.getMessage(), e);
-            response =new ObjectResponse(BaseService.MSG_SUCCESS,  e.getMessage(),null);
+            response = new ObjectResponse(BaseService.MSG_SUCCESS, e.getMessage(), null);
 
         } finally {
             store.save();
@@ -169,6 +173,7 @@ public class CBSCertificateStore {
 
     /**
      * 导入Base64编码证书
+     *
      * @param certificateStr Base64编码证书字符串
      * @return {@link cn.unitid.spark.cm.sdk.data.response.ObjectResponse}
      */
@@ -180,13 +185,13 @@ public class CBSCertificateStore {
             if (x509Certificate != null) {
                 store.importCertificate(x509Certificate);
 
-                response = new ObjectResponse(BaseService.MSG_SUCCESS,"",null);
+                response = new ObjectResponse(BaseService.MSG_SUCCESS, "", null);
             }
             if (response == null) {
-                response =new ObjectResponse(BaseService.MSG_SUCCESS, "didn't import",null);
+                response = new ObjectResponse(BaseService.MSG_SUCCESS, "didn't import", null);
             }
         } catch (Exception e) {
-            response =new ObjectResponse(BaseService.MSG_SUCCESS,  e.getMessage(),null);
+            response = new ObjectResponse(BaseService.MSG_SUCCESS, e.getMessage(), null);
         } finally {
             store.save();
             store.close();
@@ -196,41 +201,43 @@ public class CBSCertificateStore {
 
     /**
      * 查询本地库中所有证书
-     * @return   ArrayList<Certificate> 证书集合
+     *
+     * @return ArrayList<Certificate> 证书集合
      */
-  public ArrayList<Certificate> getAllCertificateList(){
-      ArrayList<Certificate> result = new ArrayList<Certificate>();
+    public ArrayList<Certificate> getAllCertificateList() {
+        ArrayList<Certificate> result = new ArrayList<Certificate>();
 
-      ObjectResponse objectResponse= getCertificateList(null,null,null,null);
+        ObjectResponse objectResponse = getCertificateList(null, null, null, null);
 
-      List<Certificate> list=(ArrayList<Certificate>)objectResponse.getObject();
-      Map<String,Certificate> encMap=new HashMap<String,Certificate>();
+        List<Certificate> list = (ArrayList<Certificate>) objectResponse.getObject();
+        Map<String, Certificate> encMap = new HashMap<String, Certificate>();
 
-      for (Certificate certificate : list) {
-          if(!certificate.getX509Certificate().hasKeyUsage(new int[]{128}) && certificate.getX509Certificate().hasKeyUsage(new int[]{16})) {
-              encMap.put(certificate.getSubject(),certificate);
-          }else{
-              result.add(certificate);
-          }
-      }
-      for (Certificate certificate : result) {
-          Certificate c = encMap.get(certificate.getSubject());
-          if (c != null) {
-              certificate.setDouble(true);
-              certificate.setEncCertId(c.getId());
-          }
-      }
-      return result;
-  }
+        for (Certificate certificate : list) {
+            if (!certificate.getX509Certificate().hasKeyUsage(new int[]{128}) && certificate.getX509Certificate().hasKeyUsage(new int[]{16})) {
+                encMap.put(certificate.getSubject(), certificate);
+            } else {
+                result.add(certificate);
+            }
+        }
+        for (Certificate certificate : result) {
+            Certificate c = encMap.get(certificate.getSubject());
+            if (c != null) {
+                certificate.setDouble(true);
+                certificate.setEncCertId(c.getId());
+            }
+        }
+        return result;
+    }
 
 
     /**
-     *  根据条件设定查询库中符合条件证书列表
-     * @param isCa  是否CA证书
+     * 根据条件设定查询库中符合条件证书列表
+     *
+     * @param isCa                   是否CA证书
      * @param isPrivateKeyAccessible 是否有私钥
-     * @param cas    CA根证书列表
-     * @param isSign 是签名证书  否  加密证书
-     * @return   {@link cn.unitid.spark.cm.sdk.data.response.ObjectResponse}
+     * @param cas                    CA根证书列表
+     * @param isSign                 是签名证书  否  加密证书
+     * @return {@link cn.unitid.spark.cm.sdk.data.response.ObjectResponse}
      */
 
     public ObjectResponse getCertificateList(Boolean isCa, Boolean isPrivateKeyAccessible, List<String> cas, Boolean isSign) {
@@ -295,19 +302,22 @@ public class CBSCertificateStore {
 
     /**
      * 公钥证书加密
+     *
      * @param certificate 选中证书 {@link cn.unitid.spark.cm.sdk.data.entity.Certificate}
-     * @param plainText  加密原文
-     * @return   {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
+     * @param plainText   加密原文
+     * @return {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
      */
 
     public DataProcessResponse publicEncrypt(Certificate certificate, String plainText) {
         return publicEncrypt(certificate.getId(), plainText);
     }
+
     /**
      * 公钥证书加密
+     *
      * @param certificateId 选中证书ID
-     * @param plainText  加密原文
-     * @return   {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
+     * @param plainText     加密原文
+     * @return {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
      */
     public DataProcessResponse publicEncrypt(String certificateId, String plainText) {
         ObjectResponse objectResponse = getCertificate(certificateId);
@@ -340,22 +350,25 @@ public class CBSCertificateStore {
 
     /**
      * 私钥解密
+     *
      * @param certificate 选择的证书 {@link cn.unitid.spark.cm.sdk.data.entity.Certificate}
-     * @param plainText 密文
-     * @param pin  pin码
-     * @return   {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
+     * @param plainText   密文
+     * @param pin         pin码
+     * @return {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
      */
     public DataProcessResponse privateDecrypt(Certificate certificate, String plainText, String pin) {
         DataProcessResponse response = privateDecrypt(certificate.getId(), plainText, pin);
         return response;
 
     }
+
     /**
      * 私钥解密
+     *
      * @param certificateId 选择的证书Id
-     * @param plainText 密文
-     * @param pin  pin码
-     * @return   {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
+     * @param plainText     密文
+     * @param pin           pin码
+     * @return {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
      */
     public DataProcessResponse privateDecrypt(String certificateId, String plainText, String pin) {
         ObjectResponse objectResponse = getCertificate(certificateId);
@@ -376,11 +389,12 @@ public class CBSCertificateStore {
     }
 
     /**
-     *P7签名
+     * P7签名
+     *
      * @param certificate 选择的证书 {@link cn.unitid.spark.cm.sdk.data.entity.Certificate}
-     * @param plainText 待签名原文
-     * @param pin  PIN码
-     * @return   {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
+     * @param plainText   待签名原文
+     * @param pin         PIN码
+     * @return {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
      */
     public DataProcessResponse p7Sign(Certificate certificate, String plainText, String pin) {
         DataProcessResponse response;
@@ -393,16 +407,18 @@ public class CBSCertificateStore {
         }
         return response;
     }
+
     /**
      * 对摘要p1签名
+     *
      * @param certificate
      * @param data
-     * @param algorithm 摘要算法
+     * @param algorithm   摘要算法
      * @param pin
      * @return
      */
 
-    public DataProcessResponse p1SignDigest(Certificate certificate, byte[] data,String algorithm, String pin) {
+    public DataProcessResponse p1SignDigest(Certificate certificate, byte[] data, String algorithm, String pin) {
         DataProcessResponse response;
         try {
             String result = Base64.encodeBase64String(certificate.getX509Certificate().pkcs1Digest(data, algorithm, pin));
@@ -412,8 +428,10 @@ public class CBSCertificateStore {
         }
         return response;
     }
+
     /**
      * p1签名
+     *
      * @param certificate
      * @param data
      * @param pin
@@ -430,12 +448,14 @@ public class CBSCertificateStore {
         }
         return response;
     }
+
     /**
-     *P1签名
-     * @param certificate  选择的证书 {@link cn.unitid.spark.cm.sdk.data.entity.Certificate}
-     * @param plainText 待签名原文
-     * @param pin pin码
-     * @return   {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
+     * P1签名
+     *
+     * @param certificate 选择的证书 {@link cn.unitid.spark.cm.sdk.data.entity.Certificate}
+     * @param plainText   待签名原文
+     * @param pin         pin码
+     * @return {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
      */
     public DataProcessResponse p1Sign(Certificate certificate, String plainText, String pin) {
         DataProcessResponse response;
@@ -450,11 +470,12 @@ public class CBSCertificateStore {
     }
 
     /**
-     *P1签名
-     * @param certificateId  选择的证书Id
-     * @param plainText 待签名原文
+     * P1签名
+     *
+     * @param certificateId 选择的证书Id
+     * @param plainText     待签名原文
      * @param pin
-     * @return  {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
+     * @return {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
      */
     public DataProcessResponse p1Sign(String certificateId, String plainText, String pin) {
         ObjectResponse objectResponse = getCertificate(certificateId);
@@ -476,17 +497,18 @@ public class CBSCertificateStore {
 
     /**
      * 生成P10请求
+     *
      * @param subject   证书主题项
-     * @param pin  PIN码
-     * @param alias　　别名
-     * @param algorithm　算法
+     * @param pin       PIN码
+     * @param alias     　　别名
+     * @param algorithm 　算法
      * @return ObjectResponse  {@link cn.unitid.spark.cm.sdk.data.response.ObjectResponse}
      */
     public ObjectResponse createPKCS10(String subject, List<Extension> extensions, String pin, String alias, String algorithm) {
         ObjectResponse response = null;
         try {
             store.open();
-            PKCS10CertificationRequest request =  algorithm.equalsIgnoreCase("SM2")?store.createSM2PKCS10(subject,extensions, pin, alias):store.createRSAPKCS10(subject,extensions, pin, alias,2048);
+            PKCS10CertificationRequest request = algorithm.equalsIgnoreCase("SM2") ? store.createSM2PKCS10(subject, extensions, pin, alias) : store.createRSAPKCS10(subject, extensions, pin, alias, 2048);
             response = new ObjectResponse(BaseService.MSG_SUCCESS, "", request);
         } catch (Exception e) {
 
@@ -497,7 +519,6 @@ public class CBSCertificateStore {
         }
         return response;
     }
-
 
 
     private java.security.cert.X509Certificate getX509Certificate(String certificateStr) {
@@ -541,9 +562,10 @@ public class CBSCertificateStore {
 
     /**
      * p1验签
-     * @param sign  BASE64编码签名值
-     * @param data  签名原文
-     * @param certValue  BASE64编码证书字符串
+     *
+     * @param sign      BASE64编码签名值
+     * @param data      签名原文
+     * @param certValue BASE64编码证书字符串
      * @return boolean 验签结果
      * @throws CertificateException
      * @throws NoSuchAlgorithmException
@@ -571,6 +593,7 @@ public class CBSCertificateStore {
 
     /**
      * P7验签
+     *
      * @param sign 签名值
      * @return boolean 验签结果
      * @throws SignatureException
@@ -584,53 +607,56 @@ public class CBSCertificateStore {
 
     /**
      * 数字信封 封信
+     *
      * @param certificate 选中的证书
-     * @param data 原文
-     * @return   {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
+     * @param data        原文
+     * @return {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
      */
-    public DataProcessResponse  sealEnvelope(Certificate certificate,String data){
+    public DataProcessResponse sealEnvelope(Certificate certificate, String data) {
         DataProcessResponse response = null;
         try {
             String result = Base64.encodeBase64String(certificate.getX509Certificate().envelopeSeal(data.getBytes()));
             response = new DataProcessResponse(BaseService.MSG_SUCCESS, "", result);
         } catch (Exception e) {
-            response =  new DataProcessResponse(BaseService.MSG_FAILURE, e.getMessage(),"");
+            response = new DataProcessResponse(BaseService.MSG_FAILURE, e.getMessage(), "");
         }
         return response;
     }
 
     /**
      * 数字信封拆封
+     *
      * @param certificate 选中的证书
-     * @param data 密文
-     * @param pin  PIN码
-     * @return   {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
+     * @param data        密文
+     * @param pin         PIN码
+     * @return {@link cn.unitid.spark.cm.sdk.data.response.DataProcessResponse}
      */
-    public DataProcessResponse  openEnvelope(Certificate certificate,String data,String pin){
+    public DataProcessResponse openEnvelope(Certificate certificate, String data, String pin) {
         DataProcessResponse response = null;
         try {
-            byte[] envelope =certificate.getX509Certificate().envelopeOpen(Base64.decodeBase64(data), pin);
-            String result=new String(envelope,"UTF-8");
+            byte[] envelope = certificate.getX509Certificate().envelopeOpen(Base64.decodeBase64(data), pin);
+            String result = new String(envelope, "UTF-8");
             response = new DataProcessResponse(BaseService.MSG_SUCCESS, "", result);
         } catch (Exception e) {
             e.printStackTrace();
-            response =  new DataProcessResponse(BaseService.MSG_FAILURE, e.getMessage(),"");
+            response = new DataProcessResponse(BaseService.MSG_FAILURE, e.getMessage(), "");
         }
         return response;
     }
-    public DataProcessResponse privateKeyEncrypt(String certificateId,String pin, String plainText,String transformation,boolean isBase64) {
+
+    public DataProcessResponse privateKeyEncrypt(String certificateId, String pin, String plainText, String transformation, boolean isBase64) {
         ObjectResponse objectResponse = getCertificate(certificateId);
         if (objectResponse.getRet() == BaseService.MSG_SUCCESS) {
             Certificate certificate = (Certificate) objectResponse.getObject();
             DataProcessResponse response;
             try {
-                byte[] data=null;
-                if(isBase64){
-                    data=Base64.decodeBase64(plainText);
-                }else{
-                    data=plainText.getBytes();
+                byte[] data = null;
+                if (isBase64) {
+                    data = Base64.decodeBase64(plainText);
+                } else {
+                    data = plainText.getBytes();
                 }
-                String result = Base64.encodeBase64String(certificate.getX509Certificate().privateEncrypt(data,pin,transformation));
+                String result = Base64.encodeBase64String(certificate.getX509Certificate().privateEncrypt(data, pin, transformation));
                 response = new DataProcessResponse(BaseService.MSG_SUCCESS, "", result);
             } catch (Exception e) {
                 Log.e(TAG, "", e);
@@ -641,20 +667,21 @@ public class CBSCertificateStore {
             return new DataProcessResponse(objectResponse.getRet(), objectResponse.getMessage(), "");
         }
     }
-    public DataProcessResponse importPfx(String pkcs12, String pkcs12PIN, String newPIN, boolean withChain){
+
+    public DataProcessResponse importPfx(String pkcs12, String pkcs12PIN, String newPIN, boolean withChain) {
 
         DataProcessResponse response = null;
         try {
             store.open();
-            store.importPrivateKey(pkcs12,pkcs12PIN,newPIN,withChain);
+            store.importPrivateKey(pkcs12, pkcs12PIN, newPIN, withChain);
 
 
             store.open();
             response = new DataProcessResponse(BaseService.MSG_SUCCESS, "", "");
         } catch (Exception e) {
             e.printStackTrace();
-            response =  new DataProcessResponse(BaseService.MSG_FAILURE, e.getMessage(),"");
-        }finally {
+            response = new DataProcessResponse(BaseService.MSG_FAILURE, e.getMessage(), "");
+        } finally {
             store.save();
             store.close();
         }
@@ -662,20 +689,20 @@ public class CBSCertificateStore {
 
     }
 
-    public DataProcessResponse importPfx(byte[] p12, String pkcs12PIN, String newPIN, boolean withChain){
+    public DataProcessResponse importPfx(byte[] p12, String pkcs12PIN, String newPIN, boolean withChain) {
 
         DataProcessResponse response = null;
         try {
             store.open();
 //            store.importPrivateKey(pkcs12,pkcs12PIN,newPIN,withChain);
 //            byte[] p12= Base64.decodeBase64(pkcs12);
-            savepfx(store,new PKCS12Service(p12,pkcs12PIN.toCharArray()),newPIN);
+            savepfx(store, new PKCS12Service(p12, pkcs12PIN.toCharArray()), newPIN);
             store.open();
             response = new DataProcessResponse(BaseService.MSG_SUCCESS, "", "");
         } catch (Exception e) {
             e.printStackTrace();
-            response =  new DataProcessResponse(BaseService.MSG_FAILURE, e.getMessage(),"");
-        }finally {
+            response = new DataProcessResponse(BaseService.MSG_FAILURE, e.getMessage(), "");
+        } finally {
             store.save();
             store.close();
         }
@@ -683,7 +710,7 @@ public class CBSCertificateStore {
 
     }
 
-    private void savepfx(CertificateStore store ,PKCS12Service pkcs12Service,String newPIN) throws JCEECMException {
+    private void savepfx(CertificateStore store, PKCS12Service pkcs12Service, String newPIN) throws JCEECMException {
         try {
             PKCS5PBES2 pkcs5PBES2 = new PKCS5PBES2();
             String ppKey = StringConverter.toHexadecimal(pkcs5PBES2.encryptKey(pkcs12Service.getPrivateKey(), newPIN.toCharArray()));

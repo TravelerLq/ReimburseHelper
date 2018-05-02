@@ -20,6 +20,7 @@ import com.sas.rh.reimbursehelper.view.activity.EnterpriseDetailActivity;
 
 /**
  * Created by liqing on 18/5/1.
+ * 填写验证码Activity
  */
 
 public class LoginOrRegisterActivity extends BaseActivity {
@@ -68,6 +69,7 @@ public class LoginOrRegisterActivity extends BaseActivity {
                 showDialog();
                 break;
             case R.id.tv_login:
+                toActivity(context, NewLoginActivity.class);
                 break;
             case R.id.tv_select_company:
                 Loger.e("-----take");

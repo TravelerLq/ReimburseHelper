@@ -1,5 +1,8 @@
 package com.sas.rh.reimbursehelper.newactivity;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -7,8 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
+import com.sas.rh.reimbursehelper.NetworkUtil.UserUtil;
+import com.sas.rh.reimbursehelper.NetworkUtil.VerifyCertUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.view.activity.BaseActivity;
+import com.sas.rh.reimbursehelper.view.activity.MainActivity;
 
 /**
  * Created by liqing on 18/5/1.
@@ -18,6 +26,28 @@ public class NewLoginActivity extends BaseActivity {
     private TextView tvTilte, tvLogin, tvForgetPsw;
     private ImageView ivBack;
     private EditText edtAccount, edtPsw;
+    private Context context;
+    private SharedPreferencesUtil spu;
+    private int userId;
+    private JSONObject jsonresult;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                int status = jsonresult.getIntValue("status");
+                if (status == 200) {
+                    Toast.makeText(context, "登录成功！", Toast.LENGTH_SHORT).show();
+                    toActivity(context, MainActivity.class);
+
+                } else {
+                    Toast.makeText(context, "登录失败，请重试！", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
+    private String tel;
+    private String idNo;
+    private String psw;
 
     @Override
     protected int getLayoutId() {
@@ -26,14 +56,22 @@ public class NewLoginActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        context = NewLoginActivity.this;
+        spu = new SharedPreferencesUtil(NewLoginActivity.this);
         tvTilte = (TextView) findViewById(R.id.tv_bar_title);
         ivBack = (ImageView) findViewById(R.id.iv_back);
         edtAccount = (EditText) findViewById(R.id.edt_account);
         edtPsw = (EditText) findViewById(R.id.edt_psw);
         tvForgetPsw = (TextView) findViewById(R.id.tv_forget_psw);
         tvLogin = (TextView) findViewById(R.id.tv_login);
-
         tvTilte.setText("登录");
+        if (getIntent() != null) {
+            //    tel = getIntent().getStringExtra("tel");
+            idNo = getIntent().getStringExtra("id");
+        }
+        tel = spu.getTel();
+        userId = spu.getUidNum();
+
     }
 
     @Override
@@ -52,7 +90,7 @@ public class NewLoginActivity extends BaseActivity {
                 checkdata();
                 break;
             case R.id.tv_forget_psw:
-
+                // toActivity(context,);
                 break;
             default:
                 break;
@@ -63,9 +101,14 @@ public class NewLoginActivity extends BaseActivity {
     //注册
     private void checkdata() {
         String account = edtAccount.getText().toString().trim();
-        String psw = edtPsw.getText().toString().trim();
+        psw = edtPsw.getText().toString().trim();
         if (TextUtils.isEmpty(account)) {
-            Toast.makeText(this, "账号不可为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "手机号不可为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!tel.equals(account)) {
+            Toast.makeText(this, "手机号不正确，请重新填写！", Toast.LENGTH_SHORT).show();
+            edtAccount.setText("");
             return;
         }
         if (TextUtils.isEmpty(psw)) {
@@ -77,6 +120,27 @@ public class NewLoginActivity extends BaseActivity {
     }
 
     private void goLogin() {
+        new Thread(LoginRunnable).start();
     }
+
+    private String certStr;
+    Runnable LoginRunnable = new Runnable() {
+        @Override
+        public void run() {
+
+            try {
+                JSONObject jsonObject = UserUtil.login(userId, psw);
+                if (jsonObject != null) {
+                    jsonresult = jsonObject;
+                    handler.sendEmptyMessage(1);
+                } else {
+                    handler.sendEmptyMessage(0);
+                }
+            } catch (Exception e) {
+                handler.sendEmptyMessage(-1);
+                e.printStackTrace();
+            }
+        }
+    };
 
 }

@@ -9,7 +9,7 @@ import com.sas.rh.reimbursehelper.constant.Constant;
 
 import java.util.List;
 
-import static com.sas.rh.reimbursehelper.constant.Constant.RootAddress;
+import static com.sas.rh.reimbursehelper.NetworkUtil.AddressConfig.RootAddress;
 import static com.sas.rh.reimbursehelper.constant.Constant.TestAddress;
 
 public class UserUtil {
@@ -75,7 +75,7 @@ public class UserUtil {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("idCardNumber", idCardNumber);
         String url = RootAddress + "yuanshensystem/user/selectbyidcardnumber";
-        Loger.e("selectbyidcardnumber--url--"+url);
+        Loger.e("selectbyidcardnumber--url--" + url);
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
 //        String userJson = reJson.getString("user");
 //        User user = JSON.parseObject(userJson, User.class);
@@ -123,5 +123,39 @@ public class UserUtil {
         //这里得到一个用户信息的list集合
         List<UserBean> userList = JSONArray.parseArray(jsonArray.toJSONString(), UserBean.class);
         System.out.println(userList.get(1).getName());
+    }
+
+
+    //zhuce
+
+    public static JSONObject register(int userId, String psw, String idNo) {
+        String url = RootAddress + "yuanshensystem/public/register";
+        JSONObject jsonObject = new JSONObject();
+//        Integer userId = 69;
+//        String password = "test";
+//        String idCardNumber = "14587654578";
+
+        jsonObject.put("userId", userId);
+        jsonObject.put("password", psw);
+        jsonObject.put("idCardNumber", idNo);
+
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        return reJson;
+
+    }
+
+    //login
+    public static JSONObject login(int userId, String psw) {
+        String url = RootAddress + "yuanshensystem/public/login";
+        JSONObject jsonObject = new JSONObject();
+//        Integer userId = 57;
+//        String password = "15951882547";
+
+        jsonObject.put("userId", userId);
+        jsonObject.put("password", psw);
+
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        return reJson;
+
     }
 }
