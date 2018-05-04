@@ -14,6 +14,7 @@ import com.sas.rh.reimbursehelper.Bean.UserBean;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.data.UserData;
+import com.sas.rh.reimbursehelper.newactivity.NewLoginActivity;
 
 import java.util.ArrayList;
 
@@ -72,7 +73,7 @@ public class PersonalDetailActivity extends AppCompatActivity {
                 }
                 sharedPreferencesUtil.writeCompanyId("");
                 sharedPreferencesUtil.writeUserId("");
-                Intent intent = new Intent(PersonalDetailActivity.this, RegFirstStepActivity.class);
+                Intent intent = new Intent(PersonalDetailActivity.this, NewLoginActivity.class);
                 startActivity(intent);
                 finish();
             }

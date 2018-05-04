@@ -94,7 +94,7 @@
                 android:gravity="center_vertical"
                 android:text="没有匹配的联系人"
                 android:textColor="#454545"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <LinearLayout
                 android:id="@+id/title_layout"

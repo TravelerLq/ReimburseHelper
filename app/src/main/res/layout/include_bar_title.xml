@@ -3,15 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dimen_40"
-    android:background="@color/blue"
+    android:background="@color/theme_bar"
     android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/iv_back"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         app:srcCompat="@mipmap/return_icon" />
+
+    <com.sas.rh.reimbursehelper.widget.CircleImageView
+        android:id="@+id/header"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical|left"
+        android:layout_marginLeft="15dp"
+        android:src="@mipmap/head"
+        android:visibility="gone"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="1dp" />
 
     <TextView
         android:id="@+id/tv_bar_title"
@@ -31,14 +42,15 @@
         android:layout_marginRight="10dp"
         android:visibility="gone"
         app:srcCompat="@mipmap/add" />
+
     <TextView
         android:id="@+id/tv_finish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:text="完成"
-        android:layout_centerVertical="true"
         android:textColor="@color/white"
         android:visibility="gone" />
 </RelativeLayout>

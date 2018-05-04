@@ -26,6 +26,7 @@ import com.sas.rh.reimbursehelper.newactivity.ApprovalProcessRecyActvity;
 import com.sas.rh.reimbursehelper.newactivity.ExpenseProcessRecyActvity;
 import com.sas.rh.reimbursehelper.newactivity.MyExpenseProcessActivity;
 import com.sas.rh.reimbursehelper.newactivity.TestActivity;
+import com.sas.rh.reimbursehelper.view.activity.PersonalDetailActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ import me.iwf.photopicker.utils.ImageCaptureManager;
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @InjectView(R.id.tv_bar_title)
     TextView tvTitle;
+    @InjectView(R.id.iv_back)
+    ImageView ivBack;
     @InjectView(R.id.iv_add_expense)
     ImageView ivAddEpense;
     @InjectView(R.id.iv_home_pic)
@@ -50,6 +53,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     RelativeLayout rlMyExpense;
     @InjectView(R.id.rl_my_approval)
     RelativeLayout rlMyApproval;
+    @InjectView(R.id.header)
+    ImageView header;
+
+    //  private ImageView personaldetail_btn;
     public static final int REQUEST_CODE_TAKE_PIC = 234;
     private ArrayList<String> selectedPhotos;
     private SharedPreferencesUtil spu;
@@ -84,6 +91,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         ivHomePic.setOnClickListener(this);
         rlMyExpense.setOnClickListener(this);
         rlMyApproval.setOnClickListener(this);
+        header.setOnClickListener(this);
     }
 
     @Override
@@ -91,6 +99,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         spu = new SharedPreferencesUtil(HomeFragment.this.getActivity());
         tvTitle.setText("报销");
+        ivBack.setVisibility(View.GONE);
+        header.setVisibility(View.VISIBLE);
         //   getFormId();
     }
 
@@ -126,6 +136,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 //报销
                 Intent intent = new Intent(HomeFragment.this.getActivity(), MyExpenseProcessActivity.class);
                 startActivity(intent);
+//                Intent intent = new Intent(HomeFragment.this.getActivity(), ExpenseItemListActivity.class);
+//                startActivity(intent);
+                break;
+            case R.id.header:
+                //报销
+                Intent intent1 = new Intent(HomeFragment.this.getActivity(), PersonalDetailActivity.class);
+                startActivity(intent1);
 //                Intent intent = new Intent(HomeFragment.this.getActivity(), ExpenseItemListActivity.class);
 //                startActivity(intent);
                 break;

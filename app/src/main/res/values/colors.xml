@@ -61,5 +61,11 @@
     <color name="bg_tab_grey">#efefef</color>
     <color name="line">#d4d4d4</color>
     <color name="login_color">#72a0e9</color>
+    <color name="theme_bar">#1882CE</color>
+
+    <color name="gray">#AFAFAF</color>
+
+    <color name="gray_color">#ffe8ecef</color>
+    <color name="bg_sort_color">#EDEDED</color>
 
 </resources>

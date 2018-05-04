@@ -1,131 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF"
-    android:orientation="vertical"
+    android:background="@color/grey_f5f5f5"
     tools:context="com.sas.rh.reimbursehelper.view.activity.ApproveProcedureAddActivity">
 
-    <include layout="@layout/include_bar_title"></include>
-
-    <LinearLayout
-        android:id="@+id/ll_approval_num"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_45"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingRight="@dimen/dimen_15"
-            android:text="审批序号:" />
-
-        <TextView
-            android:id="@+id/edt_approval_no"
-            style="@style/gray_noraml_small_style"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1.5"
-            android:background="@null"
-            android:clickable="false"
-            android:drawableRight="@drawable/icon_arrow_right"
-            android:focusable="false"
-            android:gravity="center"
-            android:paddingRight="@dimen/dimen_15"
-            android:text="请选择" />
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_1"
-        android:background="@color/stock" />
-    <!--审批人-->
-    <LinearLayout
-        android:id="@+id/ll_approval_person"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_45"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingRight="@dimen/dimen_15"
-            android:text="审批人:" />
-
-        <TextView
-            android:id="@+id/edt_approval_person"
-            style="@style/gray_noraml_small_style"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1.5"
-            android:background="@null"
-            android:drawableRight="@drawable/icon_arrow_right"
-            android:focusable="false"
-            android:gravity="center"
-            android:paddingRight="@dimen/dimen_15"
-            android:text="@string/select" />
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_1"
-        android:background="@color/stock" />
+    <include
+        android:id="@+id/bar_title"
+        layout="@layout/include_bar_title"></include>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_45"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bar_title"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_60"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/dimen_15"
+                android:text="审批名称:" />
+
+            <EditText
+                android:id="@+id/edt_approval_title"
+                style="@style/gray_noraml_small_style"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1.5"
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/hint_input"
+                android:paddingRight="@dimen/dimen_15" />
+
+        </LinearLayout>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingRight="@dimen/dimen_15"
-            android:text="审批名称:" />
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1"
+            android:background="@color/stock" />
 
-        <EditText
-            android:id="@+id/edt_approval_title"
-            style="@style/gray_noraml_small_style"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1.5"
-            android:background="@null"
-            android:gravity="center"
-            android:hint="@string/hint_input"
-            android:paddingRight="@dimen/dimen_15" />
+        <LinearLayout
+            android:id="@+id/ll_approval_num"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_55"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/dimen_15"
+                android:text="审批级别:" />
+
+            <TextView
+                android:id="@+id/edt_approval_no"
+                style="@style/gray_noraml_small_style"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1.5"
+                android:background="@null"
+                android:clickable="false"
+                android:drawableRight="@drawable/icon_arrow_right"
+                android:focusable="false"
+                android:gravity="center"
+                android:paddingRight="@dimen/dimen_15"
+                android:text="请选择" />
+
+        </LinearLayout>
+
+        <!--审批人-->
+        <LinearLayout
+            android:id="@+id/ll_approval_person"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_55"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/dimen_15"
+                android:text="审批人:" />
+
+            <TextView
+                android:id="@+id/edt_approval_person"
+                style="@style/gray_noraml_small_style"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1.5"
+                android:background="@null"
+                android:drawableRight="@drawable/icon_arrow_right"
+                android:focusable="false"
+                android:gravity="center"
+                android:paddingRight="@dimen/dimen_15"
+                android:text="@string/select" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_1"
-        android:background="@color/stock" />
 
     <TextView
         android:id="@+id/tv_sure"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_30"
-        android:layout_marginLeft="@dimen/dimen_10"
-        android:layout_marginRight="@dimen/dimen_10"
-        android:layout_marginTop="@dimen/dimen_40"
-        android:background="@drawable/btn_save_baoxiajizhu"
+        android:layout_height="@dimen/dimen_50"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_rec_grey"
         android:gravity="center"
         android:text="@string/sure"
-        android:textColor="#FFF"
-        android:textSize="18dp" />
-</LinearLayout>
+        android:textColor="@color/theme_bar" />
+</RelativeLayout>

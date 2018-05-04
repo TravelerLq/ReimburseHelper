@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEE"
+    android:background="@color/grey_f5f5f5"
     android:orientation="vertical"
     tools:context="com.sas.rh.reimbursehelper.fragment.EnterpriseFragment">
 
@@ -92,6 +92,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -115,8 +116,8 @@
             <LinearLayout
                 android:id="@+id/membersmanage_btn"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="12dp"
+                android:layout_height="@dimen/dimen_60"
+                android:layout_marginTop="@dimen/dimen_10"
                 android:background="#FFF"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -142,8 +143,8 @@
             <LinearLayout
                 android:id="@+id/departmentsmanage_btn"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="12dp"
+                android:layout_height="@dimen/dimen_61"
+                android:layout_marginTop="@dimen/dimen_10"
                 android:background="#FFF"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -176,7 +177,7 @@
             <LinearLayout
                 android:id="@+id/approveprocedure_btn"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/dimen_61"
                 android:background="#FFF"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -206,6 +207,7 @@
                 android:layout_marginTop="12dp"
                 android:background="#FFF"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -233,6 +235,7 @@
                 android:background="#FFF"
                 android:clickable="true"
                 android:focusable="true"
+                android:visibility="gone"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -286,8 +289,8 @@
             <LinearLayout
 
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="12dp"
+                android:layout_height="@dimen/dimen_62"
+                android:layout_marginTop="@dimen/dimen_10"
                 android:background="#FFF"
                 android:clickable="true"
                 android:focusable="true"

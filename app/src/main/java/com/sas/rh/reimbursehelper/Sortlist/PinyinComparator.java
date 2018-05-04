@@ -1,17 +1,15 @@
 package com.sas.rh.reimbursehelper.Sortlist;
 
-import com.sas.rh.reimbursehelper.Bean.MemberDetailInfoEntity;
-
 import java.util.Comparator;
 
-/**
- * 
- * @author xiaanming
- *
- */
-public class PinyinComparator implements Comparator<MemberDetailInfoEntity> {
 
-	public int compare(MemberDetailInfoEntity o1, MemberDetailInfoEntity o2) {
+/**
+ * @Description:拼音的比较器
+ * @author http://blog.csdn.net/finddreams
+ */ 
+public class PinyinComparator implements Comparator<SortModel> {
+
+	public int compare(SortModel o1, SortModel o2) {
 		if (o1.getSortLetters().equals("@")
 				|| o2.getSortLetters().equals("#")) {
 			return -1;

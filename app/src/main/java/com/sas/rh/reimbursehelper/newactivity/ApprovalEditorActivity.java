@@ -1,4 +1,4 @@
-package com.sas.rh.reimbursehelper.view.activity;
+package com.sas.rh.reimbursehelper.newactivity;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -16,17 +16,21 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.Bean.UserBean;
+import com.sas.rh.reimbursehelper.Bean.newbean.ApprovalSettingtBean;
+import com.sas.rh.reimbursehelper.Bean.newbean.DepartmentBean;
 import com.sas.rh.reimbursehelper.NetworkUtil.ApproveNumUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.TimePickerUtils;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
 import com.sas.rh.reimbursehelper.Util.ToastUtils;
+import com.sas.rh.reimbursehelper.view.activity.BaseActivity;
+import com.sas.rh.reimbursehelper.view.activity.MembersManageActivity;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ApproveProcedureAddActivity extends BaseActivity {
+public class ApprovalEditorActivity extends BaseActivity {
     private static final int REQUEST_PERSON_CODE = 111;
 
     private LinearLayout llApprovalNum;
@@ -64,6 +68,8 @@ public class ApproveProcedureAddActivity extends BaseActivity {
         }
     };
     private Byte approvalNoByte;
+    private String title;
+    private String approval;
 
     @Override
     protected int getLayoutId() {
@@ -74,16 +80,25 @@ public class ApproveProcedureAddActivity extends BaseActivity {
     protected void initData() {
         llApprovalNum = (LinearLayout) findViewById(R.id.ll_approval_num);
         llApprovalPerson = (LinearLayout) findViewById(R.id.ll_approval_person);
+
         edtApprovalNum = (TextView) findViewById(R.id.edt_approval_no);
         edtApprovalPerson = (TextView) findViewById(R.id.edt_approval_person);
         edtApprovalTitle = (EditText) findViewById(R.id.edt_approval_title);
         tvSure = (TextView) findViewById(R.id.tv_sure);
         ivBack = (ImageView) findViewById(R.id.iv_back);
         tvTitle = (TextView) findViewById(R.id.tv_bar_title);
-        tvTitle.setText("审批级别配置");
-        sharedPreferencesUtil = new SharedPreferencesUtil(ApproveProcedureAddActivity.this);
+        tvTitle.setText("编辑");
+        sharedPreferencesUtil = new SharedPreferencesUtil(ApprovalEditorActivity.this);
         userId = sharedPreferencesUtil.getUidNum();
         Loger.e("userId--" + userId);
+        if (getIntent() != null) {
+            ApprovalSettingtBean bean = (ApprovalSettingtBean) getIntent().getSerializableExtra("item");
+            title = bean.getDname();
+            approval = bean.getName();
+            edtApprovalTitle.setText(title);
+            edtApprovalPerson.setText(approval);
+
+        }
 
     }
 
@@ -132,7 +147,7 @@ public class ApproveProcedureAddActivity extends BaseActivity {
             //此人(即审核人)的id
             approvalId = userBean.getUserId();
 
-            Loger.e(" approveProduAddUserId--"+approvalId);
+            Loger.e(" approveProduAddUserId--" + approvalId);
 
         }
     }
@@ -180,7 +195,7 @@ public class ApproveProcedureAddActivity extends BaseActivity {
 //        Byte approveNum = 3;
 //        //创建人id
 //        Integer userId = 3;
-                Loger.e("approvalId---"+approvalId);
+                Loger.e("approvalId---" + approvalId);
                 JSONObject jo = ApproveNumUtil.addApproveNum(approvalTitle, approvalId, approvalNoByte, userId);
                 if (jo != null) {
                     jsonobj = jo;

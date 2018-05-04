@@ -43,7 +43,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class HomepageFragment extends Fragment implements View.OnClickListener, MineRadioAdapter.OnItemClickListener{
+public class HomepageFragment extends Fragment implements View.OnClickListener, MineRadioAdapter.OnItemClickListener {
 
     private PopupMenu popupMenu;
     private Menu menu;
@@ -70,19 +70,19 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
     TextView mBtnEditor;
     private MineRadioAdapter mRadioAdapter = null;
     private LinearLayoutManager mLinearLayoutManager;
-    private List<BaoxiaoContentEntity> mList ;
+    private List<BaoxiaoContentEntity> mList;
     private int mEditMode = MYLIVE_MODE_CHECK;
     private boolean isSelectAll = false;
     private boolean editorStatus = false;
     private int index = 0;
-    private TextView mybxbt,myspbt,myfybt;
+    private TextView mybxbt, myspbt, myfybt;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
-        ButterKnife.inject(this,view);
+        ButterKnife.inject(this, view);
         initView(view);
         initData();
         refreshbxlist();
@@ -90,14 +90,14 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         return view;
     }
 
-    private void initView(View view){
+    private void initView(View view) {
         menubt = (ImageButton) view.findViewById(R.id.popupmenu_btn);
-        addbxnrbt = (RelativeLayout)view.findViewById(R.id.addbxnrbt);
-        personaldetail_btn = (ImageView)view.findViewById(R.id.personaldetail_btn);
+        addbxnrbt = (RelativeLayout) view.findViewById(R.id.addbxnrbt);
+        personaldetail_btn = (ImageView) view.findViewById(R.id.personaldetail_btn);
         weibaoxiaofytv = (TextView) view.findViewById(R.id.weibaoxiaofytv);
-        mybxbt = (TextView)view.findViewById(R.id.mybxbt);
-        myspbt = (TextView)view.findViewById(R.id.myspbt);
-        myfybt = (TextView)view.findViewById(R.id.myfybt);
+        mybxbt = (TextView) view.findViewById(R.id.mybxbt);
+        myspbt = (TextView) view.findViewById(R.id.myspbt);
+        myfybt = (TextView) view.findViewById(R.id.myfybt);
         popupMenu = new PopupMenu(getActivity(), view.findViewById(R.id.popupmenu_btn));
         menu = popupMenu.getMenu();
 
@@ -140,17 +140,17 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         addbxnrbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
-                Intent it = new Intent(getActivity(),AddExpenseActivity.class);
-                it.putExtra("rcode",1);
-                startActivityForResult(it,1);
+                //  Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
+                Intent it = new Intent(getActivity(), AddExpenseActivity.class);
+                it.putExtra("rcode", 1);
+                startActivityForResult(it, 1);
             }
         });
 
         personaldetail_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(getActivity(),PersonalDetailActivity.class);
+                Intent it = new Intent(getActivity(), PersonalDetailActivity.class);
                 startActivity(it);
             }
         });
@@ -158,7 +158,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         mybxbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent it = new Intent(getActivity(),MyReimburseActivity.class);
+                Intent it = new Intent(getActivity(), MyReimburseActivity.class);
                 startActivity(it);
             }
         });
@@ -166,7 +166,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         myspbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent it = new Intent(getActivity(),MyApprovalActivity.class);
+                Intent it = new Intent(getActivity(), MyApprovalActivity.class);
                 startActivity(it);
             }
         });
@@ -174,7 +174,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         myfybt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent it = new Intent(getActivity(),MyFeeActivity.class);
+                Intent it = new Intent(getActivity(), MyFeeActivity.class);
                 startActivity(it);
             }
         });
@@ -184,10 +184,10 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 ||requestCode == 2  ){
+        if (requestCode == 1 || requestCode == 2) {
             //int position = data.getExtras().getInt("position");
             refreshbxlist();
-            index=0;
+            index = 0;
             mTvSelectNum.setText(String.valueOf(index));
         }
     }
@@ -204,21 +204,21 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         mRadioAdapter.setOnItemClickListener(new MineRadioAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(int pos, List<BaoxiaoContentEntity> myLiveList) {
-               // Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
-                Intent it = new Intent(getActivity(),AddExpenseActivity.class);
-                it.putExtra("rcode",2);
-                it.putExtra("biiid",myLiveList.get(pos).getBxid());
-                startActivityForResult(it,2);
+                // Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
+                Intent it = new Intent(getActivity(), AddExpenseActivity.class);
+                it.putExtra("rcode", 2);
+                it.putExtra("biiid", myLiveList.get(pos).getBxid());
+                startActivityForResult(it, 2);
             }
         });
 
     }
 
-    public void refreshbxlist(){
-        sum=0;
+    public void refreshbxlist() {
+        sum = 0;
         mList = new ArrayList<>();
-        resultlist = DataHelper.getAllBaoxiaoItem(new DataHelper(getActivity(),"BaoxiaoItem_DB",null,1));
-        if(resultlist.size() == 0){
+        resultlist = DataHelper.getAllBaoxiaoItem(new DataHelper(getActivity(), "BaoxiaoItem_DB", null, 1));
+        if (resultlist.size() == 0) {
             //BaoxiaoContentEntity myLiveList = new BaoxiaoContentEntity();
             //mList.add(myLiveList);
             mRadioAdapter.notifyAdapter(mList, false);
@@ -228,15 +228,14 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
             myLiveList.setBxid(resultlist.get(i).getBillid());
             myLiveList.setBxtype(resultlist.get(i).getXflxsp());
             myLiveList.setBxnum(resultlist.get(i).getSum());
-            DecimalFormat df = new DecimalFormat( "#####0.00 ");
+            DecimalFormat df = new DecimalFormat("#####0.00 ");
             sum += Double.parseDouble(resultlist.get(i).getSum().trim());
             myLiveList.setBxdate(resultlist.get(i).getDatepicker());
             mList.add(myLiveList);
-            weibaoxiaofytv.setText("¥"+df.format(sum));
+            weibaoxiaofytv.setText("¥" + df.format(sum));
             mRadioAdapter.notifyAdapter(mList, false);
         }
     }
-
 
 
     /**
@@ -265,7 +264,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_delete:
                 deleteVideo();
                 break;
@@ -273,7 +272,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
                 selectAllMain();
                 break;
             case R.id.btn_editor:
-                if(editorStatus == true && index >= 1){
+                if (editorStatus == true && index >= 1) {
                     new AlertDialog.Builder(getActivity())
                             .setMessage("确定报销选定项？")
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -287,19 +286,19 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     //updataEditMode();
                                     ArrayList<String> list = new ArrayList<String>();
-                                    for (int index = mRadioAdapter.getMyLiveList().size(), j =0 ; index > j; index--) {
-                                        BaoxiaoContentEntity myLive = mRadioAdapter.getMyLiveList().get(index-1);
+                                    for (int index = mRadioAdapter.getMyLiveList().size(), j = 0; index > j; index--) {
+                                        BaoxiaoContentEntity myLive = mRadioAdapter.getMyLiveList().get(index - 1);
                                         if (myLive.isSelect()) {
                                             list.add(myLive.getBxid());
                                         }
                                     }
-                                    Intent it = new Intent(getActivity(),ReimburseBillCreateActivity.class);
+                                    Intent it = new Intent(getActivity(), ReimburseBillCreateActivity.class);
                                     it.putStringArrayListExtra("billids", list);
                                     startActivity(it);
                                 }
                             }).show();
 
-                }else{
+                } else {
                     updataEditMode();
                 }
 
@@ -340,7 +339,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
      * 删除逻辑
      */
     private void deleteVideo() {
-        if (index == 0){
+        if (index == 0) {
             mBtnDelete.setEnabled(false);
             return;
         }
@@ -368,16 +367,16 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DecimalFormat df = new DecimalFormat( "#####0.00 ");
+                DecimalFormat df = new DecimalFormat("#####0.00 ");
                 double jiansum = 0;
-                for (int i = mRadioAdapter.getMyLiveList().size(), j =0 ; i > j; i--) {
-                    BaoxiaoContentEntity myLive = mRadioAdapter.getMyLiveList().get(i-1);
+                for (int i = mRadioAdapter.getMyLiveList().size(), j = 0; i > j; i--) {
+                    BaoxiaoContentEntity myLive = mRadioAdapter.getMyLiveList().get(i - 1);
                     //jiansum += Double.parseDouble(myLive.getBxnum().trim());
                     if (myLive.isSelect()) {
                         jiansum += Double.parseDouble(myLive.getBxnum().trim());
-                        Boolean addsuc = DataHelper.deleteone(new DataHelper(getActivity(),"BaoxiaoItem_DB",null,1),myLive.getBxid());
-                        if(addsuc == false){
-                            Toast.makeText(getActivity(), "删除"+i+"失败",Toast.LENGTH_SHORT).show();
+                        Boolean addsuc = DataHelper.deleteone(new DataHelper(getActivity(), "BaoxiaoItem_DB", null, 1), myLive.getBxid());
+                        if (addsuc == false) {
+                            Toast.makeText(getActivity(), "删除" + i + "失败", Toast.LENGTH_SHORT).show();
                         }
                         mRadioAdapter.getMyLiveList().remove(myLive);
                         index--;
@@ -385,12 +384,12 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
                 }
                 String[] s = weibaoxiaofytv.getText().toString().split("¥");
                 //System.out.println("gggggg"+Double.parseDouble(s[1])+"-"+jiansum);
-                double result= Double.parseDouble(s[1])-jiansum;
-                weibaoxiaofytv.setText("¥"+df.format(result));
+                double result = Double.parseDouble(s[1]) - jiansum;
+                weibaoxiaofytv.setText("¥" + df.format(result));
                 index = 0;
                 mTvSelectNum.setText(String.valueOf(0));
                 setBtnBackground(index);
-                if (mRadioAdapter.getMyLiveList().size() == 0){
+                if (mRadioAdapter.getMyLiveList().size() == 0) {
                     mLlMycollectionBottomDialog.setVisibility(View.GONE);
                 }
                 mRadioAdapter.notifyDataSetChanged();
@@ -410,11 +409,11 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
             mRadioAdapter.setOnItemClickListener(new MineRadioAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClickListener(int pos, List<BaoxiaoContentEntity> myLiveList) {
-                  //  Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
-                    Intent it = new Intent(getActivity(),AddExpenseActivity.class);
-                    it.putExtra("rcode",2);
-                    it.putExtra("biiid",myLiveList.get(pos).getBxid());
-                    startActivityForResult(it,2);
+                    //  Intent it = new Intent(getActivity(),AddBaoxiaojizhuActivity.class);
+                    Intent it = new Intent(getActivity(), AddExpenseActivity.class);
+                    it.putExtra("rcode", 2);
+                    it.putExtra("biiid", myLiveList.get(pos).getBxid());
+                    startActivityForResult(it, 2);
                 }
             });
             mBtnEditor.setText("编辑");
@@ -427,7 +426,7 @@ public class HomepageFragment extends Fragment implements View.OnClickListener, 
         mRadioAdapter.setEditMode(mEditMode);
     }
 
-    private void clearSelected(){
+    private void clearSelected() {
         for (int i = 0, j = mRadioAdapter.getMyLiveList().size(); i < j; i++) {
             mRadioAdapter.getMyLiveList().get(i).setSelect(false);
         }

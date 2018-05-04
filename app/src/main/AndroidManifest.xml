@@ -126,6 +126,13 @@
         <activity android:name=".newactivity.NewLoginActivity"></activity>
         <activity android:name=".newactivity.LoginOrRegisterActivity"></activity>
         <activity android:name=".newactivity.NewRegisterActivity"></activity>
+        <!--部门管理-->
+        <activity android:name=".newactivity.DepartmentActivity"></activity>
+        <activity android:name=".newactivity.EditDepartActivity"></activity>
+        <activity android:name=".newactivity.ApprovalSettingActivity"></activity>
+        <activity android:name=".newactivity.ApprovalEditorActivity"></activity>
+        <!--a-z排序人员列表-->
+        <activity android:name=".newactivity.PersonSortActivity"></activity>
     </application>
 
 </manifest>

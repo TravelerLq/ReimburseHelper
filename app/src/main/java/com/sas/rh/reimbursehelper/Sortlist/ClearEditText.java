@@ -1,5 +1,6 @@
 package com.sas.rh.reimbursehelper.Sortlist;
 
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
@@ -11,14 +12,17 @@ import android.view.View.OnFocusChangeListener;
 import android.view.animation.Animation;
 import android.view.animation.CycleInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.EditText;
 
 import com.sas.rh.reimbursehelper.R;
 
-public class ClearEditText extends EditText implements  
+/**
+ * @Description:带删除按钮的EditText
+ * @author http://blog.csdn.net/finddreams
+ */ 
+public class ClearEditText extends android.support.v7.widget.AppCompatEditText implements
         OnFocusChangeListener, TextWatcher { 
 	/**
-	 * ɾ����ť������
+	 * 删除按钮的引用
 	 */
     private Drawable mClearDrawable; 
  
@@ -27,7 +31,7 @@ public class ClearEditText extends EditText implements
     } 
  
     public ClearEditText(Context context, AttributeSet attrs) { 
-    	//���ﹹ�췽��Ҳ����Ҫ����������ܶ����Բ�����XML���涨��
+    	//这里构造方法也很重要，不加这个很多属性不能再XML里面定义
     	this(context, attrs, android.R.attr.editTextStyle); 
     } 
     
@@ -38,11 +42,11 @@ public class ClearEditText extends EditText implements
     
     
     private void init() { 
-    	//��ȡEditText��DrawableRight,����û���������Ǿ�ʹ��Ĭ�ϵ�ͼƬ
+    	//获取EditText的DrawableRight,假如没有设置我们就使用默认的图片
     	mClearDrawable = getCompoundDrawables()[2]; 
         if (mClearDrawable == null) { 
         	mClearDrawable = getResources() 
-                    .getDrawable(R.mipmap.emotionstore_progresscancelbtn);
+                    .getDrawable(R.drawable.emotionstore_progresscancelbtn);
         } 
         mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(), mClearDrawable.getIntrinsicHeight()); 
         setClearIconVisible(false); 
@@ -52,9 +56,9 @@ public class ClearEditText extends EditText implements
  
  
     /**
-     * ��Ϊ���ǲ���ֱ�Ӹ�EditText���õ���¼������������ü�ס���ǰ��µ�λ����ģ�����¼�
-     * �����ǰ��µ�λ�� ��  EditText�Ŀ�� - ͼ�굽�ؼ��ұߵļ�� - ͼ��Ŀ��  ��
-     * EditText�Ŀ�� - ͼ�굽�ؼ��ұߵļ��֮�����Ǿ�������ͼ�꣬��ֱ����û�п���
+     * 因为我们不能直接给EditText设置点击事件，所以我们用记住我们按下的位置来模拟点击事件
+     * 当我们按下的位置 在  EditText的宽度 - 图标到控件右边的间距 - 图标的宽度  和
+     * EditText的宽度 - 图标到控件右边的间距之间我们就算点击了图标，竖直方向没有考虑
      */
     @Override 
     public boolean onTouchEvent(MotionEvent event) { 
@@ -73,7 +77,7 @@ public class ClearEditText extends EditText implements
     } 
  
     /**
-     * ��ClearEditText���㷢���仯��ʱ���ж������ַ��������������ͼ�����ʾ������
+     * 当ClearEditText焦点发生变化的时候，判断里面字符串长度设置清除图标的显示与隐藏
      */
     @Override 
     public void onFocusChange(View v, boolean hasFocus) { 
@@ -86,7 +90,7 @@ public class ClearEditText extends EditText implements
  
  
     /**
-     * �������ͼ�����ʾ�����أ�����setCompoundDrawablesΪEditText������ȥ
+     * 设置清除图标的显示与隐藏，调用setCompoundDrawables为EditText绘制上去
      * @param visible
      */
     protected void setClearIconVisible(boolean visible) { 
@@ -97,7 +101,7 @@ public class ClearEditText extends EditText implements
      
     
     /**
-     * ��������������ݷ����仯��ʱ��ص��ķ���
+     * 当输入框里面内容发生变化的时候回调的方法
      */
     @Override 
     public void onTextChanged(CharSequence s, int start, int count, 
@@ -118,7 +122,7 @@ public class ClearEditText extends EditText implements
     
    
     /**
-     * ���ûζ�����
+     * 设置晃动动画
      */
     public void setShakeAnimation(){
     	this.setAnimation(shakeAnimation(5));
@@ -126,8 +130,8 @@ public class ClearEditText extends EditText implements
     
     
     /**
-     * �ζ�����
-     * @param counts 1���ӻζ�������
+     * 晃动动画
+     * @param counts 1秒钟晃动多少下
      * @return
      */
     public static Animation shakeAnimation(int counts){

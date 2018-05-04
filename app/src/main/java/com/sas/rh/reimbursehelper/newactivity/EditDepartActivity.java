@@ -1,11 +1,11 @@
-package com.sas.rh.reimbursehelper.view.activity;
+package com.sas.rh.reimbursehelper.newactivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,24 +17,24 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.Bean.ReimbursementRight;
+import com.sas.rh.reimbursehelper.Bean.newbean.DepartmentBean;
 import com.sas.rh.reimbursehelper.NetworkUtil.DepartmentUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
-import com.sas.rh.reimbursehelper.Util.TimePickerUtils;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
+import com.sas.rh.reimbursehelper.view.activity.DepartmentsManageAddMasterActivity;
 import com.sas.rh.reimbursehelper.widget.CircleImageView;
 import com.warmtel.expandtab.KeyValueBean;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import cn.addapp.pickers.listeners.OnItemPickListener;
 import cn.addapp.pickers.listeners.OnSingleWheelListener;
 import cn.addapp.pickers.picker.SinglePicker;
 
-public class DepartmentsManageAddItemActivity extends AppCompatActivity {
+public class EditDepartActivity extends AppCompatActivity {
 
     private ImageView addDM, backbt;
     private CircleImageView master_head;
@@ -52,7 +52,7 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
     private String dplimit;//报销限额
     private String dmaster_id = "";//部门
     List<String> allStatus = new ArrayList<>();
-    private ProgressDialogUtil pdu = new ProgressDialogUtil(DepartmentsManageAddItemActivity.this, "上传提示", "正在提交中");
+    private ProgressDialogUtil pdu = new ProgressDialogUtil(EditDepartActivity.this, "上传提示", "正在提交中");
     private Handler bumenxinxiback = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
@@ -60,7 +60,7 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
             if (msg.what == 1) {
 //                    System.out.println("ResultCode:" + jsonresult.get("ResultCode") + "\t" + "HostTime:"
 //            + jsonresult.get("HostTime") + "\t" + "Note:" + jsonresult.get("Note"));
-                ToastUtil.showToast(DepartmentsManageAddItemActivity.this, "加载完毕", Toast.LENGTH_LONG);
+                ToastUtil.showToast(EditDepartActivity.this, "加载完毕", Toast.LENGTH_LONG);
                 if (jsonresult != null) {
                     finish();
                 }
@@ -83,9 +83,9 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
 
 
             } else if (msg.what == 0) {
-                ToastUtil.showToast(DepartmentsManageAddItemActivity.this, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
+                ToastUtil.showToast(EditDepartActivity.this, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
             } else if (msg.what == -1) {
-                ToastUtil.showToast(DepartmentsManageAddItemActivity.this, "通信模块异常！", Toast.LENGTH_LONG);
+                ToastUtil.showToast(EditDepartActivity.this, "通信模块异常！", Toast.LENGTH_LONG);
             }
         }
 
@@ -94,12 +94,14 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
     private List<KeyValueBean> deptRight;
     private int selectPos;
     private String selectId;
+    private String departName;
+    private String manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_departments_manage_add_item);
-        spu = new SharedPreferencesUtil(DepartmentsManageAddItemActivity.this);
+        spu = new SharedPreferencesUtil(EditDepartActivity.this);
         tvAuthority = (TextView) findViewById(R.id.tv_expense_authority);
         addDM = (ImageView) findViewById(R.id.addDM);
         dname = (EditText) findViewById(R.id.dname);
@@ -109,7 +111,23 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
         tvTilte = (TextView) findViewById(R.id.tv_bar_title);
         ivBack = (ImageView) findViewById(R.id.iv_back);
         tvSure = (TextView) findViewById(R.id.tv_sure);
-        tvTilte.setText("部门添加");
+        tvTilte.setText("编辑部门");
+
+//        EditText  edtDepartName=(EditText)findViewById(R.id.dname);
+//        EditText edtLimitNum=(EditText)findViewById(R.id.dlimit);
+//
+//        TextView tvAuthority=(TextView)findViewById(R.id.tv_expense_authority);
+//        TextView tvManager=(TextView)findViewById(R.id.master_name);
+
+        if (getIntent() != null) {
+            DepartmentBean bean = (DepartmentBean) getIntent().getSerializableExtra("item");
+            departName = bean.getDname();
+            manager = bean.getName();
+            dname.setText(departName);
+            master_name.setText(manager);
+
+        }
+
 
         getDeptRight();
 
@@ -124,7 +142,7 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
 
                     //  View view1 = TimePickerUtils.getInstance().
                     // onListDataPicker(DepartmentsManageAddItemActivity.this, allStatus, tvAuthority);
-                    onListDataPicker(DepartmentsManageAddItemActivity.this, allStatus, tvAuthority);
+                    onListDataPicker(EditDepartActivity.this, allStatus, tvAuthority);
 
                     // selectPos = (int)view1.getTag();
 
@@ -141,7 +159,7 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
         addDM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(DepartmentsManageAddItemActivity.this, DepartmentsManageAddMasterActivity.class);
+                Intent it = new Intent(EditDepartActivity.this, DepartmentsManageAddMasterActivity.class);
                 startActivityForResult(it, 0);
             }
         });
@@ -180,20 +198,20 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
 
     private void CreateDepartmentInfo() {
         if (dname.getText().toString().trim().equals("")) {
-            ToastUtil.showToast(DepartmentsManageAddItemActivity.this, "请部门目名称", Toast.LENGTH_LONG);
+            ToastUtil.showToast(EditDepartActivity.this, "请部门目名称", Toast.LENGTH_LONG);
             return;
         }
         if (dlimit.getText().toString().trim().equals("")) {
-            ToastUtil.showToast(DepartmentsManageAddItemActivity.this, "请填报销限额", Toast.LENGTH_LONG);
+            ToastUtil.showToast(EditDepartActivity.this, "请填报销限额", Toast.LENGTH_LONG);
             return;
         }
         if (dmaster_id == null || dmaster_id.trim().equals("")) {
-            ToastUtil.showToast(DepartmentsManageAddItemActivity.this, "请选择部门负责人", Toast.LENGTH_LONG);
+            ToastUtil.showToast(EditDepartActivity.this, "请选择部门负责人", Toast.LENGTH_LONG);
             return;
         }
         if (dmaster_id == null || tvAuthority.getText().toString().trim().equals("")) {
 
-            ToastUtil.showToast(DepartmentsManageAddItemActivity.this, "报销级别不可以为空", Toast.LENGTH_LONG);
+            ToastUtil.showToast(EditDepartActivity.this, "报销级别不可以为空", Toast.LENGTH_LONG);
             return;
         }
         // tvAuthorityStr = tvAuthority.getText().toString().trim();

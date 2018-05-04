@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/include_bar_title"></include>
+    <include layout="@layout/include_bar_title"
+        android:visibility="visible"></include>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -108,6 +109,10 @@
                     android:text="@string/no_data"
                     android:textSize="@dimen/super_small_text_size" />
             </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1"
+                android:background="@color/stock"/>
 
             <RelativeLayout
                 android:id="@+id/rl_my_expense"

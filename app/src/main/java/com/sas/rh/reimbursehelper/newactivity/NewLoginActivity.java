@@ -15,8 +15,14 @@ import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.UserUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.VerifyCertUtil;
 import com.sas.rh.reimbursehelper.R;
+import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.view.activity.BaseActivity;
 import com.sas.rh.reimbursehelper.view.activity.MainActivity;
+
+import java.util.ArrayList;
+
+import cn.unitid.spark.cm.sdk.business.CBSCertificateStore;
+import cn.unitid.spark.cm.sdk.data.entity.Certificate;
 
 /**
  * Created by liqing on 18/5/1.
@@ -30,6 +36,7 @@ public class NewLoginActivity extends BaseActivity {
     private SharedPreferencesUtil spu;
     private int userId;
     private JSONObject jsonresult;
+    private ArrayList<Certificate> certificateArrayList;//证书列表;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -72,12 +79,21 @@ public class NewLoginActivity extends BaseActivity {
         tel = spu.getTel();
         userId = spu.getUidNum();
 
+        CBSCertificateStore store = CBSCertificateStore.getInstance();
+        //查询本地库证书列表,没注册则注册一张
+        certificateArrayList = store.getAllCertificateList();
+        if (certificateArrayList.size() == 0) {
+            toActivity(context, RegCertActivity.class);
+
+        }
+
     }
 
     @Override
     protected void initListeners() {
         tvLogin.setOnClickListener(this);
         tvForgetPsw.setOnClickListener(this);
+        ivBack.setOnClickListener(this);
     }
 
     @Override
