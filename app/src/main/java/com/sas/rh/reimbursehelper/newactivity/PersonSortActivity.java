@@ -3,9 +3,13 @@ package com.sas.rh.reimbursehelper.newactivity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +30,10 @@ import android.widget.Toast;
 //import com.liqing.myapplication.sortlist.SideBar;
 //import com.liqing.myapplication.sortlist.SortModel;
 
+import com.alibaba.fastjson.JSONArray;
+import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
+import com.sas.rh.reimbursehelper.Bean.UserBean;
+import com.sas.rh.reimbursehelper.NetworkUtil.UserUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Sortlist.CharacterParser;
 import com.sas.rh.reimbursehelper.Sortlist.ClearEditText;
@@ -34,6 +42,9 @@ import com.sas.rh.reimbursehelper.Sortlist.SideBar;
 import com.sas.rh.reimbursehelper.Sortlist.SortAdapter;
 import com.sas.rh.reimbursehelper.Sortlist.SortModel;
 import com.sas.rh.reimbursehelper.Util.ConstactUtil;
+import com.sas.rh.reimbursehelper.Util.Loger;
+import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
+import com.sas.rh.reimbursehelper.Util.ToastUtil;
 
 import org.w3c.dom.Text;
 
@@ -42,6 +53,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import static com.sas.rh.reimbursehelper.view.activity.DepartmentsManageAddItemActivity.DEPART;
 //
 //import com.finddreams.sortedcontact.sortlist.CharacterParser;
 //import com.finddreams.sortedcontact.sortlist.SideBar;
@@ -72,12 +85,53 @@ public class PersonSortActivity extends AppCompatActivity {
     private TextView tvTilte;
     private ImageView ivBack;
     private TextView tvNobody;
+    private SharedPreferencesUtil spu;
+    private Context context;
+    private ProgressDialogUtil pdu = new ProgressDialogUtil(PersonSortActivity.this, "提示", "正在加载...");
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (pdu.getMypDialog().isShowing()) {
+                pdu.dismisspd();
+            }
+            if (msg.what == 1) {
+                List<SortModel> list = JSONArray.parseArray(jsonArray.toJSONString(), SortModel.class);
+
+                SourceDateList.clear();
+                SourceDateList.addAll(list);
+                for (int i = 0; i < SourceDateList.size(); i++) {
+                    Loger.e("source---" + SourceDateList.get(i).getName());
+                    Loger.e("source---" + SourceDateList.get(i).getUserId());
+                }
+
+
+                if (SourceDateList.size() == 0) {
+                    initTestData();
+                }
+
+//                setLetter(SourceDateList);
+                if (adapter == null) {
+                    new SortAdapter(context, SourceDateList);
+                }
+                adapter.notifyDataSetChanged();
+                setLetter(SourceDateList);
+                sortData();
+            }
+        }
+    };
+    private Boolean isIntent;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_contact);
+        SourceDateList = new ArrayList<>();
+        adapter = new SortAdapter(PersonSortActivity.this, SourceDateList);
+        context = PersonSortActivity.this;
+        spu = new SharedPreferencesUtil(context);
+
         tvTilte = (TextView) findViewById(R.id.tv_bar_title);
         ivBack = (ImageView) findViewById(R.id.iv_back);
         tvNobody = (TextView) findViewById(R.id.tv_nobody);
@@ -88,15 +142,56 @@ public class PersonSortActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        if (getIntent() != null) {
+            Loger.e("person--getIntent");
+            isIntent = true;
+            type = getIntent().getStringExtra("type");
+            Loger.e("type---" + type);
+
+
+        } else {
+            isIntent = false;
+        }
         initView();
         initData();
+        checkPermission();
 
-//		if (ContextCompat.checkSelfPermission(MainActivity.this,
-//				Manifest.permission.READ_CONTACTS,)
-//				!= PackageManager.PERMISSION_GRANTED) {
-//		}else{
-//			//
-//		}
+        getData();
+
+
+    }
+
+    private void getData() {
+        pdu.showpd();
+        new Thread(GetAllMembersThread).start();
+    }
+
+    private JSONArray jsonArray;
+    Runnable GetAllMembersThread = new Runnable() {
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+
+            try {
+                JSONArray jo = new UserUtil().getALlUser(spu.getUidNum());
+                if (jo != null) {
+                    jsonArray = jo;
+                    Loger.e("--response--" + jsonArray.toJSONString());
+                    handler.sendEmptyMessage(1);
+                } else {
+                    handler.sendEmptyMessage(0);
+                }
+            } catch (Exception e) {
+                handler.sendEmptyMessage(-1);
+                e.printStackTrace();
+            }
+        }
+
+    };
+
+    private void checkPermission() {
+
         if (ContextCompat.checkSelfPermission(PersonSortActivity.this,
                 Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -118,8 +213,6 @@ public class PersonSortActivity extends AppCompatActivity {
                         MY_PERMISSIONS_REQUEST_READ_CONTACTS);
             }
         }
-
-
     }
 
     private void initView() {
@@ -162,12 +255,30 @@ public class PersonSortActivity extends AppCompatActivity {
 //                // Toast.LENGTH_SHORT).show();
 //                String number = callRecords.get(((SortModel) adapter
 //                        .getItem(position)).getName());
-                Toast.makeText(PersonSortActivity.this, position, Toast.LENGTH_SHORT).show();
+                if (type != null) {
+                    // if()
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user", SourceDateList.get(position));
+                    Loger.e("pos--" + position + "clickId" + SourceDateList.get(position).getUserId());
+//                intent.putExtra("userId", mData.get(pos).getKey());
+//                intent.putExtra("thirdValue", mData.get(pos).getValue());
+                    intent.putExtras(bundle);
+                    setResult(RESULT_OK, intent);
+                    finish();
+
+                } else {
+                    Loger.e("pos--" + position + "clickId" + SourceDateList.get(position).getUserId());
+                    ToastUtil.showToast(PersonSortActivity.this, "点击了第" + position + "个",
+                            Toast.LENGTH_SHORT);
+                }
+
+
             }
         });
 
-        initTestData();
-        sortData();
+        //  initTestData();
+
 
         //new ConstactAsyncTask().execute(0);
 
@@ -176,32 +287,34 @@ public class PersonSortActivity extends AppCompatActivity {
     SortModel sortModel;
 
     private void initTestData() {
-        SourceDateList = new ArrayList<>();
+
 
         sortModel = new SortModel();
-        sortModel.setId(1);
+        sortModel.setUserId(1);
         sortModel.setName("巍然");
         SourceDateList.add(0, sortModel);
 
         sortModel = new SortModel();
-        sortModel.setId(2);
+        sortModel.setUserId(2);
         sortModel.setName("陈一");
         SourceDateList.add(1, sortModel);
         sortModel = new SortModel();
-        sortModel.setId(3);
+        sortModel.setUserId(3);
         sortModel.setName("胡一");
         SourceDateList.add(2, sortModel);
 
         sortModel = new SortModel();
-        sortModel.setId(3);
+        sortModel.setUserId(4);
         sortModel.setName("丰子恺");
         SourceDateList.add(3, sortModel);
 
         sortModel = new SortModel();
-        sortModel.setId(3);
+        sortModel.setUserId(3);
         sortModel.setName("丁伟");
         SourceDateList.add(4, sortModel);
         setLetter(SourceDateList);
+        sortData();
+
 
     }
 
@@ -250,7 +363,9 @@ public class PersonSortActivity extends AppCompatActivity {
     private void sortData() {
 
         Collections.sort(SourceDateList, pinyinComparator);
-        adapter = new SortAdapter(PersonSortActivity.this, SourceDateList);
+        if (adapter == null) {
+            adapter = new SortAdapter(PersonSortActivity.this, SourceDateList);
+        }
         sortListView.setAdapter(adapter);
 
         mClearEditText = (ClearEditText) PersonSortActivity.this

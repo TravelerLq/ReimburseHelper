@@ -17,12 +17,15 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.Bean.ReimbursementRight;
+import com.sas.rh.reimbursehelper.Bean.UserBean;
 import com.sas.rh.reimbursehelper.NetworkUtil.DepartmentUtil;
 import com.sas.rh.reimbursehelper.R;
+import com.sas.rh.reimbursehelper.Sortlist.SortModel;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.Util.TimePickerUtils;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
+import com.sas.rh.reimbursehelper.newactivity.PersonSortActivity;
 import com.sas.rh.reimbursehelper.widget.CircleImageView;
 import com.warmtel.expandtab.KeyValueBean;
 
@@ -36,6 +39,8 @@ import cn.addapp.pickers.picker.SinglePicker;
 
 public class DepartmentsManageAddItemActivity extends AppCompatActivity {
 
+    private static final int REQUEST_MANAGER_CODE = 113;
+    public static final String DEPART = "department";
     private ImageView addDM, backbt;
     private CircleImageView master_head;
     private EditText dname, dlimit;
@@ -56,14 +61,24 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
     private Handler bumenxinxiback = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
+
             //  pdu.dismisspd();
             if (msg.what == 1) {
+                if (pdu.getMypDialog().isShowing()) {
+                    pdu.dismisspd();
+                }
 //                    System.out.println("ResultCode:" + jsonresult.get("ResultCode") + "\t" + "HostTime:"
 //            + jsonresult.get("HostTime") + "\t" + "Note:" + jsonresult.get("Note"));
-                ToastUtil.showToast(DepartmentsManageAddItemActivity.this, "加载完毕", Toast.LENGTH_LONG);
-                if (jsonresult != null) {
+
+                int status = jsonresult.getIntValue("status");
+                if (status == 200) {
+                    ToastUtil.showToast(DepartmentsManageAddItemActivity.this, " 创建成功！", Toast.LENGTH_LONG);
                     finish();
+                } else {
+                    ToastUtil.showToast(DepartmentsManageAddItemActivity.this, "创建失败！", Toast.LENGTH_LONG);
                 }
+
+
             } else if (msg.what == 2) {
 
                 List<ReimbursementRight> reimbursementRights =
@@ -110,7 +125,7 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
         ivBack = (ImageView) findViewById(R.id.iv_back);
         tvSure = (TextView) findViewById(R.id.tv_sure);
         tvTilte.setText("部门添加");
-
+        //获取报销权限
         getDeptRight();
 
 
@@ -141,8 +156,12 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
         addDM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(DepartmentsManageAddItemActivity.this, DepartmentsManageAddMasterActivity.class);
-                startActivityForResult(it, 0);
+//                Intent it = new Intent(DepartmentsManageAddItemActivity.this, DepartmentsManageAddMasterActivity.class);
+//                startActivityForResult(it, REQUEST_MANAGER_CODE);
+
+                Intent it = new Intent(DepartmentsManageAddItemActivity.this, PersonSortActivity.class);
+                it.putExtra("type", DEPART);
+                startActivityForResult(it, REQUEST_MANAGER_CODE);
             }
         });
 
@@ -156,6 +175,7 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
         tvSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pdu.showpd();
                 CreateDepartmentInfo();
             }
         });
@@ -168,13 +188,27 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String sn = data.getStringExtra("slectedname");
-        String sp = data.getStringExtra("slectedpath");
-        String sid = data.getStringExtra("slectedstaffid");
-        System.out.println("aaaaaaaaaa:" + requestCode + ":" + sn + ":" + sp + ":" + sid);
-        master_head.setImageResource(Integer.parseInt(sp));
-        dmaster_id = sid;
-        master_name.setText(sn + "(" + sid + ")");
+
+
+        if (requestCode == REQUEST_MANAGER_CODE && resultCode == RESULT_OK) {
+            Loger.e("---onActivityResult-----");
+
+            Bundle bundle = data.getExtras();
+            SortModel userBean = (SortModel) bundle.getSerializable("user");
+            String manager = userBean.getName();
+            managerId = userBean.getUserId();
+            String idStr = String.valueOf(managerId);
+            dmaster_id = idStr;
+
+//            String sn = data.getStringExtra("slectedname");
+//            //  String sp = data.getStringExtra("slectedpath");
+//          String sid = data.getStringExtra("slectedstaffid");
+//            System.out.println("aaaaaaaaaa:" + requestCode + ":" + sn + ":" + ":" + sid);
+//            //  master_head.setImageResource(Integer.parseInt(sp));
+//            dmaster_id = sid;
+            master_name.setText(manager + "(" + idStr + ")");
+
+        }
     }
 
 
@@ -204,13 +238,15 @@ public class DepartmentsManageAddItemActivity extends AppCompatActivity {
         new Thread(sendCreateDepartmentInfoThread).start();
     }
 
+    private int managerId;
     Runnable sendCreateDepartmentInfoThread = new Runnable() {
         @Override
         public void run() {
             // TODO Auto-generated method stub
 
             try {
-                JSONObject jo = new DepartmentUtil().addDepartment(dpname, Byte.valueOf(selectId), Double.parseDouble(dplimit), spu.getUidNum());
+                JSONObject jo = new DepartmentUtil().addDepartment(dpname, Byte.valueOf(selectId),
+                        Double.parseDouble(dplimit), spu.getUidNum(), managerId);
                 if (jo != null) {
                     jsonresult = jo;
                     bumenxinxiback.sendEmptyMessage(1);

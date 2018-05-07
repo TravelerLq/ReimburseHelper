@@ -187,5 +187,54 @@ public class ApprovalUtil {
         return jsonArray;
     }
 
+    //查看审批流程
+    public static JSONArray selectApproveNumUnderCompany(int userId) {
+        //审批流程id 必填
+        //Integer userId = 95;
+        String url = urlStr + "/yuanshensystem/approvenum/selectapprovenumundercompany";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId", userId);
+        JSONArray jsonArray = JsonUtil.uploadJsonGetJsonArray(url, jsonObject);
+        return jsonArray;
+    }
+
+    //更新审批流程
+    public static JSONObject updateApprove(int approveNumId, String approveNumName,
+                                           int approverId, int userId) {
+        //审批流程id 必填
+        // Integer approveNumId = 24;
+        //以下选填
+        //审核名称
+//        String approveNumName = "本部门审批";
+//        //审核人id
+////        Integer approverId = 2;
+//        //更新者id
+//        Integer userId = 95;
+        String url = urlStr + "yuanshensystem/approvenum/update";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("approveNumId", approveNumId);
+        jsonObject.put("approveNumName", approveNumName);
+        jsonObject.put("approverId", approverId);
+        jsonObject.put("userId", userId);
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        return reJson;
+    }
+
+    //删除审批流程
+    public static JSONObject deleteApproveNum(int approveNumId, int userId) {
+        //审批流程id 必填
+//        Integer approveNumId = 24;
+//        Integer userId = 95;
+
+        String url = urlStr + "yuanshensystem/approvenum/delete";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("approveNumId", approveNumId);
+        jsonObject.put("userId", userId);
+
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        return reJson;
+//        System.out.println(reJson);
+    }
+
 
 }

@@ -59,9 +59,9 @@ public class DepartmentRecycleAdapter extends RecyclerView.Adapter<DepartmentRec
         DepartmentBean bean = list.get(position);
         if (bean != null) {
             Log.e("holder.tvTitle", "not null");
-            holder.tvDepartName.setText(bean.getDname());
-            holder.tvManageName.setText(bean.getName());
-            holder.tvNum.setText(String.valueOf(bean.getNum())+"人");
+            holder.tvDepartName.setText(bean.getDepartmentName());
+            holder.tvManageName.setText(bean.getDeptLeaderName());
+            holder.tvNum.setText(String.valueOf(bean.getNumberOfEmployees()) + "人");
             holder.tvMore.setTag(position);
             holder.rlItem.setTag(position);
             holder.tvMore.setOnClickListener(new View.OnClickListener() {

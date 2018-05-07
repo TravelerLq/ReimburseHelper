@@ -61,9 +61,9 @@ public class ApprovalSetRecycleAdapter extends RecyclerView.Adapter<ApprovalSetR
         ApprovalSettingtBean bean = list.get(position);
         if (bean != null) {
             Log.e("holder.tvTitle", "not null");
-            holder.tvSettingName.setText(bean.getDname());
-            holder.tvApprovalName.setText(bean.getName());
-            holder.tvLevel.setText(String.valueOf(bean.getNum()) + "级");
+            holder.tvSettingName.setText(bean.getApproveNumName());
+            holder.tvApprovalName.setText(bean.getApproverName());
+            holder.tvLevel.setText(String.valueOf(bean.getApproverOrder()) + "级");
             holder.tvMore.setTag(position);
             holder.rlItem.setTag(position);
             holder.tvMore.setOnClickListener(new View.OnClickListener() {

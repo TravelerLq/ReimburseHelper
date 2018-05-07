@@ -7,31 +7,58 @@ import com.sas.rh.reimbursehelper.Bean.BaseBean;
  */
 
 public class DepartmentBean extends BaseBean {
-    private String dname;
-    private String num;
-    private String name;
 
-    public String getDname() {
-        return dname;
+    /**
+     * departmentId : 52
+     * departmentName : 销售部
+     * deptLeaderId : 54
+     * deptLeaderName : 王朕
+     * numberOfEmployees : 1
+     */
+
+    private int departmentId;
+    private String departmentName;
+    private int deptLeaderId;
+    private String deptLeaderName;
+    private int numberOfEmployees;
+
+    public int getDepartmentId() {
+        return departmentId;
     }
 
-    public void setDname(String dname) {
-        this.dname = dname;
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
     }
 
-    public String getNum() {
-        return num;
+    public String getDepartmentName() {
+        return departmentName;
     }
 
-    public void setNum(String num) {
-        this.num = num;
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 
-    public String getName() {
-        return name;
+    public int getDeptLeaderId() {
+        return deptLeaderId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDeptLeaderId(int deptLeaderId) {
+        this.deptLeaderId = deptLeaderId;
+    }
+
+    public String getDeptLeaderName() {
+        return deptLeaderName;
+    }
+
+    public void setDeptLeaderName(String deptLeaderName) {
+        this.deptLeaderName = deptLeaderName;
+    }
+
+    public int getNumberOfEmployees() {
+        return numberOfEmployees;
+    }
+
+    public void setNumberOfEmployees(int numberOfEmployees) {
+        this.numberOfEmployees = numberOfEmployees;
     }
 }

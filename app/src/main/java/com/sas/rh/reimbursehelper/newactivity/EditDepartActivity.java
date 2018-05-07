@@ -1,6 +1,7 @@
 package com.sas.rh.reimbursehelper.newactivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -58,12 +59,13 @@ public class EditDepartActivity extends AppCompatActivity {
         public void handleMessage(android.os.Message msg) {
             //  pdu.dismisspd();
             if (msg.what == 1) {
-//                    System.out.println("ResultCode:" + jsonresult.get("ResultCode") + "\t" + "HostTime:"
-//            + jsonresult.get("HostTime") + "\t" + "Note:" + jsonresult.get("Note"));
-                ToastUtil.showToast(EditDepartActivity.this, "加载完毕", Toast.LENGTH_LONG);
-                if (jsonresult != null) {
-                    finish();
+                int status = jsonresult.getIntValue("status");
+                if (status == 200) {
+                    ToastUtil.showToast(EditDepartActivity.this, "更新成功", Toast.LENGTH_LONG);
+                } else {
+                    ToastUtil.showToast(EditDepartActivity.this, "更新失败，请重试", Toast.LENGTH_LONG);
                 }
+
             } else if (msg.what == 2) {
 
                 List<ReimbursementRight> reimbursementRights =
@@ -96,12 +98,17 @@ public class EditDepartActivity extends AppCompatActivity {
     private String selectId;
     private String departName;
     private String manager;
+    private Context context;
+    private int departId;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_departments_manage_add_item);
+        context = EditDepartActivity.this;
         spu = new SharedPreferencesUtil(EditDepartActivity.this);
+        userId = spu.getUidNum();
         tvAuthority = (TextView) findViewById(R.id.tv_expense_authority);
         addDM = (ImageView) findViewById(R.id.addDM);
         dname = (EditText) findViewById(R.id.dname);
@@ -121,8 +128,11 @@ public class EditDepartActivity extends AppCompatActivity {
 
         if (getIntent() != null) {
             DepartmentBean bean = (DepartmentBean) getIntent().getSerializableExtra("item");
-            departName = bean.getDname();
-            manager = bean.getName();
+            departName = bean.getDepartmentName();
+            manager = bean.getDeptLeaderName();
+            departId = bean.getDepartmentId();
+
+            // String limit=bean.get
             dname.setText(departName);
             master_name.setText(manager);
 
@@ -136,19 +146,21 @@ public class EditDepartActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Resources res = getResources();
-                String[] status = res.getStringArray(R.array.approval_no);
-                if (allStatus.size() > 0) {
+//                Resources res = getResources();
+//                String[] status = res.getStringArray(R.array.approval_no);
+//                if (allStatus.size() > 0) {
+//
+//                    //  View view1 = TimePickerUtils.getInstance().
+//                    // onListDataPicker(DepartmentsManageAddItemActivity.this, allStatus, tvAuthority);
+//                    onListDataPicker(EditDepartActivity.this, allStatus, tvAuthority);
+//
+//                    // selectPos = (int)view1.getTag();
+//
+////                    selectId = deptRight.get(selectPos).getKey();
+////                    Loger.e("--selectPos" + selectPos + "selectId--" + selectId);
+//                }
 
-                    //  View view1 = TimePickerUtils.getInstance().
-                    // onListDataPicker(DepartmentsManageAddItemActivity.this, allStatus, tvAuthority);
-                    onListDataPicker(EditDepartActivity.this, allStatus, tvAuthority);
-
-                    // selectPos = (int)view1.getTag();
-
-//                    selectId = deptRight.get(selectPos).getKey();
-//                    Loger.e("--selectPos" + selectPos + "selectId--" + selectId);
-                }
+                Toast.makeText(context, "不可修改", Toast.LENGTH_SHORT).show();
 
 
                 // TimePickerUtils.getInstance().onListPicker(DepartmentsManageAddItemActivity.this, deptRight, tvAuthority);
@@ -174,7 +186,8 @@ public class EditDepartActivity extends AppCompatActivity {
         tvSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CreateDepartmentInfo();
+                // CreateDepartmentInfo();
+                updateData();
             }
         });
     }
@@ -196,7 +209,7 @@ public class EditDepartActivity extends AppCompatActivity {
     }
 
 
-    private void CreateDepartmentInfo() {
+    private void updateData() {
         if (dname.getText().toString().trim().equals("")) {
             ToastUtil.showToast(EditDepartActivity.this, "请部门目名称", Toast.LENGTH_LONG);
             return;
@@ -219,16 +232,19 @@ public class EditDepartActivity extends AppCompatActivity {
         dpname = dname.getText().toString().trim();
         dplimit = dlimit.getText().toString().trim();
         //  pdu.showpd();
-        new Thread(sendCreateDepartmentInfoThread).start();
+        new Thread(updateDepartmentInfoThread).start();
     }
 
-    Runnable sendCreateDepartmentInfoThread = new Runnable() {
+    private int managerId;
+    Runnable updateDepartmentInfoThread = new Runnable() {
         @Override
         public void run() {
             // TODO Auto-generated method stub
 
             try {
-                JSONObject jo = new DepartmentUtil().addDepartment(dpname, Byte.valueOf(selectId), Double.parseDouble(dplimit), spu.getUidNum());
+//                JSONObject jo = new DepartmentUtil().upda(dpname, Byte.valueOf(selectId),
+//                        Double.parseDouble(dplimit), spu.getUidNum(), managerId);
+                JSONObject jo = new DepartmentUtil().updateDepartment(departId, departName, userId);
                 if (jo != null) {
                     jsonresult = jo;
                     bumenxinxiback.sendEmptyMessage(1);

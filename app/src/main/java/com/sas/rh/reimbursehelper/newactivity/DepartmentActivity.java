@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -17,12 +19,18 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.sas.rh.reimbursehelper.Adapter.newadapter.ApprovalRecycleAdapter;
 import com.sas.rh.reimbursehelper.Adapter.newadapter.DepartmentRecycleAdapter;
+import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.Bean.newbean.DepartmentBean;
+import com.sas.rh.reimbursehelper.NetworkUtil.ApprovalUtil;
+import com.sas.rh.reimbursehelper.NetworkUtil.DepartmentUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.PopupWindowUtil;
+import com.sas.rh.reimbursehelper.Util.ToastUtil;
 import com.sas.rh.reimbursehelper.view.activity.BaseActivity;
 import com.sas.rh.reimbursehelper.view.activity.DepartmentsManageAddItemActivity;
 
@@ -44,6 +52,36 @@ public class DepartmentActivity extends BaseActivity {
     private List<DepartmentBean> beanList;
     private PopupWindow mPopupWindow;
     private int selectPos;
+    private JSONArray jsonresult;
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                List<DepartmentBean> list = JSONArray.parseArray(jsonresult.toJSONString(), DepartmentBean.class);
+                if (list.size() == 0) {
+                    ToastUtil.showToast(context, "暂无数据", Toast.LENGTH_SHORT);
+                }
+                beanList.clear();
+                beanList.addAll(list);
+                adapter.notifyDataSetChanged();
+            } else if (msg.what == 2) {
+                int status = jsonObjectDelete.getIntValue("status");
+                if (status == 200) {
+                    ToastUtil.showToast(context, "删除成功", Toast.LENGTH_SHORT);
+                    beanList.remove(selectPos);
+                    adapter.notifyDataSetChanged();
+
+                } else {
+                    ToastUtil.showToast(context, "删除失败", Toast.LENGTH_SHORT);
+                }
+            }
+        }
+    };
+    private SharedPreferencesUtil spu;
+    private int departmentId;
+    private JSONObject jsonObjectDelete;
+
 
     @Override
     protected int getLayoutId() {
@@ -53,14 +91,13 @@ public class DepartmentActivity extends BaseActivity {
     @Override
     protected void initData() {
         context = DepartmentActivity.this;
+        spu = new SharedPreferencesUtil(context);
         beanList = new ArrayList<>();
         initTestData();
         tvTilte = (TextView) findViewById(R.id.tv_bar_title);
         ivBack = (ImageView) findViewById(R.id.iv_back);
         ivAdd = (ImageView) findViewById(R.id.iv_add);
         ivAdd.setVisibility(View.VISIBLE);
-
-
         recyclerView = (RecyclerView) findViewById(R.id.rl_department);
         layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -82,7 +119,35 @@ public class DepartmentActivity extends BaseActivity {
                 showPopWindow(view, pos);
             }
         });
+
+        getData();
     }
+
+    private void getData() {
+        new Thread(getDepartmentRunnable).start();
+    }
+
+
+    Runnable getDepartmentRunnable = new Runnable() {
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+
+            try {
+                JSONArray jsonArray = new DepartmentUtil().selectDeptUnderCompany(spu.getUidNum());
+                if (jsonArray != null) {
+                    jsonresult = jsonArray;
+                    handler.sendEmptyMessage(1);
+                } else {
+                    handler.sendEmptyMessage(0);
+                }
+            } catch (Exception e) {
+                handler.sendEmptyMessage(-1);
+                e.printStackTrace();
+            }
+        }
+
+    };
 
     private void showPopWindow(View anchorView, int pos) {
         View contentView = getPopupWindowContentView(pos);
@@ -108,14 +173,19 @@ public class DepartmentActivity extends BaseActivity {
 //                if (mPopupWindow != null) {
 //                    mPopupWindow.dismiss();
 //                }
+                DepartmentBean bean = beanList.get(pos);
+                departmentId = bean.getDepartmentId();
                 if (view.getId() == R.id.tv_edit) {
+                    //edit...
                     Bundle bundle = new Bundle();
-                    DepartmentBean bean = beanList.get(pos);
+                    // DepartmentBean bean = beanList.get(pos);
                     bundle.putSerializable("item", bean);
                     Intent intent = new Intent(context, EditDepartActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
+                    //delete...
+                    deleteData();
                     beanList.remove(pos);
                     adapter.notifyDataSetChanged();
                 }
@@ -128,13 +198,39 @@ public class DepartmentActivity extends BaseActivity {
         return contentView;
     }
 
+    private void deleteData() {
+        new Thread(deleteDepartRunnable).start();
+    }
+
+
+    Runnable deleteDepartRunnable = new Runnable() {
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+
+            try {
+                JSONObject jo = DepartmentUtil.deleteDepartment(departmentId, spu.getUidNum());
+                if (jo != null) {
+                    jsonObjectDelete = jo;
+                    handler.sendEmptyMessage(2);
+                } else {
+                    handler.sendEmptyMessage(0);
+                }
+            } catch (Exception e) {
+                handler.sendEmptyMessage(-1);
+                e.printStackTrace();
+            }
+        }
+
+    };
+
     private void initTestData() {
         DepartmentBean bean;
         for (int i = 0; i < 5; i++) {
             bean = new DepartmentBean();
-            bean.setDname("财务部" + i);
-            bean.setName("张问" + i);
-            bean.setNum("" + (i * 10));
+            bean.setDepartmentName("财务部" + i);
+            bean.setDeptLeaderName("张问" + i);
+            bean.setNumberOfEmployees((i * 10));
             beanList.add(i, bean);
         }
     }
@@ -157,5 +253,12 @@ public class DepartmentActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
     }
 }

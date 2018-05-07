@@ -23,7 +23,8 @@ public class DepartmentUtil {
     }
 
     //新增一个部门
-    public static JSONObject addDepartment(String departmentName, Byte reimbursementRightId, Double departmentQuota, Integer userId) {
+    public static JSONObject addDepartment(String departmentName, Byte reimbursementRightId,
+                                           Double departmentQuota, Integer userId, int deptLeaderId) {
 //        //公司id
 //        Integer companyId = 3;
 //        //部门名字
@@ -34,6 +35,7 @@ public class DepartmentUtil {
 //        Double departmentQuota = 1000044.00;
 //        //操作者
 //        Integer userId = 1;
+        // deptLeaderId :主管id
 
         String url = RootAddress + "yuanshensystem/department/add";
         JSONObject jsonObject = new JSONObject();
@@ -42,36 +44,37 @@ public class DepartmentUtil {
         jsonObject.put("reimbursementRightId", reimbursementRightId);
         jsonObject.put("departmentQuota", departmentQuota);
         jsonObject.put("userId", userId);
+        jsonObject.put("deptLeaderId", deptLeaderId);
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         return reJson;
         //System.out.println(reJson);
     }
 
-    //更新一个部门
-    public static JSONObject updateDepartment(Integer departmentId, String departmentName) {
-//        Integer departmentId = 13;
-//        String departmentName = "车间管理";
-        String url = RootAddress + "yuanshensystem/department/update";
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("departmentId", departmentId);
-        jsonObject.put("departmentName", departmentName);
-
-        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
-        return reJson;
-    }
-
-    //删除一个部门
-    public static JSONObject deleteDepartment(Integer departmentId, Integer userId) {
-//        Integer departmentId = 10;
-//        Integer userId = 1;
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("departmentId", departmentId);
-        jsonObject.put("userId", userId);
-        String url = RootAddress + "yuanshensystem/department/delete";
-        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
-        return reJson;
-        //System.out.println(reJson);
-    }
+//    //更新一个部门
+//    public static JSONObject updateDepartment(Integer departmentId, String departmentName) {
+////        Integer departmentId = 13;
+////        String departmentName = "车间管理";
+//        String url = RootAddress + "yuanshensystem/department/update";
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("departmentId", departmentId);
+//        jsonObject.put("departmentName", departmentName);
+//
+//        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+//        return reJson;
+//    }
+//
+//    //删除一个部门
+//    public static JSONObject deleteDepartment(Integer departmentId, Integer userId) {
+////        Integer departmentId = 10;
+////        Integer userId = 1;
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("departmentId", departmentId);
+//        jsonObject.put("userId", userId);
+//        String url = RootAddress + "yuanshensystem/department/delete";
+//        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+//        return reJson;
+//        //System.out.println(reJson);
+//    }
 
     //查询单个部门
     public static JSONObject selectSingle(Integer departmentId, Integer userId) {
@@ -127,5 +130,45 @@ public class DepartmentUtil {
         //   List<ReimbursementRight> reimbursementRightList = JSONArray.parseArray(jsonArray.toJSONString(), ReimbursementRight.class);
 
     }
+
+
+    //查询公司的所有部门
+    public static JSONArray selectDeptUnderCompany(int userId) {
+        // Integer userId = 95;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId", userId);
+        String url = RootAddress + "yuanshensystem/department/selectdeptundercompany";
+        JSONArray jsonArray = JsonUtil.uploadJsonGetJsonArray(url, jsonObject);
+        return jsonArray;
+    }
+
+    //更新一个部门
+    public static JSONObject updateDepartment(int departmentId, String departmentName, int userId) {
+//        Integer departmentId = 53;
+//        String departmentName = "车间";
+//        Integer userId = 1;
+        String url = RootAddress + "yuanshensystem/department/update";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId", userId);
+
+        jsonObject.put("departmentId", departmentId);
+        jsonObject.put("departmentName", departmentName);
+
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        return reJson;
+    }
+
+    //删除一个部门
+    public static JSONObject deleteDepartment(int departmentId, int userId) {
+//        Integer departmentId = 53;
+//        Integer userId = 1;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("departmentId", departmentId);
+        jsonObject.put("userId", userId);
+        String url = RootAddress + "yuanshensystem/department/delete";
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        return reJson;
+    }
+
 
 }

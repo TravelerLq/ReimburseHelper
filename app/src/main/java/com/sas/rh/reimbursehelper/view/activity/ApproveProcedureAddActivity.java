@@ -18,10 +18,12 @@ import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.Bean.UserBean;
 import com.sas.rh.reimbursehelper.NetworkUtil.ApproveNumUtil;
 import com.sas.rh.reimbursehelper.R;
+import com.sas.rh.reimbursehelper.Sortlist.SortModel;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.TimePickerUtils;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
 import com.sas.rh.reimbursehelper.Util.ToastUtils;
+import com.sas.rh.reimbursehelper.newactivity.PersonSortActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -106,7 +108,9 @@ public class ApproveProcedureAddActivity extends BaseActivity {
                 break;
             case R.id.ll_approval_person:
                 // toActivity(baseContext,);
-                Intent intent = new Intent(baseContext, MembersManageActivity.class);
+                //  Intent intent = new Intent(baseContext, MembersManageActivity.class);
+                Intent intent = new Intent(baseContext, PersonSortActivity.class);
+                intent.putExtra("type", "3");
                 startActivityForResult(intent, REQUEST_PERSON_CODE);
                 break;
             case R.id.tv_sure:
@@ -127,12 +131,11 @@ public class ApproveProcedureAddActivity extends BaseActivity {
         if (requestCode == REQUEST_PERSON_CODE && resultCode == RESULT_OK) {
             Loger.e("---onActivityResult-----");
             Bundle bundle = data.getExtras();
-            UserBean userBean = (UserBean) bundle.getSerializable("user");
+            SortModel userBean = (SortModel) bundle.getSerializable("user");
             edtApprovalPerson.setText(userBean.getName());
             //此人(即审核人)的id
             approvalId = userBean.getUserId();
-
-            Loger.e(" approveProduAddUserId--"+approvalId);
+            Loger.e(" approveProduAddUserId--" + approvalId);
 
         }
     }
@@ -180,7 +183,7 @@ public class ApproveProcedureAddActivity extends BaseActivity {
 //        Byte approveNum = 3;
 //        //创建人id
 //        Integer userId = 3;
-                Loger.e("approvalId---"+approvalId);
+                Loger.e("approvalId---" + approvalId);
                 JSONObject jo = ApproveNumUtil.addApproveNum(approvalTitle, approvalId, approvalNoByte, userId);
                 if (jo != null) {
                     jsonobj = jo;

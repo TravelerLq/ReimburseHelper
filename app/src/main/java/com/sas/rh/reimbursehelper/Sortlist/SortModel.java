@@ -6,7 +6,7 @@ public class SortModel extends BaseBean {
 
     private String name;   //显示的数�?
     private String sortLetters;  //显示数据拼音的首字母
-    private int id;
+    private int userId;
 
     public String getName() {
         return name;
@@ -24,11 +24,11 @@ public class SortModel extends BaseBean {
         this.sortLetters = sortLetters;
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

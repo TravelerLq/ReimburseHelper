@@ -1,5 +1,6 @@
 package com.sas.rh.reimbursehelper.newactivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -18,8 +19,10 @@ import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.Bean.UserBean;
 import com.sas.rh.reimbursehelper.Bean.newbean.ApprovalSettingtBean;
 import com.sas.rh.reimbursehelper.Bean.newbean.DepartmentBean;
+import com.sas.rh.reimbursehelper.NetworkUtil.ApprovalUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.ApproveNumUtil;
 import com.sas.rh.reimbursehelper.R;
+import com.sas.rh.reimbursehelper.Sortlist.SortModel;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.TimePickerUtils;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
@@ -55,10 +58,10 @@ public class ApprovalEditorActivity extends BaseActivity {
             if (msg.what == 1) {
                 int status = jsonobj.getIntValue("status");
                 if (status == 200) {
-                    ToastUtils.show(baseContext, "配置成功！", ToastUtils.LENGTH_SHORT);
+                    ToastUtils.show(baseContext, "更新成功！", ToastUtils.LENGTH_SHORT);
                     finish();
                 } else {
-                    ToastUtils.show(baseContext, "配置失败，请重试！", ToastUtils.LENGTH_SHORT);
+                    ToastUtils.show(baseContext, "更新失败，请重试！", ToastUtils.LENGTH_SHORT);
                 }
             } else if (msg.what == 0) {
                 ToastUtil.showToast(baseContext, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
@@ -70,6 +73,8 @@ public class ApprovalEditorActivity extends BaseActivity {
     private Byte approvalNoByte;
     private String title;
     private String approval;
+    private int approverId;
+    private Context context;
 
     @Override
     protected int getLayoutId() {
@@ -88,15 +93,28 @@ public class ApprovalEditorActivity extends BaseActivity {
         ivBack = (ImageView) findViewById(R.id.iv_back);
         tvTitle = (TextView) findViewById(R.id.tv_bar_title);
         tvTitle.setText("编辑");
+
         sharedPreferencesUtil = new SharedPreferencesUtil(ApprovalEditorActivity.this);
         userId = sharedPreferencesUtil.getUidNum();
+        context = ApprovalEditorActivity.this;
         Loger.e("userId--" + userId);
         if (getIntent() != null) {
             ApprovalSettingtBean bean = (ApprovalSettingtBean) getIntent().getSerializableExtra("item");
-            title = bean.getDname();
-            approval = bean.getName();
+            // title
+            title = bean.getApproveNumName();
+            //审批人
+            approval = bean.getApproverName();
+            //审批item id
+            approvalId = bean.getApproveNumId();
+            //审批人ID
+            approverId = bean.getApproverId();
+            //审批级别
+            approvalNo = String.valueOf(bean.getApproverOrder());
+
             edtApprovalTitle.setText(title);
             edtApprovalPerson.setText(approval);
+            edtApprovalNum.setText(approvalNo);
+
 
         }
 
@@ -107,21 +125,25 @@ public class ApprovalEditorActivity extends BaseActivity {
         llApprovalNum.setOnClickListener(this);
         llApprovalPerson.setOnClickListener(this);
         tvSure.setOnClickListener(this);
+        ivBack.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_approval_num:
-                Resources res = getResources();
-                String[] status = res.getStringArray(R.array.approval_no);
-                List<String> allStatus = Arrays.asList(status);
-                TimePickerUtils.getInstance().onListDataPicker(this, allStatus, edtApprovalNum);
+//                Resources res = getResources();
+//                String[] status = res.getStringArray(R.array.approval_no);
+//                List<String> allStatus = Arrays.asList(status);
+//                TimePickerUtils.getInstance().onListDataPicker(this, allStatus, edtApprovalNum);
+                Toast.makeText(context, "不可修改", Toast.LENGTH_SHORT).show();
 
                 break;
             case R.id.ll_approval_person:
                 // toActivity(baseContext,);
-                Intent intent = new Intent(baseContext, MembersManageActivity.class);
+                //Intent intent = new Intent(baseContext, MembersManageActivity.class);
+                Intent intent = new Intent(baseContext, PersonSortActivity.class);
+                intent.putExtra("type", "2");
                 startActivityForResult(intent, REQUEST_PERSON_CODE);
                 break;
             case R.id.tv_sure:
@@ -141,11 +163,12 @@ public class ApprovalEditorActivity extends BaseActivity {
 
         if (requestCode == REQUEST_PERSON_CODE && resultCode == RESULT_OK) {
             Loger.e("---onActivityResult-----");
+            // 选择审批人
             Bundle bundle = data.getExtras();
-            UserBean userBean = (UserBean) bundle.getSerializable("user");
+            SortModel userBean = (SortModel) bundle.getSerializable("user");
             edtApprovalPerson.setText(userBean.getName());
             //此人(即审核人)的id
-            approvalId = userBean.getUserId();
+            approverId = userBean.getUserId();
 
             Loger.e(" approveProduAddUserId--" + approvalId);
 
@@ -174,10 +197,10 @@ public class ApprovalEditorActivity extends BaseActivity {
 //        approvalId = 1;
         approvalNoByte = Byte.valueOf(approvalNo);
 
-        submit();
+        update();
     }
 
-    private void submit() {
+    private void update() {
         new Thread(approvalProduceRunnable).start();
     }
 
@@ -196,7 +219,7 @@ public class ApprovalEditorActivity extends BaseActivity {
 //        //创建人id
 //        Integer userId = 3;
                 Loger.e("approvalId---" + approvalId);
-                JSONObject jo = ApproveNumUtil.addApproveNum(approvalTitle, approvalId, approvalNoByte, userId);
+                JSONObject jo = ApprovalUtil.updateApprove(approvalId, approvalTitle, approverId, userId);
                 if (jo != null) {
                     jsonobj = jo;
                     //  expenseId = jo.getIntValue("expenseId");

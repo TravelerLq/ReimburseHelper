@@ -123,8 +123,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //                        .setPreviewEnabled(false)
 //                        .setSelected(selectedPhotos)
 //                        .start(HomeFragment.this.getActivity());
-                // takePic(REQUEST_CODE_TAKE_PIC);
-                toActivity(HomeFragment.this.getActivity(), TestActivity.class);
+                takePic(REQUEST_CODE_TAKE_PIC);
+                // toActivity(HomeFragment.this.getActivity(), TestActivity.class);
                 break;
             case R.id.rl_my_approval:
                 //审批
