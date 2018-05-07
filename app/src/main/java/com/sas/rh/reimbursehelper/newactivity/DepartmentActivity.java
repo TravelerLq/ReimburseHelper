@@ -30,6 +30,7 @@ import com.sas.rh.reimbursehelper.NetworkUtil.DepartmentUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.PopupWindowUtil;
+import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
 import com.sas.rh.reimbursehelper.view.activity.BaseActivity;
 import com.sas.rh.reimbursehelper.view.activity.DepartmentsManageAddItemActivity;
@@ -53,11 +54,16 @@ public class DepartmentActivity extends BaseActivity {
     private PopupWindow mPopupWindow;
     private int selectPos;
     private JSONArray jsonresult;
+    private ProgressDialogUtil pdu = new ProgressDialogUtil(DepartmentActivity.this, "提示", "正在加载中");
+
     private Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
+                if (pdu.getMypDialog().isShowing()) {
+                    pdu.dismisspd();
+                }
                 List<DepartmentBean> list = JSONArray.parseArray(jsonresult.toJSONString(), DepartmentBean.class);
                 if (list.size() == 0) {
                     ToastUtil.showToast(context, "暂无数据", Toast.LENGTH_SHORT);
@@ -66,16 +72,29 @@ public class DepartmentActivity extends BaseActivity {
                 beanList.addAll(list);
                 adapter.notifyDataSetChanged();
             } else if (msg.what == 2) {
+
                 int status = jsonObjectDelete.getIntValue("status");
                 if (status == 200) {
                     ToastUtil.showToast(context, "删除成功", Toast.LENGTH_SHORT);
                     beanList.remove(selectPos);
                     adapter.notifyDataSetChanged();
+                    getData();
 
                 } else {
                     ToastUtil.showToast(context, "删除失败", Toast.LENGTH_SHORT);
                 }
+            } else if (msg.what == 0) {
+                if (pdu.getMypDialog().isShowing()) {
+                    pdu.dismisspd();
+                }
+                ToastUtil.showToast(context, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
+            } else if (msg.what == -1) {
+                if (pdu.getMypDialog().isShowing()) {
+                    pdu.dismisspd();
+                }
+                ToastUtil.showToast(context, "通信模块异常！", Toast.LENGTH_LONG);
             }
+
         }
     };
     private SharedPreferencesUtil spu;
@@ -93,7 +112,7 @@ public class DepartmentActivity extends BaseActivity {
         context = DepartmentActivity.this;
         spu = new SharedPreferencesUtil(context);
         beanList = new ArrayList<>();
-        initTestData();
+        // initTestData();
         tvTilte = (TextView) findViewById(R.id.tv_bar_title);
         ivBack = (ImageView) findViewById(R.id.iv_back);
         ivAdd = (ImageView) findViewById(R.id.iv_add);
@@ -109,6 +128,16 @@ public class DepartmentActivity extends BaseActivity {
             @Override
             public void OnItemClick(View view, int pos) {
                 Loger.e("--------departmentItemclick-");
+                DepartmentBean bean = beanList.get(pos);
+
+                //edit...
+                Bundle bundle = new Bundle();
+                // DepartmentBean bean = beanList.get(pos);
+                bundle.putSerializable("item", bean);
+                Intent intent = new Intent(context, DepartDetailActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
             }
 
             @Override
@@ -120,10 +149,12 @@ public class DepartmentActivity extends BaseActivity {
             }
         });
 
-        getData();
+//        getData();
     }
 
     private void getData() {
+
+        pdu.showpd();
         new Thread(getDepartmentRunnable).start();
     }
 
@@ -186,8 +217,8 @@ public class DepartmentActivity extends BaseActivity {
                 } else {
                     //delete...
                     deleteData();
-                    beanList.remove(pos);
-                    adapter.notifyDataSetChanged();
+//                    beanList.remove(pos);
+//                    adapter.notifyDataSetChanged();
                 }
                 mPopupWindow.dismiss();
             }

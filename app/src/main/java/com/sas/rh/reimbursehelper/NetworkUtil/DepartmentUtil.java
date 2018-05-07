@@ -143,16 +143,27 @@ public class DepartmentUtil {
     }
 
     //更新一个部门
-    public static JSONObject updateDepartment(int departmentId, String departmentName, int userId) {
+    public static JSONObject updateDepartment(int departmentId, String departmentName,
+                                              int userId, byte reimbursementRightId,
+                                              Double departmentQuota, int deptLeaderId) {
 //        Integer departmentId = 53;
 //        String departmentName = "车间";
 //        Integer userId = 1;
+
+        //部门的报销权限id
+        // Byte reimbursementRightId = 1;
+        //部门限额
+        //   Double departmentQuota = 1000044.00;
+
         String url = RootAddress + "yuanshensystem/department/update";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("userId", userId);
-
         jsonObject.put("departmentId", departmentId);
         jsonObject.put("departmentName", departmentName);
+        jsonObject.put("reimbursementRightId", reimbursementRightId);
+        jsonObject.put("departmentQuota", departmentQuota);
+        jsonObject.put("deptLeaderId", deptLeaderId);
+
 
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         return reJson;

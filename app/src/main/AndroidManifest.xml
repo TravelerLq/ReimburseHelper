@@ -131,6 +131,7 @@
         <activity android:name=".newactivity.EditDepartActivity"></activity>
         <activity android:name=".newactivity.ApprovalSettingActivity"></activity>
         <activity android:name=".newactivity.ApprovalEditorActivity"></activity>
+        <activity android:name=".newactivity.DepartDetailActivity"></activity>
         <!--a-z排序人员列表-->
         <activity android:name=".newactivity.PersonSortActivity"></activity>
     </application>

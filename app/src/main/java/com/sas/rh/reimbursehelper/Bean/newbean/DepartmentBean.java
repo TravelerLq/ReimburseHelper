@@ -8,19 +8,26 @@ import com.sas.rh.reimbursehelper.Bean.BaseBean;
 
 public class DepartmentBean extends BaseBean {
 
+
     /**
-     * departmentId : 52
-     * departmentName : 销售部
+     * departmentId : 55
+     * departmentName : 生产部
+     * departmentQuota : 1000
      * deptLeaderId : 54
      * deptLeaderName : 王朕
-     * numberOfEmployees : 1
+     * numberOfEmployees : 0
+     * reimbursementRightId : 3
+     * reimbursementRightName : 制造类费用
      */
 
     private int departmentId;
     private String departmentName;
+    private String departmentQuota;
     private int deptLeaderId;
     private String deptLeaderName;
     private int numberOfEmployees;
+    private int reimbursementRightId;
+    private String reimbursementRightName;
 
     public int getDepartmentId() {
         return departmentId;
@@ -36,6 +43,14 @@ public class DepartmentBean extends BaseBean {
 
     public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
+    }
+
+    public String getDepartmentQuota() {
+        return departmentQuota;
+    }
+
+    public void setDepartmentQuota(String departmentQuota) {
+        this.departmentQuota = departmentQuota;
     }
 
     public int getDeptLeaderId() {
@@ -60,5 +75,21 @@ public class DepartmentBean extends BaseBean {
 
     public void setNumberOfEmployees(int numberOfEmployees) {
         this.numberOfEmployees = numberOfEmployees;
+    }
+
+    public int getReimbursementRightId() {
+        return reimbursementRightId;
+    }
+
+    public void setReimbursementRightId(int reimbursementRightId) {
+        this.reimbursementRightId = reimbursementRightId;
+    }
+
+    public String getReimbursementRightName() {
+        return reimbursementRightName;
+    }
+
+    public void setReimbursementRightName(String reimbursementRightName) {
+        this.reimbursementRightName = reimbursementRightName;
     }
 }

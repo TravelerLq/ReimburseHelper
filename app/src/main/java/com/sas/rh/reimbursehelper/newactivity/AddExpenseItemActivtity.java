@@ -37,6 +37,7 @@ import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.Util.TimePickerUtils;
 import com.sas.rh.reimbursehelper.Util.TimeUtils;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
+import com.sas.rh.reimbursehelper.view.activity.AddBaoxiaojizhuActivity;
 import com.sas.rh.reimbursehelper.view.activity.AddExpenseActivity;
 import com.sas.rh.reimbursehelper.view.activity.BaseActivity;
 import com.sas.rh.reimbursehelper.widget.CountEditText;
@@ -173,6 +174,11 @@ public class AddExpenseItemActivtity extends BaseActivity {
                     remarkStr = jsonRemark.getString("remark");
                     countEditText.setEtHint(remarkStr);
                 }
+            }
+            else if (msg.what == 0) {
+                ToastUtil.showToast(context, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
+            } else if (msg.what == -1) {
+                ToastUtil.showToast(context, "通信模块异常！", Toast.LENGTH_LONG);
             }
         }
     };

@@ -73,7 +73,8 @@ public class ApprovalSettingActivity extends BaseActivity {
                 if (status == 200) {
                     ToastUtil.showToast(context, "删除成功", Toast.LENGTH_SHORT);
                     beanList.remove(selectPos);
-                   adapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
+                    getData();
 
                 } else {
                     ToastUtil.showToast(context, "删除失败", Toast.LENGTH_SHORT);
