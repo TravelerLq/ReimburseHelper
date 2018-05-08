@@ -56,6 +56,9 @@ public class ExpenseItemListActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
+                if (pdu.getMypDialog().isShowing()) {
+                    pdu.dismisspd();
+                }
                 Loger.e("---handler-msg");
                 List<ExpenseItemBean> singleReimbursementList = JSONArray.parseArray(jaResult.toJSONString(), ExpenseItemBean.class);
                 for (int i = 0; i < singleReimbursementList.size(); i++) {
@@ -174,6 +177,8 @@ public class ExpenseItemListActivity extends BaseActivity {
     }
 
     private void getExpenseItem() {
+        pdu.showpd();
+
         new Thread(GetExpenseItemRunable).start();
     }
 

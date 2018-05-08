@@ -28,6 +28,7 @@ import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
+import com.sas.rh.reimbursehelper.view.activity.AddBaoxiaojizhuActivity;
 import com.sas.rh.reimbursehelper.view.activity.BaseActivity;
 import com.sas.rh.reimbursehelper.view.activity.MainActivity;
 import com.sas.rh.reimbursehelper.view.activity.RegFirstStepActivity;
@@ -88,12 +89,12 @@ public class RegCertActivity extends BaseActivity {
                         userId = jsonresult.getIntValue("userId");
                         Loger.e("RegCert--userId" + userId);
                         spu.writeUserId(String.valueOf(userId));
+                        spu.setIdNo(edtIdNoStr);
                         spu.setTel(edtTelStr);
                         startActivity(intent);
                         finish();
                         break;
                     case 204:
-
                         int size = store.getAllCertificateList().size();
                         Loger.e("--certSize()=" + size);
                         if (size > 0) {
@@ -102,6 +103,10 @@ public class RegCertActivity extends BaseActivity {
                         Toast.makeText(context, "请重新申请证书", Toast.LENGTH_SHORT).show();
                         break;
                     case 205:
+                        userId = jsonresult.getIntValue("userId");
+                        Loger.e("RegCert--userId" + userId);
+                        spu.writeUserId(String.valueOf(userId));
+                        spu.setIdNo(edtIdNoStr);
                         //去注册
                         intent = new Intent(context, NewRegisterActivity.class);
                         intent.putExtra("id", edtIdNoStr);
@@ -112,10 +117,15 @@ public class RegCertActivity extends BaseActivity {
                         finish();
                         break;
                     default:
+                        Toast.makeText(context, "失败，请重试", Toast.LENGTH_SHORT).show();
                         break;
                 }
 
 
+            } else if (msg.what == 0) {
+                ToastUtil.showToast(context, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
+            } else if (msg.what == -1) {
+                ToastUtil.showToast(context, "通信模块异常！", Toast.LENGTH_LONG);
             }
         }
     };
@@ -167,7 +177,7 @@ public class RegCertActivity extends BaseActivity {
         userId = spu.getUidNum();
         onlineClient = new OnlineClient(CertServiceUrl.baseUrl, CertServiceUrl.appKey, CertServiceUrl.appSecret);
 
-        initTestData1();
+        // initTestData2();
     }
 
     private void initTestData() {
@@ -180,6 +190,12 @@ public class RegCertActivity extends BaseActivity {
         edtTel.setText("18205188981");
         edtName.setText("王朕");
         edtIdNo.setText("320113199407266410");
+    }
+
+    private void initTestData2() {
+        edtTel.setText("15195885200");
+        edtName.setText("陈艺");
+        edtIdNo.setText("321281199608227293");
     }
 
 
@@ -311,6 +327,9 @@ public class RegCertActivity extends BaseActivity {
 
             certificateRegisterService.register(edtNameStr, edtIdNoStr, edtTelStr, "1234", null);
         } catch (Exception e) {
+            if (pdu.getMypDialog().isShowing()) {
+                pdu.dismisspd();
+            }
             ToastUtil.showToast(RegCertActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT);
             e.printStackTrace();
         }

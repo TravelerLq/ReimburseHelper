@@ -74,6 +74,46 @@ public class SharedPreferencesUtil {
         return key;
     }
 
+    public void setCompName(String key) {
+        editor.putString("compName", key);
+        editor.commit();
+    }
+
+    public String getCompName() {
+        String key = userSettings.getString("compName", null);
+        Log.e("compName=", "" + key);
+        if (TextUtils.isEmpty(key)) {
+            return null;
+        }
+        return key;
+    }
+
+    public void setRole(String key) {
+        editor.putString("role", key);
+        editor.commit();
+    }
+
+    public String getRole() {
+        String key = userSettings.getString("role", null);
+        Log.e("role=", "" + key);
+        if (TextUtils.isEmpty(key)) {
+            return null;
+        }
+        return key;
+    }
+    public void setRoleType(String key) {
+        editor.putString("roleType", key);
+        editor.commit();
+    }
+
+    public String getRoleType() {
+        String key = userSettings.getString("roleType", null);
+        Log.e("roleType=", "" + key);
+        if (TextUtils.isEmpty(key)) {
+            return null;
+        }
+        return key;
+    }
 
     public void setPdfFile(String path) {
         editor.putString("path", path);
@@ -114,6 +154,34 @@ public class SharedPreferencesUtil {
     public String getTel() {
         String key = userSettings.getString("tel", null);
         Log.e("tel=", "" + key);
+        if (TextUtils.isEmpty(key)) {
+            return null;
+        }
+        return key;
+    }
+
+    public void setIdNo(String key) {
+        editor.putString("idNo", key);
+        editor.commit();
+    }
+
+    public String getIdNo() {
+        String key = userSettings.getString("idNo", null);
+        Log.e("idNo=", "" + key);
+        if (TextUtils.isEmpty(key)) {
+            return null;
+        }
+        return key;
+    }
+
+    public void setName(String key) {
+        editor.putString("name", key);
+        editor.commit();
+    }
+
+    public String getName() {
+        String key = userSettings.getString("name", null);
+        Log.e("name=", "" + key);
         if (TextUtils.isEmpty(key)) {
             return null;
         }

@@ -170,7 +170,7 @@ public class SingleReimbursementUtil {
     }
 
     //签名证书 以json传入 针对pdf
-    public static JSONObject signJsonStrPdf(String data, String cert, String key, String name, int index, int formId) {
+    public static JSONObject signJsonStrPdf(int userId,String data, String cert, String key, String name, int index, int formId) {
         JSONObject signText = new JSONObject();
         //待签名的文档内容
         String doc = data;
@@ -178,6 +178,7 @@ public class SingleReimbursementUtil {
         signText.put("doc", doc);
         signText.put("formId", formId);
         signText.put("name", name);
+        signText.put("userId",userId);
         Loger.e("name--" + name);
         JSONArray signatures = new JSONArray();
         //第一个签名需要存储的内容

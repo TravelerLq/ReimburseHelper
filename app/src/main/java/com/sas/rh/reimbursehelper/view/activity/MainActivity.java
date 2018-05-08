@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import java.util.List;
 import cn.com.syan.spark.client.sdk.SparkApplication;
 import cn.unitid.spark.cm.sdk.business.CBSCertificateStore;
 import cn.unitid.spark.cm.sdk.data.entity.Certificate;
+import io.github.leibnik.wechatradiobar.WeChatRadioButton;
 import io.github.leibnik.wechatradiobar.WeChatRadioGroup;
 
 
@@ -44,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
     private Intent serviceIntenta;
     private LinearLayout ll_log_out;
     private SharedPreferencesUtil spu;
+    private String type;
+    private DemoPagerAdapter demoPagerAdapter;
+    private WeChatRadioButton radioButton;
+    private WeChatRadioButton rbMsg, rbCompany;
+    private String role;
 
 
     @Override
@@ -51,24 +58,59 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         spu = new SharedPreferencesUtil(MainActivity.this);
         setContentView(R.layout.activity_main);
+        rbMsg = (WeChatRadioButton) findViewById(R.id.rb_msg);
+        rbCompany = (WeChatRadioButton) findViewById(R.id.rb_company);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         gradualRadioGroup = (WeChatRadioGroup) findViewById(R.id.radiogroup);
 
+        //  initService();
         List<Fragment> list = new ArrayList<Fragment>();
         // list.add(new HomepageFragment());
         list.add(new HomeFragment());
-        list.add(new SelectViewExpenseFragment());
-        //list.add(new MessageFragment());
-        list.add(new CountFragment());
-        list.add(new EnterpriseFragment());
-        viewPager.setAdapter(new DemoPagerAdapter(getSupportFragmentManager(), list));
+        // list.add(new SelectViewExpenseFragment());
+        list.add(new MessageFragment());
+
+        role = getIntent().getStringExtra("data");
+        role = spu.getRole();
+        Loger.e("---spu.getrole==" + role);
+        //2 公司领导层 3.
+        if (role != null) {
+            Loger.e("role---" + role);
+            if (role.equals("2")) {
+                rbCompany.setVisibility(View.VISIBLE);
+                list.add(new EnterpriseFragment());
+
+            } else {
+                rbCompany.setVisibility(View.GONE);
+            }
+
+        }
+
+
+        // list.add(new CountFragment());
+
+        demoPagerAdapter = new DemoPagerAdapter(getSupportFragmentManager(), list);
+        viewPager.setAdapter(demoPagerAdapter);
         gradualRadioGroup.setViewPager(viewPager);
         //初始Application
+
+        if (getIntent() != null) {
+
+            type = getIntent().getStringExtra("type");
+            if (type != null && type.equals("service")) {
+                Loger.e("type---" + type);
+                viewPager.setCurrentItem(1);
+                setClickedViewChecked(1, gradualRadioGroup);
+
+            } else {
+
+            }
+
+        }
         SparkApplication.init(getApplication());
         CBSCertificateStore store = CBSCertificateStore.getInstance();
         //查询本地库证书列表,没注册则注册一张
         certificateArrayList = store.getAllCertificateList();
-
         if (certificateArrayList.size() == 0) {
             //  Intent it = new Intent(MainActivity.this, RegFirstStepActivity.class);   Intent it
             Intent it = null;
@@ -87,6 +129,19 @@ public class MainActivity extends AppCompatActivity {
             Loger.e("certificateArrayList.get(0).getId()=" + certificateArrayList.get(0).getId());
         }
 
+    }
+
+    private void setClickedViewChecked(int position, WeChatRadioGroup radioGroup) {
+        for (int i = 0; i < radioGroup.getChildCount(); ++i) {
+            ((WeChatRadioButton) radioGroup.getChildAt(i)).setRadioButtonChecked(false);
+        }
+
+        ((WeChatRadioButton) radioGroup.getChildAt(position)).setRadioButtonChecked(true);
+    }
+
+    private void initService() {
+        serviceIntenta = new Intent(MainActivity.this, NoticeMsgService.class);
+        startService(serviceIntenta);
     }
 
 //    @Override
@@ -132,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             return mData.size();
         }
+
+
     }
 
 
@@ -153,5 +210,16 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //  stopService(serviceIntenta);
     }
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.sas.rh.reimbursehelper.Bean.newbean.ApprovalAllDetailBean;
 import com.sas.rh.reimbursehelper.Bean.newbean.ExpenseItemBean;
 import com.sas.rh.reimbursehelper.R;
+import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.newactivity.ViewImageActivity;
 
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class ApprovalDetailRecycleAdapter extends RecyclerView.Adapter<ApprovalD
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MyViewHolder myViewHolder = null;
         if (myViewHolder == null) {
-            myViewHolder = new MyViewHolder(inflater.inflate(R.layout.item_expense, parent, false));
+            myViewHolder = new MyViewHolder(inflater.inflate(R.layout.item_approval_detail, parent, false));
 
         }
         return myViewHolder;
@@ -83,7 +84,12 @@ public class ApprovalDetailRecycleAdapter extends RecyclerView.Adapter<ApprovalD
                 holder.tvType.setText(bean.getName());
                 holder.rlItem.setTag(position);
                 holder.ivPic.setTag(position);
-                holder.ivPic.setImageBitmap(listBitmap.get(position));
+                if (listBitmap.size() == 0) {
+                    Loger.e("listmap.size()==000");
+                } else {
+                    holder.ivPic.setImageBitmap(listBitmap.get(position));
+                }
+
                 holder.ivPic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

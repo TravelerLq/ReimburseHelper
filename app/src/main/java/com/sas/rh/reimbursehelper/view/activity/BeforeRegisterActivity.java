@@ -57,7 +57,7 @@ public class BeforeRegisterActivity extends BaseActivity {
                     ToastUtil.showToast(BeforeRegisterActivity.this, "加入公司成功！", Toast.LENGTH_SHORT);
                     sharedPreferencesUtil.writeUserId(String.valueOf(userId));
                     int usId = sharedPreferencesUtil.getUidNum();
-                    Loger.e("---userid=" + usId);
+                    Loger.e("getShareCode---userid=" + usId);
                     // toActivity(RegCertActivity.this,MainActivity.class);
                     Intent intent = new Intent(BeforeRegisterActivity.this, RegCertActivity.class);
                     // intent.putExtra("id",)
@@ -80,7 +80,6 @@ public class BeforeRegisterActivity extends BaseActivity {
     protected void initData() {
         sharedPreferencesUtil = new SharedPreferencesUtil(BeforeRegisterActivity.this);
      //   userId = sharedPreferencesUtil.getUidNum();
-
         ivBack = (ImageView) findViewById(R.id.iv_back);
         tvTitle = (TextView) findViewById(R.id.tv_bar_title);
         tvRegister = (TextView) findViewById(R.id.tv_before_register);

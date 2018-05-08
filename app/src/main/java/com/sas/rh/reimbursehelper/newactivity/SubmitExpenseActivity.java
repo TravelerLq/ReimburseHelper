@@ -350,7 +350,7 @@ public class SubmitExpenseActivity extends BaseActivity {
             Log.e("signPath--", "--" + signPath);
             try {
 
-                JSONObject jo = SingleReimbursementUtil.signJsonStrPdf(base64Code, spu.getCert(), spu.getKey(), signPath, index, formId);
+                JSONObject jo = SingleReimbursementUtil.signJsonStrPdf(spu.getUidNum(), base64Code, spu.getCert(), spu.getKey(), signPath, index, formId);
                 if (jo != null) {
                     jsonobj = jo;
                     handler.sendEmptyMessage(3);

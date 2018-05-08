@@ -20,6 +20,7 @@ import com.sas.rh.reimbursehelper.NetworkUtil.VerifyCertUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.view.activity.BaseActivity;
+import com.sas.rh.reimbursehelper.view.activity.EnterpriseDetailActivity;
 import com.sas.rh.reimbursehelper.view.activity.MainActivity;
 
 
@@ -35,6 +36,10 @@ public class NewRegisterActivity extends BaseActivity {
     private Context context;
     private int userId;
     private JSONObject jsonresult;
+    private String account;
+    private String psw;
+    private String tel;
+    private String idNo;
 
     private Handler handler = new Handler() {
         @Override
@@ -42,11 +47,23 @@ public class NewRegisterActivity extends BaseActivity {
             if (msg.what == 1) {
                 int status = jsonresult.getIntValue("status");
                 if (status == 200) {
-                    Intent intent = new Intent(context, NewLoginActivity.class);
-                    // intent.putExtra("id", edtIdNoStr);
-                    intent.putExtra("tel", tel);
-                    startActivity(intent);
-                    Toast.makeText(context, "注册成功，去登陆", Toast.LENGTH_SHORT).show();
+                    String roleType = spu.getRoleType();
+                    Loger.e("---getRoleType" + roleType);
+                    if (roleType != null && roleType.equals("0")) {
+                        //选择公司进入的，注册成功后－去注册公司 －登录
+                        Intent intent = new Intent(context, EnterpriseDetailActivity.class);
+                        // intent.putExtra("id", edtIdNoStr);
+                        intent.putExtra("tel", tel);
+                        startActivity(intent);
+                        Toast.makeText(context, "注册成功，去登陆", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(context, NewLoginActivity.class);
+                        // intent.putExtra("id", edtIdNoStr);
+                        intent.putExtra("tel", tel);
+                        startActivity(intent);
+                        Toast.makeText(context, "注册成功，去登陆", Toast.LENGTH_SHORT).show();
+                    }
+
                     //  toActivity(context, NewLoginActivity.class);
                 } else {
                     // 证书注册时，已经知道是没有注册过的用户，所以，这里只有注册失败，则重新注册！
@@ -55,10 +72,7 @@ public class NewRegisterActivity extends BaseActivity {
             }
         }
     };
-    private String account;
-    private String psw;
-    private String tel;
-    private String idNo;
+
 
     @Override
     protected int getLayoutId() {
@@ -69,6 +83,7 @@ public class NewRegisterActivity extends BaseActivity {
     protected void initData() {
         context = NewRegisterActivity.this;
         spu = new SharedPreferencesUtil(context);
+        Loger.e("---new Register--" + idNo);
         tvTilte = (TextView) findViewById(R.id.tv_bar_title);
         ivBack = (ImageView) findViewById(R.id.iv_back);
         edtAccount = (EditText) findViewById(R.id.edt_account);
@@ -80,13 +95,14 @@ public class NewRegisterActivity extends BaseActivity {
 //        intent.putExtra("tel", edtTelStr);
         if (getIntent() != null) {
             //  tel = getIntent().getStringExtra("tel");
-            idNo = getIntent().getStringExtra("id");
+            // idNo = getIntent().getStringExtra("id");
         }
         spu = new SharedPreferencesUtil(context);
         userId = spu.getUidNum();
         tel = spu.getTel();
+        idNo = spu.getIdNo();
 
-        Loger.e("register--userId" + userId + "tel--" + tel);
+        Loger.e("register--userId" + userId + "tel--" + tel + "idNo--" + idNo);
     }
 
     @Override
@@ -143,7 +159,7 @@ public class NewRegisterActivity extends BaseActivity {
         public void run() {
 
             try {
-                JSONObject jsonObject = UserUtil.register(userId, psw, tel);
+                JSONObject jsonObject = UserUtil.register(userId, psw, idNo);
                 if (jsonObject != null) {
                     jsonresult = jsonObject;
                     handler.sendEmptyMessage(1);

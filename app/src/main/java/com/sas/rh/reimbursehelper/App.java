@@ -44,6 +44,7 @@ public class App extends Application {
         super.onCreate();
         instance = this;
 //        Logger.init();
+       // intService();
         initGson();
         if (!Utils.isNetworkAvailable(mContext)) {
             Toast.makeText(mContext, "当前网络不可用，请连接网络！", Toast.LENGTH_SHORT).show();
@@ -51,6 +52,11 @@ public class App extends Application {
         initReservoir();
 //        PushManager.getInstance().initialize(getApplicationContext(), GPushService.class);
 //        PushManager.getInstance().registerPushIntentService(getApplicationContext(), GIntentService.class);
+    }
+
+    private void intService() {
+        serviceIntenta = new Intent(this.mContext, NoticeMsgService.class);
+        startService(serviceIntenta);
     }
 
     private void initReservoir() {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_item_notice"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/bg_recycle"
@@ -17,63 +18,52 @@
         android:paddingTop="@dimen/dimen_13">
 
         <TextView
-            android:id="@+id/tv_money_title"
+            android:id="@+id/tv_notice_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_50"
-            android:text="报销金额" />
+            android:layout_above="@+id/imageView9"
+            android:layout_marginStart="24dp"
+            android:layout_toEndOf="@+id/imageView9"
+            android:text="title" />
 
         <TextView
-            android:id="@+id/tv_expense_time"
+            android:id="@+id/tv_notice_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/tv_notice_content"
+            android:layout_alignEnd="@+id/tv_state"
             android:text="2018-01-21" />
 
         <TextView
-            android:id="@+id/tv_money"
+            android:id="@+id/tv_notice_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_money_title"
-            android:layout_marginLeft="@dimen/dimen_50"
-            android:layout_marginTop="@dimen/dimen_15"
-            android:text="¥23.30"
+            android:layout_alignStart="@+id/tv_notice_title"
+            android:layout_below="@+id/tv_notice_title"
+            android:layout_marginTop="22dp"
+            android:text="testMsgContent"
             android:textSize="@dimen/big_text_size" />
 
-        <ImageView
-            android:id="@+id/iv_type_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="61dp"
-            android:visibility="gone"
-            android:src="@drawable/expense_type_grey" />
 
         <TextView
-            android:id="@+id/tv_expense_category"
+            android:id="@+id/tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:text="交通服务" />
+            android:layout_below="@+id/tv_notice_title"
+            android:layout_marginEnd="8dp"
+            android:text="未读" />
 
         <ImageView
             android:id="@+id/imageView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/tv_money"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
             android:src="@drawable/ic_remark" />
 
-        <TextView
-            android:id="@+id/tv_explain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imageView9"
-            android:layout_marginLeft="@dimen/dimen_2"
-            android:layout_toRightOf="@+id/imageView9"
-            android:text="说明加班打车报销" />
+
 
         <ImageView
             android:layout_width="wrap_content"
@@ -84,14 +74,6 @@
             android:visibility="gone"
             android:src="@drawable/check_blue" />
 
-        <ImageView
-            android:id="@+id/iv_expense_item_pic"
-            android:layout_width="@dimen/dimen_50"
-            android:layout_height="@dimen/dimen_50"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/tv_expense_time"
-            android:visibility="gone"
-            android:src="@drawable/ic_rmb_blue" />
     </RelativeLayout>
 
     <TextView
@@ -99,4 +81,4 @@
         android:layout_height="@dimen/dimen_8"
         android:background="@color/bg_recycle" />
 
-</LinearLayout>
+</RelativeLayout>

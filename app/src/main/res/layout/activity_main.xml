@@ -27,6 +27,7 @@
             app:focus_icon="@mipmap/index2" />
 
         <io.github.leibnik.wechatradiobar.WeChatRadioButton
+            android:id="@+id/rb_msg"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -35,7 +36,7 @@
             android:text="消息"
             android:textColor="#555"
             android:textSize="13sp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:defocus_icon="@mipmap/message1"
             app:focus_color="#1882CE"
             app:focus_icon="@mipmap/message2" />
@@ -47,6 +48,7 @@
             android:gravity="center"
             android:paddingTop="3dp"
             android:text="数据"
+            android:visibility="gone"
             android:textColor="#555"
             android:textSize="13sp"
             app:defocus_icon="@mipmap/statistics_bottom"
@@ -54,6 +56,7 @@
             app:focus_icon="@mipmap/statistics_bottoms" />
 
         <io.github.leibnik.wechatradiobar.WeChatRadioButton
+            android:id="@+id/rb_company"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

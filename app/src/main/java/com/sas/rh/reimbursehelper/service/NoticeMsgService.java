@@ -20,7 +20,10 @@ import com.sas.rh.reimbursehelper.NetworkUtil.CompanyUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.constant.Constant;
+import com.sas.rh.reimbursehelper.fragment.MessageFragment;
+import com.sas.rh.reimbursehelper.newactivity.EditDepartActivity;
 import com.sas.rh.reimbursehelper.view.activity.ApplicantActivity;
+import com.sas.rh.reimbursehelper.view.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +107,7 @@ public class NoticeMsgService extends Service {
      */
     private void getUnreadMsg() {
 
-//        List<UnreadNoticeBean> unreadNoticeBeanList = new ArrayList<>();
+        List<UnreadNoticeBean> unreadNoticeBeanList = new ArrayList<>();
 //        unreadNoticeBeanList.add(0, new UnreadNoticeBean("消息", "申请加入公司"));
 //        handleMsg("消息标题", unreadNoticeBeanList);
 //        new MsgModel().getUnreadMsg(new MsgModel.OnUnReadMsgListener() {
@@ -135,7 +138,7 @@ public class NoticeMsgService extends Service {
         public void run() {
 
             try {
-                JSONArray jsonArray = CompanyUtil.getMsg(sharedPreferencesUtil.getUidNum());
+                JSONArray jsonArray = CompanyUtil.getNotice(sharedPreferencesUtil.getUidNum());
                 if (jsonArray != null) {
                     jsonArray1 = jsonArray;
                     //  expenseId = jo.getIntValue("expenseId");
@@ -178,15 +181,16 @@ public class NoticeMsgService extends Service {
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(getApplicationContext());
         //跳转意图
-        Intent intent = new Intent(this, ApplicantActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("type","service");
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
         //通知栏显示内容
-        builder.setTicker(unreadNoticeBeanList.get(0).getTitle());
+        builder.setTicker(unreadNoticeBeanList.get(0).getContent());
         //通知栏消息下拉时显示的标题
         builder.setContentTitle(unreadNoticeBeanList.get(0).getTitle());
         //通知消息下拉是显示的文本内容
-        builder.setContentText(unreadNoticeBeanList.get(0).getTitle());
+        builder.setContentText(unreadNoticeBeanList.get(0).getContent());
         //接收到通知时，按手机的默认设置进行处理，声音，震动，灯
         builder.setDefaults(Notification.DEFAULT_ALL);
         //通知栏显示图标

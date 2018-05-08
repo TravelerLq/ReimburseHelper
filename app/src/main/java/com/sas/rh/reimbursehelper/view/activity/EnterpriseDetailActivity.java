@@ -18,9 +18,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.sas.rh.reimbursehelper.Bean.EnterpriseDetailInfoEntity;
 import com.sas.rh.reimbursehelper.NetworkUtil.CompanyUtil;
 import com.sas.rh.reimbursehelper.R;
+import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.Util.ProgressDialogUtil;
 import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.Util.ToastUtil;
+import com.sas.rh.reimbursehelper.newactivity.NewLoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,11 +62,21 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
 //                }
                 if (jsonresult.getIntValue("status") == 200) {
                     Toast.makeText(EnterpriseDetailActivity.this, "公司注册成功", Toast.LENGTH_SHORT).show();
-                    String compnyId = String.valueOf(jsonresult.getIntValue("companyId"));
-
+                    compnyId = String.valueOf(jsonresult.getIntValue("companyId"));
+                    Loger.e("---companyId==" + compnyId + "compNmae==" + compName);
+                    spu.setCompName(compName);
                     spu.writeCompanyId(compnyId);
                     // 成功后 去关联 userId
-                    relateWithUser();
+                    //   relateWithUser();
+                    Intent intent = null;
+                    if (spu.getRoleType().equals("0")) {
+                        intent = new Intent(EnterpriseDetailActivity.this, NewLoginActivity.class);
+                    } else {
+                        intent = new Intent(EnterpriseDetailActivity.this, MainActivity.class);
+                    }
+
+                    startActivity(intent);
+                    finish();
 
 
                 } else {
@@ -75,7 +87,13 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
                 int status = jsonresult.getIntValue("status");
                 if (status == 200) {
                     Toast.makeText(EnterpriseDetailActivity.this, "企业用户关联成功", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(EnterpriseDetailActivity.this, MainActivity.class);
+                    Intent intent = null;
+                    if (spu.getRoleType().equals("0")) {
+                        intent = new Intent(EnterpriseDetailActivity.this, NewLoginActivity.class);
+                    } else {
+                        intent = new Intent(EnterpriseDetailActivity.this, MainActivity.class);
+                    }
+
                     startActivity(intent);
                     finish();
 
@@ -90,7 +108,8 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
         }
 
     };
-
+    private String compnyId;
+    private String compName;
 
 
     @Override
@@ -132,7 +151,7 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
         editandsavebt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // initTestData();
+                // initTestData();
                 CreateCompanyInfo();
             }
         });
@@ -260,6 +279,7 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
     }
 
     private void CreateCompanyInfo() {
+        compName = cname.getText().toString().trim();
 
         if (cname.getText().toString().trim().equals("")) {
             ToastUtil.showToast(EnterpriseDetailActivity.this, "请填写公司名称", Toast.LENGTH_LONG);

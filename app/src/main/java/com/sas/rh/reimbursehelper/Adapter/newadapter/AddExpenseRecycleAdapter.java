@@ -64,7 +64,7 @@ public class AddExpenseRecycleAdapter extends RecyclerView.Adapter<AddExpenseRec
                 Log.e("holder.tvTitle", "null");
             } else {
 
-                holder.tvFee.setText(bean.getMoney());
+                holder.tvFee.setText("¥" + bean.getMoney());
                 holder.tvExplain.setText(bean.getRemark());
                 holder.tvDate.setText(bean.getDate());
                 holder.tvType.setText(bean.getName());

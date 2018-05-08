@@ -29,8 +29,9 @@ import java.io.IOException;
 public class BitmapUtil {
 
     // 保存 bitmap 到SD卡F
-    public static boolean saveBitmapToSDCard(Bitmap bitmap, String filePath,
-                                             String fileName) {
+    public static String saveBitmapToSDCard(Bitmap bitmap, String filePath,
+                                            String fileName) {
+        File f = null;
         boolean flag = false;
         if (null != bitmap) {
             try {
@@ -39,7 +40,7 @@ public class BitmapUtil {
                 if (!file.exists()) {
                     file.mkdirs();
                 }
-                File f = new File(filePath + fileName);
+                f = new File(filePath + fileName);
                 if (f.exists()) {
                     f.delete();
                 }
@@ -55,9 +56,10 @@ public class BitmapUtil {
                 flag = false;
             }
         }
-        return flag;
+        return f.getPath();
 
     }
+
 
     /**
      * @param drawable

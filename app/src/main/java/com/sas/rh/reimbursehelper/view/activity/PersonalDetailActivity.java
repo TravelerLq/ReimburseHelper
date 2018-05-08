@@ -14,6 +14,7 @@ import com.sas.rh.reimbursehelper.Bean.UserBean;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.data.UserData;
+import com.sas.rh.reimbursehelper.newactivity.LoginOrRegisterActivity;
 import com.sas.rh.reimbursehelper.newactivity.NewLoginActivity;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class PersonalDetailActivity extends AppCompatActivity {
     private SaveUserBean saveUserBean;
     private SharedPreferencesUtil sharedPreferencesUtil;
     private ArrayList<Certificate> certificateArrayList;//证书列表;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +48,15 @@ public class PersonalDetailActivity extends AppCompatActivity {
         feedback = (LinearLayout) findViewById(R.id.feedback);
         checkupdatebt = (LinearLayout) findViewById(R.id.checkupdatebt);
         aboutusbt = (LinearLayout) findViewById(R.id.aboutusbt);
-        int userId = sharedPreferencesUtil.getUidNum();
+        userId = sharedPreferencesUtil.getUidNum();
         Loger.e("userId==" + userId);
-        saveUserBean = UserData.getUserInfo();
-        if (saveUserBean != null) {
-            tvRealName.setText(UserData.getUserInfo().getName());
-            tvTel.setText(UserData.getUserInfo().getUserPhone());
-        }
+//        saveUserBean = UserData.getUserInfo();
+//        if (saveUserBean != null) {
+//            tvRealName.setText(UserData.getUserInfo().getName());
+//            tvTel.setText(UserData.getUserInfo().getUserPhone());
+//        }
+        tvRealName.setText(sharedPreferencesUtil.getName());
+        tvTel.setText(sharedPreferencesUtil.getTel());
 
         ll_log_out.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +77,9 @@ public class PersonalDetailActivity extends AppCompatActivity {
                 }
                 sharedPreferencesUtil.writeCompanyId("");
                 sharedPreferencesUtil.writeUserId("");
-                Intent intent = new Intent(PersonalDetailActivity.this, NewLoginActivity.class);
+                sharedPreferencesUtil.setIdNo("");
+
+                Intent intent = new Intent(PersonalDetailActivity.this, LoginOrRegisterActivity.class);
                 startActivity(intent);
                 finish();
             }

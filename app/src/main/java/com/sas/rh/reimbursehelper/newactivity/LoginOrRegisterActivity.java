@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.R;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.view.activity.BaseActivity;
@@ -33,6 +34,7 @@ public class LoginOrRegisterActivity extends BaseActivity {
     private TextView cancel;
     private TextView tvSelectCompany;
     private TextView tvRegisterCompany;
+    private SharedPreferencesUtil spu;
 
     private Context context;
     private Handler handler = new Handler() {
@@ -52,6 +54,7 @@ public class LoginOrRegisterActivity extends BaseActivity {
     @Override
     protected void initData() {
         context = LoginOrRegisterActivity.this;
+        spu = new SharedPreferencesUtil(context);
         tvLogin = (TextView) findViewById(R.id.tv_login);
         tvRegister = (TextView) findViewById(R.id.tv_register);
     }
@@ -73,6 +76,7 @@ public class LoginOrRegisterActivity extends BaseActivity {
                 break;
             case R.id.tv_select_company:
                 Loger.e("-----take");
+                spu.setRoleType("1");
                 toActivity(context, BeforeRegisterActivity.class);
                 dialog.dismiss();
                 break;
@@ -80,7 +84,10 @@ public class LoginOrRegisterActivity extends BaseActivity {
                 //从相册选择照片，需要根据当前照片个数，去限制limit 最大可选择图片个数
                 Loger.e("-----select");
                 //takePicFromPhoto();
-                toActivity(context, EnterpriseDetailActivity.class);
+                // toActivity(context, EnterpriseDetailActivity.class);
+                //创建公司 －－0；加入公司 1
+                spu.setRoleType("0");
+                toActivity(context, RegCertActivity.class);
 
                 dialog.dismiss();
                 break;

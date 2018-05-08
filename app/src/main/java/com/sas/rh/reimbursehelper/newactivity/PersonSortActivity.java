@@ -96,7 +96,13 @@ public class PersonSortActivity extends AppCompatActivity {
             }
             if (msg.what == 1) {
                 List<SortModel> list = JSONArray.parseArray(jsonArray.toJSONString(), SortModel.class);
-
+                SortModel sortModel;
+                for (int i = 0; i < list.size(); i++) {
+                    sortModel = list.get(i);
+                    if (sortModel.getName() == null) {
+                        list.remove(i);
+                    }
+                }
                 SourceDateList.clear();
                 SourceDateList.addAll(list);
                 for (int i = 0; i < SourceDateList.size(); i++) {
@@ -105,9 +111,9 @@ public class PersonSortActivity extends AppCompatActivity {
                 }
 
 
-                if (SourceDateList.size() == 0) {
-                    initTestData();
-                }
+//                if (SourceDateList.size() == 0) {
+//                    initTestData();
+//                }
 
 //                setLetter(SourceDateList);
                 if (adapter == null) {

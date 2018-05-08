@@ -74,6 +74,7 @@ public class EnterpriseFragment extends Fragment {
     };
     private TextView tvCodeContent;
     private Context mContext;
+    private String companyName1;
 
 
     @Override
@@ -83,6 +84,8 @@ public class EnterpriseFragment extends Fragment {
         mContext = EnterpriseFragment.this.getActivity();
         sharedPreferencesUtil = new SharedPreferencesUtil(EnterpriseFragment.this.getActivity());
         userId = sharedPreferencesUtil.getUidNum();
+        companyName = sharedPreferencesUtil.getCompName();
+
         if (sharedPreferencesUtil.getCidNum() == -1) {
             ToastUtil.showToast(mContext, "公司ID为空", Toast.LENGTH_SHORT);
         } else {
@@ -92,7 +95,7 @@ public class EnterpriseFragment extends Fragment {
 
         Loger.e("userId==" + userId + "companyId--" + companyId);
         initview(view);
-        getCompany();
+        //   getCompany();
         return view;
     }
 
@@ -126,6 +129,7 @@ public class EnterpriseFragment extends Fragment {
         tvCompanyName = (TextView) view.findViewById(R.id.tv_company_name);
         tvCompanyId = (TextView) view.findViewById(R.id.tv_company_id);
         tvCompanyId.setText(String.valueOf(companyId));
+        tvCompanyName.setText(companyName);
 
         emb = (LinearLayout) view.findViewById(R.id.enterprisedetail_btn);
         //企业管理

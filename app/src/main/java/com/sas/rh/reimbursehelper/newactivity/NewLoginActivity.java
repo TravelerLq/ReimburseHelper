@@ -44,7 +44,14 @@ public class NewLoginActivity extends BaseActivity {
                 int status = jsonresult.getIntValue("status");
                 if (status == 200) {
                     Toast.makeText(context, "登录成功！", Toast.LENGTH_SHORT).show();
-                    toActivity(context, MainActivity.class);
+                    int role = jsonresult.getIntValue("roleId");
+                    spu.setName(jsonresult.getString("name"));
+                    spu.setTel(jsonresult.getString("telephoneNumber"));
+                    String roleStr = String.valueOf(role);
+                    spu.setRole(roleStr);
+                    Loger.e("--login-suce -role ==" + spu.getRole());
+
+                    toActivityWithData(context, MainActivity.class, "data", roleStr);
 
                 } else {
                     Toast.makeText(context, "登录失败，请重试！", Toast.LENGTH_SHORT).show();

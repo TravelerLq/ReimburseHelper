@@ -115,6 +115,17 @@ public class AddExpenseItemActivtity extends BaseActivity {
 
                 }
                 initExpandaTabView();
+            } else if (msg.what == 2) {
+                int status = joFormId.getIntValue("status");
+                if (status == 200) {
+                    formId = joFormId.getIntValue("formId");
+                    spu.setFormId(formId);
+                    Loger.e("add item formid--" + spu.getFormId());
+                    level = 1;
+                } else if (status == 208) {
+                    level = 0;
+                    msgFormid = joFormId.getString("description");
+                }
             } else if (msg.what == 3) {
                 //三级报销科目
                 thirdList.clear();
@@ -165,6 +176,9 @@ public class AddExpenseItemActivtity extends BaseActivity {
                     ToastUtil.showToast(AddExpenseItemActivtity.this, "提交成功！", Toast.LENGTH_LONG);
                     toActivity(AddExpenseItemActivtity.this, ExpenseItemListActivity.class);
 
+                } else if (code == 208) {
+                    //formId不存在，
+                    ToastUtil.showToast(AddExpenseItemActivtity.this, "请先让领导为您分配部门！", Toast.LENGTH_LONG);
                 } else {
                     ToastUtil.showToast(AddExpenseItemActivtity.this, "提交失败，请重试！", Toast.LENGTH_LONG);
                 }
@@ -174,8 +188,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
                     remarkStr = jsonRemark.getString("remark");
                     countEditText.setEtHint(remarkStr);
                 }
-            }
-            else if (msg.what == 0) {
+            } else if (msg.what == 0) {
                 ToastUtil.showToast(context, "通信异常，请检查网络连接！", Toast.LENGTH_LONG);
             } else if (msg.what == -1) {
                 ToastUtil.showToast(context, "通信模块异常！", Toast.LENGTH_LONG);
@@ -200,6 +213,9 @@ public class AddExpenseItemActivtity extends BaseActivity {
     private CharSequence inputStr;
     private int addSingleReimStatus;
     private String intentType;
+    private JSONObject joFormId;
+    private int level;
+    private String msgFormid;
 
 
     @Override
@@ -249,51 +265,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
             formId = spu.getFormId();
         }
         Loger.e("--intentType--" + intentType + "  formId--" + formId);
-
-
-        //  getFormId();
-        //   edtMoney.addTextChangedListener(mTextWatcher);
-
-
-//        edtMoney.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean hasFocus) {
-//                if (hasFocus) {
-//                    //获得焦点
-//                    Drawable drawableLeft = getResources().getDrawable(
-//                            R.drawable.ic_rmb_blue);
-//                    edtMoney.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
-//                            null, null, null);
-//                    edtMoney.setCompoundDrawablePadding(4);
-//                }
-//            }
-//        });
-
-        //  initExpandaTabView();
     }
-
-//    TextWatcher mTextWatcher = new TextWatcher() {
-//        @Override
-//        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//        }
-//
-//        @Override
-//        public void onTextChanged(CharSequence s, int i, int i1, int i2) {
-////            edtMoney.setText(s);//将输入的内容实时显示
-////            setDrawable();
-//            inputStr = s;
-//        }
-//
-//        @Override
-//        public void afterTextChanged(Editable s) {
-//            setDrawable();
-//            edtMoney.removeTextChangedListener(this);
-//            edtMoney.setText(s);
-//            edtMoney.addTextChangedListener(this);
-//            //mEditText.setSelection(tempSelection);
-//        }
-//    };
 
     public void setDrawable() {
         Drawable drawableLeft = getResources().getDrawable(
@@ -377,8 +349,9 @@ public class AddExpenseItemActivtity extends BaseActivity {
             try {
                 JSONObject jo = FormUtil.getFormId(spu.getUidNum());
                 if (jo != null) {
+                    joFormId = jo;
                     handler.sendEmptyMessage(2);
-                    formId = FormUtil.returnFormId();
+                    //  formId = FormUtil.returnFormId();
                 } else {
                     handler.sendEmptyMessage(0);
                 }
@@ -603,6 +576,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
         SignatureP1Service signatureP1Service = new SignatureP1Service(AddExpenseItemActivtity.this, new ProcessListener<DataProcessResponse>() {
             @Override
             public void doFinish(DataProcessResponse dataProcessResponse, String certificate) {
+                Log.e("doFinish---", "= ");
                 if (pdu.getMypDialog().isShowing()) {
                     pdu.dismisspd();
                 }
@@ -619,9 +593,10 @@ public class AddExpenseItemActivtity extends BaseActivity {
 
 
                 } else {
-                    if (pdu.getMypDialog().isShowing()) {
-                        pdu.dismisspd();
-                    }
+//                    if (pdu.getMypDialog().isShowing()) {
+//                        pdu.dismisspd();
+//                    }
+                    Loger.e("dataProcessResponse.getRet() !=0");
                     Toast.makeText(AddExpenseItemActivtity.this, "图片签名失败" + dataProcessResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -641,7 +616,13 @@ public class AddExpenseItemActivtity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_finish:
-                checkData();
+                if (level == 0) {
+                    Toast.makeText(this, msgFormid, Toast.LENGTH_LONG).show();
+                    getFormId();
+                } else {
+                    checkData();
+                }
+
                 //  toActivity(context, ExpenseItemListActivity.class);
                 break;
             case R.id.rl_type:
@@ -677,6 +658,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
         expenseTypeStr = tvExpenseType.getText().toString();
         tvDateStr = tvDate.getText().toString();
         edtRemarkStr = countEditText.getText().toString();
+
 
         if (TextUtils.isEmpty(edtFeeStr)) {
             Toast.makeText(this, "金额不可为空", Toast.LENGTH_SHORT).show();
@@ -730,6 +712,9 @@ public class AddExpenseItemActivtity extends BaseActivity {
 
             try {
                 Log.e("expenseItem=", "" + expenseItem);
+                if (expenseCategory == null) {
+                    Toast.makeText(context, "请选择二级科目", Toast.LENGTH_SHORT).show();
+                }
 
                 JSONObject jo = SingleReimbursementUtil.getExpenseRemark(spu.getUidNum(), expenseCategory, expenseItem);
                 if (jo != null) {

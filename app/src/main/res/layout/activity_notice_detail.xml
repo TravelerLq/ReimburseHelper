@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <include
+        android:id="@+id/includeTitleLayout"
+        layout="@layout/include_bar_title"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/dimen_48"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/black_middle_style"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/includeTitleLayout"
+        android:layout_marginBottom="@dimen/dimen_10"
+        android:layout_marginStart="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_13"
+        android:text="题标题标题标题标题" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimen_5"
+        android:text="2017/12/03"
+        android:layout_alignTop="@+id/tv_title"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/tv_read"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tv_time"
+        android:layout_below="@+id/tv_time"
+        android:visibility="gone"
+        android:text="未读" />
+
+
+    <TextView
+        android:id="@+id/tv_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:layout_below="@+id/tv_title"
+        android:background="@color/stock" />
+
+
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_line"
+        android:layout_marginBottom="@dimen/dimen_25"
+       android:layout_marginStart="@dimen/dimen_10"
+        android:text="@string/title" />
+
+    <ImageView
+        android:id="@+id/header"
+        android:layout_width="@dimen/dimen_45"
+        android:layout_height="@dimen/dimen_45"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dimen_10"
+        android:layout_marginStart="@dimen/dimen_10"
+        android:src="@drawable/ic_head"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dimen_10"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_toRightOf="@+id/header"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_5"
+            android:text="张三"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_depart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/linearLayout"
+        android:layout_toEndOf="@+id/linearLayout"
+        android:text="xx部门管理员"
+        android:visibility="gone" />
+
+</RelativeLayout>

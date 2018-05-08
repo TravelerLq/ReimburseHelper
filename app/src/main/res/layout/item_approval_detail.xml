@@ -87,10 +87,11 @@
         <ImageView
             android:id="@+id/iv_expense_item_pic"
             android:layout_width="@dimen/dimen_50"
-            android:layout_height="@dimen/dimen_50"
+            android:layout_height="@dimen/dimen_35"
             android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/dimen_4"
             android:layout_alignStart="@+id/tv_expense_time"
-            android:visibility="gone"
+            android:visibility="visible"
             android:src="@drawable/ic_rmb_blue" />
     </RelativeLayout>
 

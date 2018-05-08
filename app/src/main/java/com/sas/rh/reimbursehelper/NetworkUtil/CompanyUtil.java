@@ -209,6 +209,7 @@ public class CompanyUtil {
 
     }
 
+
     public static JSONObject joinCompany(int userId, String shareCode) {
 //        Integer userId = 20;
 //        String shareCode = "weyq7yabx";
@@ -223,18 +224,19 @@ public class CompanyUtil {
     }
 
     public static JSONObject sendShareCode(String shareCode) {
-        String url =RootAddress+"yuanshensystem/public/verifysharecode";
+        String url = RootAddress + "yuanshensystem/public/verifysharecode";
         JSONObject jsonObject = new JSONObject();
-       // String shareCode = "welqa65ty";
+        // String shareCode = "welqa65ty";
 
         jsonObject.put("shareCode", shareCode);
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         return reJson;
 
     }
+
     public static void getShareCode() {
         Integer userId = 54;
-        String url = RootAddress+"/yuanshensystem/public/getsharecode";
+        String url = RootAddress + "/yuanshensystem/public/getsharecode";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("userId", userId);
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
@@ -263,6 +265,32 @@ public class CompanyUtil {
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
         System.out.println(reJson);
         return reJson;
+    }
+
+
+    //查询通知
+    public static JSONArray getNotice(int userId) {
+        // Integer userId = 95;
+        String url = RootAddress + "yuanshensystem/public/getnotice";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId", userId);
+        JSONArray jsonArray = JsonUtil.uploadJsonGetJsonArray(url, jsonObject);
+        return jsonArray;
+
+    }
+
+    //读过通知
+    public static JSONObject readNotice(int userId, int noticeId) {
+//        Integer userId = 95;
+//        Integer noticeId = 11;
+        String url = RootAddress + "yuanshensystem/public/readnotice";
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId", userId);
+        jsonObject.put("noticeId", noticeId);
+        JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
+        return reJson;
+
     }
 
 }

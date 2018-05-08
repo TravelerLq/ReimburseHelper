@@ -75,6 +75,7 @@
                 android:textColor="@color/white"
                 style="@style/white_middle_style"
                 android:textColorHint="@color/white"
+                android:inputType="numberPassword"
                 android:hint="@string/label_password" />
 
             <TextView

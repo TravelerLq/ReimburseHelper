@@ -103,6 +103,7 @@
         <activity android:name=".view.activity.RegisterActivity"></activity>
         <activity android:name=".view.activity.BeforeRegisterActivity"></activity>
         <activity android:name=".view.activity.JoinOrRegisterCompanyActivity"></activity>
+        <activity android:name=".view.activity.NoticeDetailActivity"></activity>
 
         <!--新的-->
         <activity android:name=".newactivity.AddExpenseItemActivtity"></activity>
@@ -132,6 +133,7 @@
         <activity android:name=".newactivity.ApprovalSettingActivity"></activity>
         <activity android:name=".newactivity.ApprovalEditorActivity"></activity>
         <activity android:name=".newactivity.DepartDetailActivity"></activity>
+
         <!--a-z排序人员列表-->
         <activity android:name=".newactivity.PersonSortActivity"></activity>
     </application>
