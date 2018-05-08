@@ -78,7 +78,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="ID:88888888"
-                        android:textColor="#AAA" />
+                        android:textColor="#AAA"
+                        android:visibility="gone" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -92,8 +93,8 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_vertical"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/imageView8"
@@ -207,8 +208,8 @@
                 android:layout_marginTop="12dp"
                 android:background="#FFF"
                 android:gravity="center_vertical"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/imageView8r"
@@ -227,6 +228,7 @@
                     android:text="项目管理" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_add_enterprise"
                 android:layout_width="match_parent"
@@ -235,9 +237,9 @@
                 android:background="#FFF"
                 android:clickable="true"
                 android:focusable="true"
-                android:visibility="gone"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
 
@@ -266,8 +268,8 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_vertical"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
 
@@ -286,6 +288,7 @@
                     android:text="@string/applicant" />
 
             </LinearLayout>
+
             <LinearLayout
 
                 android:layout_width="match_parent"
@@ -312,13 +315,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/get_code" />
+
                 <TextView
                     android:id="@+id/tv_get_code_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textIsSelectable="true"
                     android:layout_marginLeft="@dimen/dimen_30"
-                    android:text="xxx" />
+                    android:text="xxx"
+                    android:textIsSelectable="true" />
 
             </LinearLayout>
 

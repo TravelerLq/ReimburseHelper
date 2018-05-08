@@ -65,7 +65,8 @@ public class MessageFragment extends Fragment {
                     //System.out.print("resultList:");
                     List<UnreadNoticeBean> list = JSONArray.parseArray(jsonResult.toJSONString(), UnreadNoticeBean.class);
                     if (list.size() == 0) {
-                        ToastUtil.showToast(getActivity(), "暂无数据", Toast.LENGTH_SHORT);
+                      //  ToastUtil.showToast(getActivity(), "暂无数据", Toast.LENGTH_SHORT);
+                      //  Toast.makeText(getActivity(), "暂无消息", Toast.LENGTH_SHORT);
                     }
                     beanList.clear();
                     beanList.addAll(list);

@@ -26,8 +26,8 @@
             android:id="@+id/textView10"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginLeft="-40dp"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="公司详情"
             android:textColor="#FFF"
@@ -43,535 +43,533 @@
         android:orientation="vertical">
 
         <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textVwdi请问28"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="公司名称"
-                    android:textColor="#000"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#F00"
-                    android:textSize="16dp" />
-
-                <EditText
-                    android:id="@+id/cname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#FFF"
-                    android:gravity="left|top"
-                    android:hint="请输入公司名称"
-                    android:maxLength="100"
-                    android:minLines="1"
-                    android:padding="10dp"
-                    android:textSize="16dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DDD"
-                android:orientation="horizontal"></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textVwi请问28"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="公司税号"
-                    android:textColor="#000"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/textVwi请3问28"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#F00"
-                    android:textSize="16dp" />
-
-                <EditText
-                    android:id="@+id/taxnum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#FFF"
-                    android:inputType="number"
-                    android:gravity="left|top"
-                    android:hint="请输入公司税号"
-                    android:maxLength="100"
-                    android:minLines="1"
-                    android:padding="10dp"
-                    android:textSize="16dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DDD"
-                android:orientation="horizontal"></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/额"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="公司性质"
-                    android:textColor="#000"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/textVwi请e3问28"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#F00"
-                    android:textSize="16dp" />
-
-                <Spinner
-                    android:id="@+id/gsxz_span"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="15dp"/>
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/textVwdi请问28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="公司名称"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DDD"
-                android:orientation="horizontal"></LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="*"
+                        android:textColor="#F00"
+                        android:textSize="16dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/cname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#FFF"
+                        android:gravity="left|top"
+                        android:hint="请输入公司名称"
+                        android:maxLength="100"
+                        android:minLines="1"
+                        android:padding="10dp"
+                        android:textSize="16dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="增值税征收方式"
-                    android:textColor="#000"
-                    android:textSize="16dp" />
+                </LinearLayout>
 
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#F00"
-                    android:textSize="16dp" />
-
-                <Spinner
-                    android:id="@+id/zztax_span"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="15dp"/>
+                    android:layout_height="1dp"
+                    android:background="#DDD"
+                    android:orientation="horizontal"></LinearLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DDD"
-                android:orientation="horizontal"></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="所得税征收方式"
-                    android:textColor="#000"
-                    android:textSize="16dp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#F00"
-                    android:textSize="16dp" />
-
-                <Spinner
-                    android:id="@+id/sdtax_span"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="15dp"/>
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/textVwi请问28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="公司税号"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DDD"
-                android:orientation="horizontal"></LinearLayout>
+                    <TextView
+                        android:id="@+id/textVwi请3问28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="*"
+                        android:textColor="#F00"
+                        android:textSize="16dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/taxnum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#FFF"
+                        android:gravity="left|top"
+                        android:hint="请输入公司税号"
+                        android:inputType="text"
+                        android:maxLength="100"
+                        android:minLines="1"
+                        android:padding="10dp"
+                        android:textSize="16dp" />
 
-                <TextView
-                    android:id="@+id/textVw额i请问28"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="开票方式"
-                    android:textColor="#000"
-                    android:textSize="16dp" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textVwi请d3问28"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#F00"
-                    android:textSize="16dp" />
-
-                <Spinner
-                    android:id="@+id/kpfs_span"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="15dp"/>
+                    android:layout_height="1dp"
+                    android:background="#DDD"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/额"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="公司性质"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/textVwi请e3问28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="*"
+                        android:textColor="#F00"
+                        android:textSize="16dp" />
+
+                    <Spinner
+                        android:id="@+id/gsxz_span"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="15dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDD"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="增值税征收方式"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="*"
+                        android:textColor="#F00"
+                        android:textSize="16dp" />
+
+                    <Spinner
+                        android:id="@+id/zztax_span"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="15dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDD"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="所得税征收方式"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="*"
+                        android:textColor="#F00"
+                        android:textSize="16dp" />
+
+                    <Spinner
+                        android:id="@+id/sdtax_span"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="15dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDD"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textVw额i请问28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="开票方式"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/textVwi请d3问28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="*"
+                        android:textColor="#F00"
+                        android:textSize="16dp" />
+
+                    <Spinner
+                        android:id="@+id/kpfs_span"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="15dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDD"
+                    android:orientation="horizontal"></LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="开户银行"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="*"
+                        android:textColor="#F00"
+                        android:textSize="16dp" />
+
+                    <EditText
+                        android:id="@+id/khbankname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#FFF"
+                        android:gravity="left|top"
+                        android:hint="请输入开户银行"
+                        android:maxLength="100"
+                        android:minLines="1"
+                        android:padding="10dp"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDD"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textV我wi请问28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="银行账号"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="*"
+                        android:textColor="#F00"
+                        android:textSize="16dp" />
+
+                    <EditText
+                        android:id="@+id/khbankid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#FFF"
+                        android:gravity="left|top"
+                        android:hint="请输入银行账号"
+                        android:inputType="number"
+                        android:maxLength="100"
+                        android:minLines="1"
+                        android:padding="10dp"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDD"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="公司地址"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="*"
+                        android:textColor="#F00"
+                        android:textSize="16dp" />
+
+                    <EditText
+                        android:id="@+id/caddr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#FFF"
+                        android:gravity="left|top"
+                        android:hint="请输入公司地址"
+                        android:maxLength="100"
+                        android:minLines="1"
+                        android:padding="10dp"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDD"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="公司电话"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="*"
+                        android:textColor="#F00"
+                        android:textSize="16dp" />
+
+                    <EditText
+                        android:id="@+id/ctel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#FFF"
+                        android:gravity="left|top"
+                        android:hint="请输入公司电话"
+                        android:inputType="number|phone"
+                        android:maxLength="100"
+                        android:minLines="1"
+                        android:padding="10dp"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDD"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="创始人证件号码"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="*"
+                        android:textColor="#F00"
+                        android:textSize="16dp" />
+
+                    <EditText
+                        android:id="@+id/ccid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#FFF"
+                        android:gravity="left|top"
+                        android:hint="请输入证件号码"
+                        android:inputType="number"
+                        android:maxLength="100"
+                        android:minLines="1"
+                        android:padding="10dp"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDD"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="报销限额"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/tv_star"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="*"
+                        android:textColor="#F00"
+                        android:textSize="16dp" />
+
+                    <EditText
+                        android:id="@+id/climit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#FFF"
+                        android:gravity="left|top"
+                        android:hint="请输入报销限额"
+                        android:inputType="numberDecimal"
+                        android:maxLength="100"
+                        android:minLines="1"
+                        android:padding="10dp"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DDD"
+                    android:orientation="horizontal"></LinearLayout>
+
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DDD"
-                android:orientation="horizontal"></LinearLayout>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="开户银行"
-                    android:textColor="#000"
-                    android:textSize="16dp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#F00"
-                    android:textSize="16dp" />
-
-                <EditText
-                    android:id="@+id/khbankname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#FFF"
-                    android:gravity="left|top"
-                    android:hint="请输入开户银行"
-                    android:maxLength="100"
-                    android:minLines="1"
-                    android:padding="10dp"
-                    android:textSize="16dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DDD"
-                android:orientation="horizontal"></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textV我wi请问28"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="银行账号"
-                    android:textColor="#000"
-                    android:textSize="16dp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#F00"
-                    android:textSize="16dp" />
-
-                <EditText
-                    android:id="@+id/khbankid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#FFF"
-                    android:inputType="number"
-                    android:gravity="left|top"
-                    android:hint="请输入银行账号"
-                    android:maxLength="100"
-                    android:minLines="1"
-                    android:padding="10dp"
-                    android:textSize="16dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DDD"
-                android:orientation="horizontal"></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="公司地址"
-                    android:textColor="#000"
-                    android:textSize="16dp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#F00"
-                    android:textSize="16dp" />
-
-                <EditText
-                    android:id="@+id/caddr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#FFF"
-                    android:gravity="left|top"
-                    android:hint="请输入公司地址"
-                    android:maxLength="100"
-                    android:minLines="1"
-                    android:padding="10dp"
-                    android:textSize="16dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DDD"
-                android:orientation="horizontal"></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="公司电话"
-                    android:textColor="#000"
-                    android:textSize="16dp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#F00"
-                    android:textSize="16dp" />
-
-                <EditText
-                    android:id="@+id/ctel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#FFF"
-                    android:gravity="left|top"
-                    android:inputType="number|phone"
-                    android:hint="请输入公司电话"
-                    android:maxLength="100"
-                    android:minLines="1"
-                    android:padding="10dp"
-                    android:textSize="16dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DDD"
-                android:orientation="horizontal"></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="创始人证件号码"
-                    android:textColor="#000"
-                    android:textSize="16dp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#F00"
-                    android:textSize="16dp" />
-
-                <EditText
-                    android:id="@+id/ccid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#FFF"
-                    android:gravity="left|top"
-                    android:inputType="number"
-                    android:hint="请输入证件号码"
-                    android:maxLength="100"
-                    android:minLines="1"
-                    android:padding="10dp"
-                    android:textSize="16dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DDD"
-                android:orientation="horizontal"></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="报销限额"
-                    android:textColor="#000"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/tv_star"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="*"
-                    android:textColor="#F00"
-                    android:textSize="16dp" />
-
-                <EditText
-                    android:id="@+id/climit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#FFF"
-                    android:gravity="left|top"
-                    android:inputType="numberDecimal"
-                    android:hint="请输入报销限额"
-                    android:maxLength="100"
-                    android:minLines="1"
-                    android:padding="10dp"
-                    android:textSize="16dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DDD"
-                android:orientation="horizontal"></LinearLayout>
-
-
-
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
 
     </LinearLayout>
 
@@ -580,9 +578,9 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_margin="20dp"
-        android:focusable="true"
-        android:clickable="true"
         android:background="@drawable/btn_save_baoxiajizhu"
+        android:clickable="true"
+        android:focusable="true"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -590,10 +588,10 @@
             android:id="@+id/textView65"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFF"
             android:layout_centerInParent="true"
-            android:textSize="18dp"
-            android:text="@string/register" />
+            android:text="@string/register"
+            android:textColor="#FFF"
+            android:textSize="18dp" />
 
     </LinearLayout>
 

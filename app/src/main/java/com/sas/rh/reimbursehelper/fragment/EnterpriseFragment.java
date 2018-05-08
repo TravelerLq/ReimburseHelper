@@ -54,12 +54,16 @@ public class EnterpriseFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-                String companyJson = jsonresult.getString("company");
-                Company company = JSON.parseObject(companyJson, Company.class);
-                if (company == null) {
+
+                companyName = jsonresult.getString("companyName");
+                companyId = jsonresult.getIntValue("companyId");//  Company company = JSON.parseObject(companyJson, Company.class);
+                if (companyName == null) {
                     Toast.makeText(EnterpriseFragment.this.getActivity(), "公司信息为空", Toast.LENGTH_SHORT).show();
                 } else {
-                    companyName = company.getCompanyName();
+
+                    sharedPreferencesUtil.setCompName(companyName);
+                    sharedPreferencesUtil.writeCompanyId(String.valueOf(companyId));
+
                     if (!TextUtils.isEmpty(companyName)) {
                         tvCompanyName.setText(companyName);
                     }
@@ -74,7 +78,6 @@ public class EnterpriseFragment extends Fragment {
     };
     private TextView tvCodeContent;
     private Context mContext;
-    private String companyName1;
 
 
     @Override
@@ -87,15 +90,16 @@ public class EnterpriseFragment extends Fragment {
         companyName = sharedPreferencesUtil.getCompName();
 
         if (sharedPreferencesUtil.getCidNum() == -1) {
-            ToastUtil.showToast(mContext, "公司ID为空", Toast.LENGTH_SHORT);
+//            ToastUtil.showToast(mContext, "公司ID为空", Toast.LENGTH_SHORT);
+            Loger.e("----公司ID为空");
         } else {
 
             companyId = sharedPreferencesUtil.getCidNum();
-        }
 
+        }
+        getCompany();
         Loger.e("userId==" + userId + "companyId--" + companyId);
         initview(view);
-        //   getCompany();
         return view;
     }
 
@@ -108,7 +112,7 @@ public class EnterpriseFragment extends Fragment {
         @Override
         public void run() {
             try {
-                JSONObject jsonObject = CompanyUtil.selectCompany(companyId, userId);
+                JSONObject jsonObject = CompanyUtil.selectCompany(userId);
                 if (jsonObject != null) {
                     jsonresult = jsonObject;
                     myHandler.sendEmptyMessage(1);

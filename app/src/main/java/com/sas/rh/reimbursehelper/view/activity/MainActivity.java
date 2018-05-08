@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private WeChatRadioButton rbMsg, rbCompany;
     private String role;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
             type = getIntent().getStringExtra("type");
             if (type != null && type.equals("service")) {
                 Loger.e("type---" + type);
+                //如果是从 消息dilog进来，就选中消息
                 viewPager.setCurrentItem(1);
                 setClickedViewChecked(1, gradualRadioGroup);
 
@@ -221,5 +221,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         //  stopService(serviceIntenta);
+        stopService(new Intent(MainActivity.this, NoticeMsgService.class));
     }
+
 }

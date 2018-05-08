@@ -17,22 +17,24 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.github.dfqin.grantor.PermissionListener;
 import com.github.dfqin.grantor.PermissionsUtil;
+import com.sas.rh.reimbursehelper.App;
 import com.sas.rh.reimbursehelper.AppInitConfig.SharedPreferencesUtil;
 import com.sas.rh.reimbursehelper.NetworkUtil.FormUtil;
 import com.sas.rh.reimbursehelper.R;
+import com.sas.rh.reimbursehelper.Util.ImageCaptureManager;
 import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.newactivity.AddExpenseItemActivtity;
 import com.sas.rh.reimbursehelper.newactivity.ApprovalProcessRecyActvity;
 import com.sas.rh.reimbursehelper.newactivity.ExpenseProcessRecyActvity;
 import com.sas.rh.reimbursehelper.newactivity.MyExpenseProcessActivity;
 import com.sas.rh.reimbursehelper.newactivity.TestActivity;
+import com.sas.rh.reimbursehelper.view.activity.MainActivity;
 import com.sas.rh.reimbursehelper.view.activity.PersonalDetailActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.InjectView;
-import me.iwf.photopicker.utils.ImageCaptureManager;
 
 
 /**
@@ -191,7 +193,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void permissionGranted(@NonNull String[] permission) {
                     Log.e("--", "permissionGranted: 用户授予了访问外部存储的权限");
-                    openCamera(requestCode, HomeFragment.this.getActivity());
+                    openCamera(requestCode, getActivity().getApplicationContext());
                 }
 
                 @Override

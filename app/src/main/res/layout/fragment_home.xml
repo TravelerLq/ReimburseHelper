@@ -107,6 +107,7 @@
                     android:paddingLeft="@dimen/dimen_10"
                     android:paddingRight="@dimen/dimen_10"
                     android:text="@string/no_data"
+                    android:visibility="gone"
                     android:textSize="@dimen/super_small_text_size" />
             </RelativeLayout>
             <TextView
@@ -154,6 +155,7 @@
                     android:paddingLeft="@dimen/dimen_10"
                     android:paddingRight="@dimen/dimen_10"
                     android:text="@string/no_data"
+                    android:visibility="gone"
                     android:textSize="@dimen/super_small_text_size" />
             </RelativeLayout>
 

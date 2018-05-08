@@ -317,6 +317,9 @@ public class EnterpriseDetailActivity extends AppCompatActivity {
         } else if (climit.getText().toString().trim().equals("")) {
             ToastUtil.showToast(EnterpriseDetailActivity.this, "请填写报销限额", Toast.LENGTH_LONG);
             return;
+        } else if(spu.getUidNum()==-1){
+            ToastUtil.showToast(EnterpriseDetailActivity.this, "userId不可以为空！", Toast.LENGTH_LONG);
+            return;
         }
 
         edie = new EnterpriseDetailInfoEntity();

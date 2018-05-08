@@ -76,6 +76,7 @@ public class NoticeMsgService extends Service {
     @Override
     public void onDestroy() {
         endTimer();
+        Loger.e("---service--onDestroy");
         super.onDestroy();
     }
 
@@ -194,7 +195,7 @@ public class NoticeMsgService extends Service {
         //接收到通知时，按手机的默认设置进行处理，声音，震动，灯
         builder.setDefaults(Notification.DEFAULT_ALL);
         //通知栏显示图标
-        builder.setSmallIcon(R.drawable.notice_42_42);
+        builder.setSmallIcon(R.drawable.ic_launcher);
         builder.setContentIntent(pendingIntent);
         notification = builder.build();
         //点击跳转后消失

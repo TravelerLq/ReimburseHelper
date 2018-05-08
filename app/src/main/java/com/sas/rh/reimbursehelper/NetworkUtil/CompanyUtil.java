@@ -116,13 +116,13 @@ public class CompanyUtil {
 
     //查看一条公司信息
 
-    public static JSONObject selectCompany(int companyId, int userId) {
+    public static JSONObject selectCompany(int userId) {
         //公司id
         // Integer companyId = 1;
         String url = RootAddress + "yuanshensystem/company/select";
         // Integer userId = 1;
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("companyId", companyId);
+       // jsonObject.put("companyId", companyId);
         jsonObject.put("userId", userId);
 
         JSONObject reJson = JsonUtil.uploadJson(url, jsonObject);
