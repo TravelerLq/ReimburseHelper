@@ -16,6 +16,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 
 import com.sas.rh.reimbursehelper.R;
 
@@ -27,15 +28,17 @@ import java.io.IOException;
 
 
 public class BitmapUtil {
+  public static String filePath = Environment.getExternalStorageDirectory() + "/Reimburse/";
+  public static String fileName = System.currentTimeMillis() + ".jpg";
+
 
     // 保存 bitmap 到SD卡F
-    public static String saveBitmapToSDCard(Bitmap bitmap, String filePath,
-                                            String fileName) {
+    public static String saveBitmapToSDCard(Bitmap bitmap) {
         File f = null;
         boolean flag = false;
         if (null != bitmap) {
             try {
-                fileName = fileName + ".jpg";
+//                fileName = fileName + ".jpg";
                 File file = new File(filePath);
                 if (!file.exists()) {
                     file.mkdirs();

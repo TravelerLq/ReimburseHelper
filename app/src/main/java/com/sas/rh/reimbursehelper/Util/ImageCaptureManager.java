@@ -30,6 +30,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -40,8 +41,8 @@ import me.iwf.photopicker.BuildConfig;
 
 /**
  * Created by donglua on 15/6/23.
- *
- *
+ * <p>
+ * <p>
  * http://developer.android.com/training/camera/photobasics.html
  */
 public class ImageCaptureManager {

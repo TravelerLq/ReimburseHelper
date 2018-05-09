@@ -11,9 +11,12 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.sas.rh.reimbursehelper.NetworkUtil.StrTobaseUtil;
 import com.sas.rh.reimbursehelper.R;
+import com.sas.rh.reimbursehelper.Util.BitmapUtil;
 import com.sas.rh.reimbursehelper.Util.FileToBase64Util;
+import com.sas.rh.reimbursehelper.Util.Loger;
 import com.sas.rh.reimbursehelper.view.activity.AddBaoxiaojizhuActivity;
 import com.sas.rh.reimbursehelper.view.activity.AddExpenseActivity;
+import com.sas.rh.reimbursehelper.view.activity.ApproveProcedureManageConfigActivity;
 import com.sas.rh.reimbursehelper.view.activity.BaseActivity;
 
 import java.util.ArrayList;
@@ -31,6 +34,8 @@ public class TestActivity extends BaseActivity {
     private ArrayList<String> selectedPhotos = new ArrayList<>();
     private String path;
     private List<String> originalBoxPicList = new ArrayList<>();
+    private String picPath;
+
 
     @Override
     protected int getLayoutId() {
@@ -40,7 +45,7 @@ public class TestActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        ivPicTest = (ImageView) findViewById(R.id.iv_pic_test);
+        ivPicTest = (ImageView) findViewById(R.id.iv_take_pic);
         ivTestViewPic = (ImageView) findViewById(R.id.iv_pic_test_view);
 
     }
@@ -54,7 +59,7 @@ public class TestActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_pic_test:
+            case R.id.iv_take_pic:
                 PhotoPicker.builder()
                         .setPhotoCount(1)
                         .setShowCamera(true)
@@ -63,7 +68,6 @@ public class TestActivity extends BaseActivity {
                         .start(TestActivity.this);
                 break;
             case R.id.iv_pic_test_view:
-                //
                 PhotoPreview.builder()
                         .setPhotos((ArrayList) originalBoxPicList)
                         .setShowDeleteButton(false)
@@ -89,11 +93,21 @@ public class TestActivity extends BaseActivity {
 
 
             path = selectedPhotos.get(0);
-            originalBoxPicList.add(path);
+           // originalBoxPicList.add(path);
+            Loger.e("--path--" + path);
             try {
                 String base64CodePic = FileToBase64Util.encodeBase64File(path);
                 if (!TextUtils.isEmpty(base64CodePic)) {
                     Bitmap bitmap = StrTobaseUtil.base64ToBitmap(base64CodePic);
+                    //bitmap to png
+
+                    picPath = BitmapUtil.saveBitmapToSDCard(bitmap);
+                    Loger.e("bitmap--save to Pic" + picPath);
+                    originalBoxPicList.clear();
+                    originalBoxPicList.add(0, picPath);
+
+
+
 //                    方式一.  Drawable drawable=new BitmapDrawable(Bitmap);
 //                    Glide.with(mContext).load(drawable).into(ivImage);
                     //2.

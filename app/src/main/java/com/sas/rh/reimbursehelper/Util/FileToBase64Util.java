@@ -76,12 +76,12 @@ public class FileToBase64Util {
             Log.e("cer64=" + cer64_length + "key_length=" + key_length, "filename_length=" + filename_length + "filebase64_length=" + filebase64_length
                     + "key=" + key + "filename=" + filename + "filebase64=" + filebase64);
             Log.e("file16进制＝", "=" + file_outstr_hex);
-            writeFile(file_outstr_hex,sasfile_path);
+            writeFile(file_outstr_hex, sasfile_path);
             File file = new File(sasfile_path);
             file.getPath();
             // sasfile_path=/storage/emulated/0/Download//storage/emulated/0/Download/下载.sas
             Log.e("FileToBase64Util", "sasfile_path=" + sasfile_path);
-           // toSasFile(file_outstr_hex, sasfile_path);
+            // toSasFile(file_outstr_hex, sasfile_path);
         } catch (Exception e) {
             System.out.println("生成sas文件异常:");
             e.printStackTrace();
@@ -157,8 +157,8 @@ public class FileToBase64Util {
     }
 
 
-    public static void writeFile(String s,String path) {
-       String sPath="/storage/emulated/0/Download/bx2.sas";
+    public static void writeFile(String s, String path) {
+        String sPath = "/storage/emulated/0/Download/bx2.sas";
         String file_outstr_hex = s;
         FileOutputStream fop = null;
         File file;
@@ -171,9 +171,9 @@ public class FileToBase64Util {
 
             // if file doesnt exists, then create it
             if (!file.exists()) {
-              Boolean res=  file.createNewFile();
-                if(!res)
-                    Log.e("创建失败！","---");
+                Boolean res = file.createNewFile();
+                if (!res)
+                    Log.e("创建失败！", "---");
             }
 
             // get the content in bytes

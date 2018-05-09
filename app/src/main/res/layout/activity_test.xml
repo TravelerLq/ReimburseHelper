@@ -4,11 +4,11 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/iv_pic_test"
+        android:id="@+id/iv_take_pic"
         android:layout_width="@dimen/dimen_50"
         android:layout_height="@dimen/dimen_50"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_add" />
+        android:src="@drawable/ic_camera" />
     <ImageView
         android:id="@+id/iv_pic_test_view"
         android:layout_width="@dimen/dimen_100"

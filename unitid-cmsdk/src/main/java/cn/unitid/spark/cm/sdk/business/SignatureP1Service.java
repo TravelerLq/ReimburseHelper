@@ -51,6 +51,7 @@ public class SignatureP1Service extends BService {
             curDialog.dismiss();
         }
         if (step == 0) {
+            //选择证书的Dialog
             curDialog = new CertificateSelectDialogFragment()
                     .setPrivateKeyAccessible(true)
                     .setIsSign(true)

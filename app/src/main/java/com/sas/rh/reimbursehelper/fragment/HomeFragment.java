@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.InjectView;
+import me.iwf.photopicker.PhotoPicker;
 
 
 /**
@@ -125,8 +126,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //                        .setPreviewEnabled(false)
 //                        .setSelected(selectedPhotos)
 //                        .start(HomeFragment.this.getActivity());
+                //拍照
                 takePic(REQUEST_CODE_TAKE_PIC);
-                // toActivity(HomeFragment.this.getActivity(), TestActivity.class);
+
+                //   toActivity(HomeFragment.this.getActivity(), TestActivity.class);
                 break;
             case R.id.rl_my_approval:
                 //审批
@@ -219,6 +222,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         } catch (ActivityNotFoundException e) {
             // TODO No Activity Found to handle Intent
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_TAKE_PIC) {
+            captureManager.galleryAddPic();
         }
     }
 }
