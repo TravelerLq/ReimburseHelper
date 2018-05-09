@@ -34,7 +34,7 @@ public class TestActivity extends BaseActivity {
     private ArrayList<String> selectedPhotos = new ArrayList<>();
     private String path;
     private List<String> originalBoxPicList = new ArrayList<>();
-    private String picPath;
+    private String picPath = "";
 
 
     @Override
@@ -79,10 +79,11 @@ public class TestActivity extends BaseActivity {
         }
     }
 
-    public void getConcretSafe(){
+    public void getConcretSafe() {
 
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -97,7 +98,7 @@ public class TestActivity extends BaseActivity {
 
 
             path = selectedPhotos.get(0);
-           // originalBoxPicList.add(path);
+            // originalBoxPicList.add(path);
             Loger.e("--path--" + path);
             try {
                 String base64CodePic = FileToBase64Util.encodeBase64File(path);
@@ -106,10 +107,10 @@ public class TestActivity extends BaseActivity {
                     //bitmap to png
 
                     picPath = BitmapUtil.saveBitmapToSDCard(bitmap);
+
                     Loger.e("bitmap--save to Pic" + picPath);
                     originalBoxPicList.clear();
                     originalBoxPicList.add(0, picPath);
-
 
 
 //                    方式一.  Drawable drawable=new BitmapDrawable(Bitmap);
