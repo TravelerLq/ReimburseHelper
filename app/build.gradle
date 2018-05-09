@@ -31,10 +31,52 @@ android {
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
         multiDexEnabled true
     }
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+    signingConfigs {
+        release {
+            try {
+                storeFile file("reim.jks")
+                storePassword properties.getProperty("storePassword")
+                keyAlias "reim"
+                keyPassword properties.getProperty("keyPassword")
+            }
+            catch (ex) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD" +
+                        " and KEY_PASSWORD in local.properties.")
+            }
+        }
+    }
+
+
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
+//            //修改生成的apk名字，格式为 app名_版本号_打包时间_渠道名_release.apk
+//            applicationVariants.all { variant ->
+//                variant.outputs.each { output ->
+//                    def oldFile = output.outputFile
+//                    if (variant.buildType.name.equals('release')) {
+//                        def releaseApkName = project.name + "_v${defaultConfig.versionName}" +
+//                                "_${new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))}_release.apk"
+////                        + variant.productFlavors[0].name + '_release.apk'
+//                        output.outputFile = new File(oldFile.parent, releaseApkName)
+//                    }
+//                }
+//            }
+
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "${variant.name}-${variant.versionName}.apk"
+                }
+            }
+
+
         }
     }
     packagingOptions {

@@ -79,6 +79,10 @@ public class TestActivity extends BaseActivity {
         }
     }
 
+    public void getConcretSafe(){
+
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
