@@ -46,6 +46,7 @@ import com.warmtel.expandtab.KeyValueBean;
 import com.warmtel.expandtab.PopTwoListView;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -91,7 +92,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
-                ToastUtil.showToast(AddExpenseItemActivtity.this, "加载完毕", Toast.LENGTH_LONG);
+                 // ToastUtil.showToast(AddExpenseItemActivtity.this, "加载完毕", Toast.LENGTH_LONG);
                 List<SecondCategoryBean> expenseReimbursementFormList = JSONArray.parseArray(jsonSecondResult.toJSONString(), SecondCategoryBean.class);
 
                 if (expenseReimbursementFormList.size() == 0) {
@@ -226,6 +227,11 @@ public class AddExpenseItemActivtity extends BaseActivity {
 
     @Override
     protected void initData() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //获取当前时间
+        Date curDate = new Date(System.currentTimeMillis());
+        String timeStr = formatter.format(curDate);
+        Log.e("---", "onCreate: －－－－current time" + timeStr);
         context = AddExpenseItemActivtity.this;
         countEditText = (CountEditText) findViewById(R.id.edt_count);
         tvTitle = (TextView) findViewById(R.id.tv_bar_title);
@@ -238,12 +244,13 @@ public class AddExpenseItemActivtity extends BaseActivity {
         expandTabView = (ExpandPopTabView) findViewById(R.id.expandable_list_view);
         ivPic = (ImageView) findViewById(R.id.iv_pic);
         tvDate = (TextView) findViewById(R.id.tv_expense_time);
+        tvDate.setText(timeStr);
         rlPickDate = (RelativeLayout) findViewById(R.id.rl_pick_date);
-
         edtMoney = (EditText) findViewById(R.id.edt_money);
         tvTitle.setText("报销单");
         spu = new SharedPreferencesUtil(AddExpenseItemActivtity.this);
         formId = spu.getFormId();
+
         Loger.e("addExpens--formId=" + formId);
         countEditText
                 .setLength(125)
@@ -588,7 +595,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
 
         AddExpenseItemActivtity.this.getIntent().putExtra("data", plantext);
         AddExpenseItemActivtity.this.getIntent().putExtra("type", DataProcessType.SIGNATURE_P1.name());
-        SignatureP1Service signatureP1Service = new SignatureP1Service(AddExpenseItemActivtity.this, "1234", new ProcessListener<DataProcessResponse>() {
+        SignatureP1Service signatureP1Service = new SignatureP1Service(AddExpenseItemActivtity.this, "1234",new ProcessListener<DataProcessResponse>() {
             @Override
             public void doFinish(DataProcessResponse dataProcessResponse, String certificate) {
                 Log.e("doFinish---", "= ");
@@ -643,7 +650,8 @@ public class AddExpenseItemActivtity extends BaseActivity {
                 // toActivity(AddExpenseItemActivtity.this, ExpenseTypeActivity.class);
                 break;
             case R.id.rl_pick_date:
-                TimePickerUtils.getInstance().onYearMonthDayPicker(AddExpenseItemActivtity.this, tvDate);
+                Toast.makeText(context, "为当前时间，不可修改！", Toast.LENGTH_SHORT).show();
+            // TimePickerUtils.getInstance().onYearMonthDayPicker(AddExpenseItemActivtity.this, tvDate);
                 break;
             case R.id.iv_pic:
                 takePics();

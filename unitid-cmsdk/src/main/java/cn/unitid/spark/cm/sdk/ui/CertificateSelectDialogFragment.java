@@ -84,6 +84,8 @@ public class CertificateSelectDialogFragment extends CBSDialogFragment {
                 }
             }
         });
+//
+        setCancelable(false);//无法直接点击外部取消dialog
 
         Button cancel = (Button) view.findViewById(R.id.dialog_certificate_choose_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {

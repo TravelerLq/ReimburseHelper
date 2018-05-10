@@ -11,6 +11,7 @@ import android.text.Selection;
 import android.util.DisplayMetrics;
 import android.view.*;
 import android.widget.*;
+
 import cn.unitid.spark.cm.sdk.R;
 
 
@@ -153,6 +154,6 @@ public class InputDialogFragment extends CBSDialogFragment {
         int width2 = outMetrics.widthPixels;
         int height2 = outMetrics.heightPixels;
         getDialog().getWindow().setGravity(Gravity.BOTTOM);
-        getDialog().getWindow().setLayout(width2,(int) height2*4/5);
+        getDialog().getWindow().setLayout(width2, (int) height2 * 4 / 5);
     }
 }

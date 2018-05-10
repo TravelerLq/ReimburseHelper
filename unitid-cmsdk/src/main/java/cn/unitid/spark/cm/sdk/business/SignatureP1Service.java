@@ -69,10 +69,13 @@ public class SignatureP1Service extends BService {
                     }).setOnCancelClickListener(new DialogFragmentClickListener() {
                         @Override
                         public void onClick(DialogFragment dialogFragment) {
+                            // Toast.makeText(mainProcessActivity, "请选择证书", Toast.LENGTH_SHORT).show();
                             curDialog.dismiss();
                         }
-                    });
+                    })
+            ;
             curDialog.show(manager, "select");
+          //  curDialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         } else if (step == 1) {
             curDialog = new InputDialogFragment()
                     .setPassword(true)
