@@ -36,7 +36,7 @@ import io.github.leibnik.wechatradiobar.WeChatRadioButton;
 import io.github.leibnik.wechatradiobar.WeChatRadioGroup;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     //声明一个long类型变量：用于存放上一点击“返回键”的时刻
     private long mExitTime;
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         role = getIntent().getStringExtra("data");
         role = spu.getRole();
         Loger.e("---spu.getrole==" + role);
-        //2 公司领导层 3.
+        //2 公司领导层 3.部门主管 role
         if (role != null) {
             Loger.e("role---" + role);
             if (role.equals("2")) {
@@ -102,8 +102,10 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(1);
                 setClickedViewChecked(1, gradualRadioGroup);
 
-            } else {
-
+            } else if (type != null && type.equals("update")) {
+                //选中公司
+                viewPager.setCurrentItem(2);
+                setClickedViewChecked(2, gradualRadioGroup);
             }
 
         }
@@ -128,6 +130,21 @@ public class MainActivity extends AppCompatActivity {
             //  store.deleteCertificate(certificateArrayList.get(0).getId());
             Loger.e("certificateArrayList.get(0).getId()=" + certificateArrayList.get(0).getId());
         }
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initListeners() {
 
     }
 
@@ -159,6 +176,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 //
 //    public void refreshpage(){
@@ -205,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 //小于2000ms则认为是用户确实希望退出程序-调用System.exit()方法进行退出
                 //System.exit(0);
-                finish();
+                exit();
             }
             return true;
         }

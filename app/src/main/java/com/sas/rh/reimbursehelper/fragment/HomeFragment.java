@@ -46,6 +46,7 @@ import static android.app.Activity.RESULT_OK;
  * 主页Fragment
  */
 
+
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @InjectView(R.id.tv_bar_title)
     TextView tvTitle;
@@ -67,19 +68,31 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private ArrayList<String> selectedPhotos;
     private SharedPreferencesUtil spu;
     private int formId;
+    private JSONObject joFormId;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
+
+                int status = joFormId.getIntValue("status");
                 if (status == 200) {
+                    formId = joFormId.getIntValue("formId");
                     spu.setFormId(formId);
-                    hasFormId = true;
+                    Loger.e("add item formid--" + spu.getFormId());
+                    Intent it = new Intent(getActivity(), AddExpenseItemActivtity.class);
+                    // it.putExtra("type", "home");
+                    startActivity(it);
+//                    level = 1;
+                } else if (status == 208) {
+                    //  level = 0;
+                    msgFormid = joFormId.getString("description");
                 }
             }
         }
     };
     private int status;
     private boolean hasFormId = false;
+    private String msgFormid;
 
     @Override
     protected int getLayoutId() {
@@ -116,10 +129,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.iv_add_expense:
                 Loger.e("----ivAdd--click");
 
-                Intent it = new Intent(getActivity(), AddExpenseItemActivtity.class);
-                it.putExtra("type", "home");
-                startActivity(it);
-
+                getFormId();
+//                Intent it = new Intent(getActivity(), AddExpenseItemActivtity.class);
+//                // it.putExtra("type", "home");
+//                startActivity(it);
 
                 break;
             case R.id.iv_home_pic:
@@ -130,9 +143,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //                        .setSelected(selectedPhotos)
 //                        .start(HomeFragment.this.getActivity());
                 //拍照
-               takePic(REQUEST_CODE_TAKE_PIC);
+                takePic(REQUEST_CODE_TAKE_PIC);
 
-              //   toActivity(HomeFragment.this.getActivity(), TestActivity.class);
+                //   toActivity(HomeFragment.this.getActivity(), TestActivity.class);
                 break;
             case R.id.rl_my_approval:
                 //审批
@@ -173,9 +186,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             try {
                 JSONObject jo = FormUtil.getFormId(spu.getUidNum());
                 if (jo != null) {
+                    joFormId=jo;
+
                     handler.sendEmptyMessage(1);
-                    formId = FormUtil.returnFormId();
-                    status = jo.getIntValue("status");
+//                    formId = FormUtil.returnFormId();
+//                    status = jo.getIntValue("status");
                 } else {
                     handler.sendEmptyMessage(0);
                 }
@@ -235,7 +250,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             if (resultCode == RESULT_OK) {
                 captureManager.galleryAddPic();
                 takePic(REQUEST_CODE_TAKE_PIC);
-            }else if (resultCode == RESULT_CANCELED) {
+            } else if (resultCode == RESULT_CANCELED) {
                 // User cancelled the image capture
                 Loger.e("---RESULT_CANCELED");
             }

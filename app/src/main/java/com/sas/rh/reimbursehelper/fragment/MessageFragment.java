@@ -190,7 +190,7 @@ public class MessageFragment extends Fragment {
 //            }
 //        });
 
-        GetAllMessage();
+       // GetAllMessage();
     }
 
     private void GetAllMessage() {

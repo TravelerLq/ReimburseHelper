@@ -87,7 +87,7 @@ public class SharedPreferencesUtil {
         }
         return key;
     }
-
+//2 公司领导层 3.部门主管 role
     public void setRole(String key) {
         editor.putString("role", key);
         editor.commit();

@@ -136,6 +136,8 @@
 
         <!--a-z排序人员列表-->
         <activity android:name=".newactivity.PersonSortActivity"></activity>
+        <!--更新企业信息-->
+        <activity android:name=".view.activity.EnterpriseUpdateActivity"></activity>
     </application>
 
 </manifest>

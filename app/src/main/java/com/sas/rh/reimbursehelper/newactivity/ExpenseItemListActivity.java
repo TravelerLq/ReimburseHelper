@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -303,6 +304,15 @@ public class ExpenseItemListActivity extends BaseActivity {
 
     };
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //判断用户是否点击了“返回键”
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            warningDialog("确定退出当前页面");
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     //这边去生成PDF 成功－跳到下一页面，不成功，继续生成 ，将file 保存在spu里
 

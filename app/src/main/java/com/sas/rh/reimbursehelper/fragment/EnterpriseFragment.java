@@ -32,6 +32,7 @@ import com.sas.rh.reimbursehelper.view.activity.ApproveProcedureManageActivity;
 import com.sas.rh.reimbursehelper.view.activity.CompanyManaSelectActivity;
 import com.sas.rh.reimbursehelper.view.activity.DepartmentsManageActivity;
 import com.sas.rh.reimbursehelper.view.activity.EnterpriseDetailActivity;
+import com.sas.rh.reimbursehelper.view.activity.EnterpriseUpdateActivity;
 import com.sas.rh.reimbursehelper.view.activity.MembersManageActivity;
 import com.sas.rh.reimbursehelper.view.activity.ProjectsManagerActivity;
 import com.sas.rh.reimbursehelper.view.activity.SelectCompanyActivity;
@@ -54,13 +55,18 @@ public class EnterpriseFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
+                int status = jsonresult.getIntValue("status");
+                if (status == 200) {
 
-                companyName = jsonresult.getString("companyName");
-                companyId = jsonresult.getIntValue("companyId");//  Company company = JSON.parseObject(companyJson, Company.class);
-                if (companyName == null) {
-                    Toast.makeText(EnterpriseFragment.this.getActivity(), "公司信息为空", Toast.LENGTH_SHORT).show();
+                }
+                String companyJson = jsonresult.getString("company");
+                company = JSON.parseObject(companyJson, Company.class);
+                if (company == null) {
+                    Loger.e("公司信息为空---");
+                    // Toast.makeText(EnterpriseFragment.this.getActivity(),"公司信息为空",Toast.LENGTH_SHORT).show();
                 } else {
-
+                    companyName = company.getCompanyName();
+                    companyId = company.getCompanyId();
                     sharedPreferencesUtil.setCompName(companyName);
                     sharedPreferencesUtil.writeCompanyId(String.valueOf(companyId));
 
@@ -68,6 +74,21 @@ public class EnterpriseFragment extends Fragment {
                         tvCompanyName.setText(companyName);
                     }
                 }
+
+//                companyName = jsonresult.getString("companyName");
+//                companyId = jsonresult.getIntValue("companyId");
+                //  Company company = JSON.parseObject(companyJson, Company.class);
+//                if (companyName == null) {
+//                    Toast.makeText(EnterpriseFragment.this.getActivity(), "公司信息为空", Toast.LENGTH_SHORT).show();
+//                } else {
+//
+//                    sharedPreferencesUtil.setCompName(companyName);
+//                    sharedPreferencesUtil.writeCompanyId(String.valueOf(companyId));
+//
+//                    if (!TextUtils.isEmpty(companyName)) {
+//                        tvCompanyName.setText(companyName);
+//                    }
+//                }
 
 
             } else if (msg.what == 2) {
@@ -78,6 +99,7 @@ public class EnterpriseFragment extends Fragment {
     };
     private TextView tvCodeContent;
     private Context mContext;
+    private Company company;
 
 
     @Override
@@ -171,13 +193,16 @@ public class EnterpriseFragment extends Fragment {
             }
         });
 
-        emb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it = new Intent(getActivity(), EnterpriseDetailActivity.class);
-                startActivity(it);
-            }
-        });
+
+//        emb.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent it = new Intent(getActivity(), EnterpriseDetailActivity.class);
+//                startActivity(it);
+//            }
+//        });
+
+
         smb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -241,6 +266,8 @@ public class EnterpriseFragment extends Fragment {
                 startActivity(it);
             }
         });
+
+        //改为修改公司信息
         pmb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -252,7 +279,13 @@ public class EnterpriseFragment extends Fragment {
 //                    ToastUtil.showToast(getActivity(),"没有和当前用户关联", Toast.LENGTH_LONG);
 //                    return;
 //                }
-                Intent it = new Intent(getActivity(), ProjectsManagerActivity.class);
+                //  Intent it = new Intent(getActivity(), ProjectsManagerActivity.class);
+                Intent it = new Intent(getActivity(), EnterpriseUpdateActivity.class);
+                Bundle bundle = new Bundle();
+                if (company != null) {
+                    bundle.putSerializable("data", company);
+                }
+                it.putExtras(bundle);
                 startActivity(it);
             }
         });

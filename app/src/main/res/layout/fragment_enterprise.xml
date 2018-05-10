@@ -209,7 +209,7 @@
                 android:background="#FFF"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/imageView8r"
@@ -225,7 +225,7 @@
                     android:id="@+id/textView24e"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="项目管理" />
+                    android:text="企业信息更新" />
 
             </LinearLayout>
 

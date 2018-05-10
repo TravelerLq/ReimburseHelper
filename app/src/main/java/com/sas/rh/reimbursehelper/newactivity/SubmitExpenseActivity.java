@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -145,7 +146,7 @@ public class SubmitExpenseActivity extends BaseActivity {
 
                 int status = approvalJo.getIntValue("status");
                 if (status == 200) {
-                    ToastUtil.showToast(SubmitExpenseActivity.this, "提交成功！", Toast.LENGTH_LONG);
+                    ToastUtil.showToast(SubmitExpenseActivity.this, "报销单提交成功！", Toast.LENGTH_LONG);
                     toActivity(SubmitExpenseActivity.this, MainActivity.class);
                     finish();
 
@@ -300,7 +301,7 @@ public class SubmitExpenseActivity extends BaseActivity {
 
         SubmitExpenseActivity.this.getIntent().putExtra("data", plantext);
         SubmitExpenseActivity.this.getIntent().putExtra("type", DataProcessType.SIGNATURE_P1.name());
-        SignatureP1Service signatureP1Service = new SignatureP1Service(SubmitExpenseActivity.this, new ProcessListener<DataProcessResponse>() {
+        SignatureP1Service signatureP1Service = new SignatureP1Service(SubmitExpenseActivity.this, "1234", new ProcessListener<DataProcessResponse>() {
             @Override
             public void doFinish(DataProcessResponse dataProcessResponse, String certificate) {
                 if (pdu.getMypDialog().isShowing()) {
@@ -393,5 +394,15 @@ public class SubmitExpenseActivity extends BaseActivity {
 
     private void viewPdf() {
         startActivity(IntentUtils.getPdfFileIntent(file, SubmitExpenseActivity.this));
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //判断用户是否点击了“返回键”
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            warningDialog("确定退出当前页面");
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

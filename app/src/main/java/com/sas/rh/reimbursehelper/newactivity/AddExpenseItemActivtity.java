@@ -108,6 +108,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
 
                     if (i == 1) {
                         String defaultParentId = object.getExpenseCategoryId();
+                        // expenseCategoryId = Byte.valueOf(defaultParentId);
                         getThirdCategory(defaultParentId);
                     }
                     parentsList.add(new KeyValueBean(object.getExpenseCategoryId(), object.getExpenseCategoryName()));
@@ -129,14 +130,14 @@ public class AddExpenseItemActivtity extends BaseActivity {
             } else if (msg.what == 3) {
                 //三级报销科目
                 thirdList.clear();
-                Loger.e("third type--jsonresult-----" + jsonresult);
+                //  Loger.e("third type--jsonresult-----" + jsonresult);
                 //   ERFormList = new ArrayList<DeptCategoryItemVoExtend>();
                 List<ExpenseThirdTypeBean> thirdExpenseCategoryList =
                         JSONArray.parseArray(jsonresult.toJSONString(), ExpenseThirdTypeBean.class);
-                Loger.e("thirdExpenseCategoryList--get" + thirdExpenseCategoryList.size());
+                // Loger.e("thirdExpenseCategoryList--get" + thirdExpenseCategoryList.size());
 
                 for (int i = 0; i < thirdExpenseCategoryList.size(); i++) {
-                    Loger.e("thirdExpenseCategoryList-name" + thirdExpenseCategoryList.get(i).getExpenseItemName());
+                    //   Loger.e("thirdExpenseCategoryList-name" + thirdExpenseCategoryList.get(i).getExpenseItemName());
                     if (thirdExpenseCategoryList.get(i).getExpenseItemId() != null) {
                         ExpenseThirdTypeBean bean = thirdExpenseCategoryList.get(i);
                         KeyValueBean keyValueBean = new KeyValueBean(bean.getExpenseItemId().toString(), bean.getExpenseItemName());
@@ -146,7 +147,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
 
                 }
                 for (int i = 0; i < thirdList.size(); i++) {
-                    Log.e("thirdListNewGet==", "" + thirdList.get(i).getValue());
+                    //   Log.e("thirdListNewGet==", "" + thirdList.get(i).getValue());
                 }
                 popTwoListView.refreshChild(thirdList);
 
@@ -256,15 +257,16 @@ public class AddExpenseItemActivtity extends BaseActivity {
          home -getFormId; list -则从spu 获得
 
           */
-        if (getIntent() != null) {
-            intentType = getIntent().getStringExtra("type");
-        }
-        if (intentType.equals("home")) {
-            getFormId();
-        } else {
-            formId = spu.getFormId();
-        }
-        Loger.e("--intentType--" + intentType + "  formId--" + formId);
+//        if (getIntent() != null) {
+//            intentType = getIntent().getStringExtra("type");
+//        }
+//        if (intentType.equals("home")) {
+//            getFormId();
+//        } else {
+//            formId = spu.getFormId();
+//        }
+        formId = spu.getFormId();
+        //  Loger.e("--intentType--" + intentType + "  formId--" + formId);
     }
 
     public void setDrawable() {
@@ -375,7 +377,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
                 if (jo != null) {
                     jsonresult = jo;
                     handler.sendEmptyMessage(3);
-                    Loger.e("third type--send");
+
                 } else {
                     handler.sendEmptyMessage(0);
                 }
@@ -390,7 +392,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
 
     private void initExpandaTabView() {
         setSecondMenuData();
-        addItem(expandTabView, parentsList, childList, "", "合江亭", "");
+        addItem(expandTabView, parentsList, childList, parentsList.get(0).getKey(), childList.get(0).get(0).getKey(), "");
     }
 
 
@@ -487,29 +489,42 @@ public class AddExpenseItemActivtity extends BaseActivity {
 
     }
 
-    public void addItem(final ExpandPopTabView expandTabView, List<KeyValueBean> parentLists,
-                        List<ArrayList<KeyValueBean>> childrenListLists, String defaultParentSelect, final String defaultChildSelect, String defaultShowText) {
+    public void addItem(final ExpandPopTabView expandTabView, final List<KeyValueBean> parentLists,
+                        List<ArrayList<KeyValueBean>> childrenListLists, String defaultParentkey, String defaultChildkey, String defaultShowText) {
         popTwoListView = new PopTwoListView(this);
-        popTwoListView.setDefaultSelectByValue(defaultParentSelect, defaultChildSelect);
+        //  popTwoListView.setDefaultSelectByValue(defaultParentSelect, defaultChildSelect);
+        popTwoListView.setDefaultSelectByKey(defaultParentkey, defaultChildkey);
         //distanceView.setDefaultSelectByKey(defaultParent, defaultChild);
         popTwoListView.setCallBackAndData(expandTabView, parentLists, childrenListLists, new PopTwoListView.OnSelectListener() {
 
             @Override
             public void getValue(String showText, String parentKey, String childrenKey) {
-                Log.e("tag", "thirdshowText :" + showText + " ,parentKey :" + parentKey + " ,childrenKey :" + childrenKey);
+                Log.e("----", "三级－－ :" + showText + " ,parentKey :" + parentKey + " ,childrenKey :" + childrenKey);
+                if (TextUtils.isEmpty(parentKey)) {
+                    // Toast.makeText(context, "请先选择二级科目类型", Toast.LENGTH_SHORT).show();
+                    expenseCategory = Byte.valueOf(parentLists.get(0).getKey());
+                    secondStr = parentLists.get(0).getValue();
+
+                }
+                Loger.e("----" + expenseCategory);
                 tvExpenseType.setText(secondStr + "（" + showText + ")");
                 expenseItem = Byte.valueOf(childrenKey);
                 getExpenseRemark();
+
 
             }
 
             @Override
             public void getParentValue(int position, String showText, String key) {
-                Log.e("tag", "sencondshowText :" + showText + " ,parentKey :" + key);
+                Log.e("－－－－", "二级－－－－ :" + showText + " ,二级key :" + key);
                 secondStr = showText;
                 //报销科目2级ID
-                expenseCategory = Byte.valueOf(key);
+                if (!TextUtils.isEmpty(key)) {
+                    expenseCategory = Byte.valueOf(key);
+                }
                 getThirdCategory(key);
+                Loger.e("expenseCategory--" + expenseCategory);
+
 
             }
 
@@ -573,7 +588,7 @@ public class AddExpenseItemActivtity extends BaseActivity {
 
         AddExpenseItemActivtity.this.getIntent().putExtra("data", plantext);
         AddExpenseItemActivtity.this.getIntent().putExtra("type", DataProcessType.SIGNATURE_P1.name());
-        SignatureP1Service signatureP1Service = new SignatureP1Service(AddExpenseItemActivtity.this, new ProcessListener<DataProcessResponse>() {
+        SignatureP1Service signatureP1Service = new SignatureP1Service(AddExpenseItemActivtity.this, "1234", new ProcessListener<DataProcessResponse>() {
             @Override
             public void doFinish(DataProcessResponse dataProcessResponse, String certificate) {
                 Log.e("doFinish---", "= ");
@@ -616,12 +631,8 @@ public class AddExpenseItemActivtity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_finish:
-                if (level == 0) {
-                    Toast.makeText(this, msgFormid, Toast.LENGTH_LONG).show();
-                    getFormId();
-                } else {
-                    checkData();
-                }
+
+                checkData();
 
                 //  toActivity(context, ExpenseItemListActivity.class);
                 break;

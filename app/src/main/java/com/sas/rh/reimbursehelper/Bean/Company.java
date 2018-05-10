@@ -2,7 +2,7 @@ package com.sas.rh.reimbursehelper.Bean;
 
 import java.util.Date;
 
-public class Company {
+public class Company extends BaseBean {
     private Integer companyId;
 
     private String companyName;
@@ -29,7 +29,7 @@ public class Company {
 
     private String legalIdNumber;
 
-    private Double companyQuota;
+    private String companyQuota;
 
     private Integer createPersonId;
 
@@ -38,6 +38,7 @@ public class Company {
     private Integer updatePersonId;
 
     private Date updateTime;
+
 
     public Integer getCompanyId() {
         return companyId;
@@ -143,11 +144,11 @@ public class Company {
         this.legalIdNumber = legalIdNumber;
     }
 
-    public Double getCompanyQuota() {
+    public String getCompanyQuota() {
         return companyQuota;
     }
 
-    public void setCompanyQuota(Double companyQuota) {
+    public void setCompanyQuota(String companyQuota) {
         this.companyQuota = companyQuota;
     }
 
